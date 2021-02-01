@@ -1,0 +1,2 @@
+export const SET_DASHBOARD_COUNT = 'SET_DASHBOARD_COUNT';
+export const SET_LOADING = 'SET_LOADING';

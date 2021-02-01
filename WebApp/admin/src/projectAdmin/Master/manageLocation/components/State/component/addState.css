@@ -1,0 +1,12 @@
+.masterStateInput,.masterStateWrapper{
+	padding: 0;
+}
+.stateSubBtn{
+	margin-top: 2em;
+}
+.stateBulkuploadWrapper,.stateBulkupload{
+	padding: 0;
+}
+.masterStateWrapper{
+	height: 89px;
+}

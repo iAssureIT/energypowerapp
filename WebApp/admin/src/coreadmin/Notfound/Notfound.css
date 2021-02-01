@@ -1,0 +1,20 @@
+.Notfound{
+    font-size: 100px;
+}
+.N404{
+    font-size: 100px;
+    font-weight: 600;
+}
+.NotfoundDiv{
+    display: table-cell;
+    vertical-align: middle !important;
+    float: unset;
+    height: 400px;
+    width: 1300px;
+}
+.contentNot{
+    text-align: center;
+    float: unset;
+    min-height: 300px!important;
+    display: inline-block!important;
+}

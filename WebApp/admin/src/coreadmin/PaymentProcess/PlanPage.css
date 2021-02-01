@@ -1,0 +1,46 @@
+.PlanDetailsPlan{
+	height: auto;
+	padding: 50px !important;
+	border-radius: 10px;
+	text-align: left;
+	font-family: Arial !important;
+	margin-bottom: 50px;
+    box-shadow: 1px 1px 10px 2px #ccc;
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+.PlanDetailsPlan:hover{
+    box-shadow: 1px 1px 10px 10px #ccc;
+        transition-duration: 0.5s;
+    cursor: pointer;
+
+}
+.planName{
+	font-size: 45px;
+	color: #201A47 !important;
+}
+.timePeriod{
+	font-size: 25px;
+	margin-bottom: 40px;
+}
+.buyNowPlan{
+	padding: 15px !important;
+	color: #fff;
+	text-align: center;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 3px;
+	background-color: #201A47;
+}
+.PlanContainer{
+	background-color: var(--white-background );
+	padding-bottom: 100px;
+}
+.selectedPlanPP{
+    padding: 30px;
+    font-size: 40px;
+
+    background-size: 100% 100%;
+    margin-top: 30px !important;
+    font-family: Arial !important;
+}

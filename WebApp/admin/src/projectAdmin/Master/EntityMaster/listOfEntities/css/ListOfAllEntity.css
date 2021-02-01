@@ -1,0 +1,198 @@
+.titleprofile1{
+	color: #000;
+    padding: 0px 18px;
+}
+.logoamey1{
+	border-radius: 11px;
+    box-shadow: 1px 1px 11px 1px #ddd;
+    margin-top: 3%;
+    background-image: url(/images/11-90x90.jpg);
+    height: 80px;
+    background-size: 100% 100%;
+}
+.producticon{
+	font-size: 31px;
+    padding: 6px 31px;
+}
+.ellipsispd{
+	padding: 10px 10px;
+}
+.dropbtn2{
+    color: #333;
+}
+.titleproduct{
+	color: #333;
+}
+.subtitle{
+	color: #333;
+    /*padding: 5px 22px;*/
+	padding: 5px 0px;
+}
+.spanpd{
+	margin: 0px 19px;
+}
+.boxshade{
+/*	box-shadow: 4px 4px 30px #ddd;
+	border-radius: 10px;*/
+}
+.locationHeadingMargin{
+    margin-top: 6px;
+}
+.show{
+	padding: 10px;
+    font-size: 12px;
+    text-align: center;
+        cursor: pointer;
+}
+.showicon{
+	padding: 1px 0px 0px 5px;
+    font-size: 17px;
+}
+.ellipsispd1{
+	padding: 10px 18px;
+}
+.titall{
+	padding: 0px 17px;
+}
+.addr{
+	color: #666666;
+    padding: 0px 16px;
+    font-size: 12px;
+}
+.liheader3{
+       font-size: 12px!important;
+}
+.liheader1 {
+    font-size: 13px;
+    font-weight: bold;
+    font-weight: bold;
+
+}
+.contractIcon {
+    font-size: 13px;
+    margin-top: 10px;
+    padding: 2px 5px 7px 10px;
+    font-weight: bold;
+
+}
+.dotsContainer {
+    font-size: 13px;
+    padding: 0px 0px 0px 0px;
+    font-weight: bold;
+    border:1px solid #aaa;
+    border-radius: 50%;
+
+}
+.lisubheader1{
+    font-size: 13px;
+    padding: 26px 0px 7px 0px;
+}
+.lisubheader2{
+	font-size: 13px;
+	padding: 3px;
+}
+.level2{
+    text-align: center;
+    padding: 29px 10px;
+}
+.tithead1{
+	margin-top: 5%;
+    margin-bottom: 2%;
+}
+.buttonDrop3{
+    position: absolute!important; 
+    right: -35px; 
+}
+.dropdown2-content2{
+    right: -35px!important;
+    top:2px;
+    z-index: 1000;
+}
+.locationdropbtn2{
+    right: -7px;
+}
+#supplierprofile{
+    margin-bottom: 10px;
+    width: 102%;
+}
+.addressIcon{
+    display: inline-block;
+    border-radius: 60px;
+    box-shadow: 0px 0px 2px #000;
+    padding: 0.5em 0.7em
+}
+.contactIcon{
+    display: inline-block;
+    border-radius: 60px;
+    box-shadow: 0px 0px 2px #000;
+    padding: 0.5em 0.5em
+}
+.levelCss{
+    padding:0;
+}
+.nameContent{
+    font-size: 12px;
+    word-wrap: break-word;
+    margin-top: 0.5em;
+    /* margin-bottom: 1em; */
+    padding: 0;
+}
+.locationName{
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.locationDropdown{
+    margin-top: 0em;
+    z-index: 1 !important;
+}
+.locationAddress{
+    padding: 0;
+    margin-left:7px;
+}
+.locationUL{
+    padding: 20px !important;
+}
+.locationUL li{
+    padding-bottom: 2px;
+}
+.coverPadding{
+    padding: 20px !important;
+}
+.locationULContact li{
+    padding-bottom: 2px;
+}
+.contactNameList{
+    padding: 0;
+    margin-left: 6px;
+}
+.contactNameListFirst{
+        padding-left: 0px;
+}
+.contactNameListSecond{
+    margin: 0px;
+}
+.no-Padding{
+    padding: 0px;
+}
+.paddinf-left{
+    padding-left: 8px;
+}
+.addGap{
+    height: 85px;
+}
+.margin-bottom9{
+    margin-bottom: 9px;
+}
+.borderAllED{
+    border: 2px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+}
+.nameOfEmpED{
+    color: #3c96c3;
+    font-weight: bold;
+    font-size: 13px;
+}
+.bookingReq{
+    font-size: 13px;
+}

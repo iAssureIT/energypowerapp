@@ -1,0 +1,101 @@
+.masterCountryWrapper,.masterCountryInput{
+	padding: 0;
+}
+.bulkUploadCountryWrapper{
+	padding: 0;
+}
+
+
+.sticky {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 100px;
+}
+.activ{
+	position: fixed;
+	top:90px;
+	width: 73%;
+
+}
+/*.activ1{
+	position: absolute;
+	right: 10px;	
+}
+*/
+
+.displayblck{
+    display: block;
+}
+.tableheaderfix{
+   display: block;
+    max-height: 350px;
+    overflow-y: scroll;
+    width: 100% !important;
+
+
+
+}
+.tablebodyfix{
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.newClassActive{
+    width: 96.2%;
+}
+.newClassActiveloccountry{
+    width: 15.5%;
+}
+
+.newClassActivelocstate {
+    width: 17%;
+    text-align: left;
+}
+.newClassActivelocdist{
+    width: 1%;
+}
+.newClassActiveloctaluka {
+    width: 17%;
+    text-align: right;
+}
+.newClassActiveloccity {
+    width: 15.7%;
+    text-align: right;
+}
+.newClassActivelocpin {
+    width: 15.5%;
+    text-align: right;
+}
+.newClassActivestate{
+    width: 46%;
+}
+.newClassActiveTwo{
+        position: relative;
+    right: 25%;
+}
+.newClassActiveTwostate{
+        position: relative;
+    left:19%;
+}
+.newClassActivecountryaction{
+        position: relative;
+    left:19%;
+}
+.newClassActiveThreestate{
+    position: relative;
+    left:75%;
+}
+.NewCountryCss{
+	    position: relative;
+    right: 25%;
+}
+.NewCountryCss{
+	position: relative;
+    right: 0%;
+    width: 50%;
+}

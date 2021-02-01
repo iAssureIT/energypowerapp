@@ -1,0 +1,197 @@
+.boxshadeOP{
+	padding: 0px 0px 20px 0px;
+	margin-top: 15px;
+}
+.OrgListTitle{
+	font-size: 16px;
+    font-weight: 600;
+    color: #4e4e4e;
+    padding: 11px 0px 5px !important;
+    margin-top: 15px;
+}
+.customBtnCP{
+	text-align: center;
+	border-radius: 3px;
+	padding: 10px !important;
+
+}
+/*.customBtnCP:hover{
+	background-color: var(--blue-color);
+	color:#fff !important;
+	padding: 10px !important;
+}*/
+.customPadding{
+	padding: 10px;
+}
+.labelformCP{
+	margin-top: 5px;
+	font-weight: normal !important;
+}
+
+.loadingImg img{
+	margin-left: 200px;
+	height: 60%;
+	width: 60%;
+}
+.imgtabCP{
+	height: 30px;
+	width: 30px;
+}
+.editOption{
+	margin-top: 15px;
+}
+.editOptionView{
+	top: 18px;
+	position: absolute;
+	right: 12px;
+}
+.orgHead{
+	margin-top: 5px;
+	padding-top: 10px !important;
+
+	
+}
+.orgHead label{
+	font-size: 25px;
+	color: var(--blue-color)
+}
+.orgHead span{
+	font-size: 13px;
+}
+.orgHeadview{
+	margin-top: 5px;
+	padding-top: 10px !important;
+    padding-bottom: 10px;
+    width: 420px;
+}
+.orgHeadview label{
+	font-size: 20px;
+	color: var(--blue-color)
+}
+.orgHeadview span{
+	font-size: 13px;
+}
+.blueBack{
+	background-image: url("/images/orgbackground.jpg");
+	background-repeat: no-repeat;
+	height: 100px;
+}
+.companyLogoImage{
+	position: absolute;
+	height: 130px;
+	border:1px solid #eee;
+	border-radius: 5px;
+	top: 40px;
+	background-color: #fff;
+	box-shadow: 0px 2px 15px -4px;
+}
+.companyLogoImage img{
+	height: 100%;
+	width: 100%;
+}
+.companyLogoImageView{
+	position: absolute;
+	height: 80px;
+	border:1px solid #eee;
+	border-radius: 5px;
+	top: 65px;
+	background-color: #fff;
+	box-shadow: 0px 2px 15px -4px;
+}
+.companyLogoImageView img{
+	height: 100%;
+	width: 100%;
+}
+.borderAll{
+	border: 2px solid #eee;
+	padding-bottom: 20px;
+	
+}
+.listLI li{
+	padding-bottom: 3px !important;
+}
+.changeColor{
+	color: #999;
+}
+.coiImage{
+	height: 25px;
+	width: 25px;
+	border: 1px solid #aaa;
+	cursor: pointer;
+}
+/*Table css*/
+#customers {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: var(--blue-color);
+  color: white;
+}
+.cardDataCP{
+/*	padding-top: 10px;
+*/}
+.cardDivCP{
+    margin-bottom: 8px;
+    border: 1.2px solid #32c3bd;
+    text-align: left;
+    border-radius: 5px !important;
+    background-color: #63f9f338;
+}
+.cardDivDataCP{
+    margin-bottom: 8px;
+    border-radius: 5px !important;
+    font-size: 12px;
+	padding: 20px 20px 13px 40px !important;
+  	border: 1.2px solid #aaa;
+    border-left: 6px solid var(--blue-color);    
+    text-align: left;
+    min-height: 65px;
+}
+.paddingOfInner{
+	padding: 20px 20px 20px 40px !important;
+}
+.cardColumnCP{
+    padding: 0px 2px !important;
+    position: relative;
+}
+
+.cardHeadingCP{
+    font-size: 12px;
+    font-weight: 600;
+}
+.cardActionsCP{
+    text-align: center;
+}
+.cardActionsCP a{
+    text-align: center;
+    text-decoration: none;
+    padding: 5px;
+}
+.cardActionsCP a i{
+    background: #efeded;
+    color: #999;
+    padding: 5px;
+    height: 22px;
+    width: 25px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+.gstnDocCP{
+	height: 20px;
+	width: 20px;
+	border: 2px solid #eee;
+}

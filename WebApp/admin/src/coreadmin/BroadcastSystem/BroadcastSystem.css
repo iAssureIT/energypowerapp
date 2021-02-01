@@ -1,0 +1,21 @@
+.bsystemwrapper{
+background-color: #fff;
+min-height: 568px;
+}
+
+.boxhead{
+	margin: 25px;
+}
+.mtop25{
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+.broadcastbtns{
+	margin-right: 10px;
+    text-align: center;
+    width: 85px;
+    background-color: #ccc;
+    /* padding: 0px 5px 0px 5px; */
+    margin-top: 10px;
+}

@@ -1,0 +1,20 @@
+:root {
+  --font-family : Montserrat-Regular, sans-serif;
+
+  /* ======== Font Color =======*/
+  --blue-color : #367ea8;
+  --black-color : #333333;
+  --bunting-color : #2a3245;
+  --waikawagrey-color : #5e728e;
+  --whitesmoke-color : #f1f1f1; 
+  --white-color : #ffffff;
+  
+  /* ======== Background Color =======*/
+  --blue-background : #367ea8;
+  --black-background : #333333;
+  --bunting-background : #2a3245;
+  --waikawagrey-background : #5e728e;
+  --whitesmoke-background : #f1f1f1; 
+  --white-background : #ffffff;
+}
+

@@ -1,0 +1,44 @@
+.OFFImageDiv{
+    background-size: 195px 118px;
+    background-repeat: no-repeat;
+    background: #ebebeb;
+    border: 1px dashed #999;
+    height: 8em;
+    margin-top: 10px;
+    padding: 0;
+}
+.brdlogosOF{
+    background-size: 232px 128px;
+    background-repeat: no-repeat;
+    background: #ebebeb;
+    border: 1px dashed #999;
+    height: 8em;
+    margin-top: 5px;
+    padding: 0; 
+}
+.CustomImageUploadOF{
+    margin-top: -102px;
+}
+.profileImageDivlogoStyleOF{
+    height: 7.9em;
+    padding: 0;
+    width: 100%;
+}
+.uploadedImage{
+    height: 40px !important;
+}
+.categoryimg{
+    margin-top: 40px ! important;
+}
+.fieldTab{
+    white-space: nowrap;
+    padding: 10px 8px !important;
+}
+.oneFieldTable .table-responsive{
+    overflow-x: hidden !important;
+}
+.oneFielsModal{
+  background-color: var(--white-background) !important;
+  padding-bottom: 15px;
+  margin-bottom: 10px;
+}

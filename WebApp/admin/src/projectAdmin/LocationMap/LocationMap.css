@@ -1,0 +1,13 @@
+.tableBorder {
+    border: 1px dotted #999;
+}
+.mapPrintIcon{
+    font-size: 15px;
+    box-shadow: 0 0 10px #ede1e1;
+    color: #777 !important;
+    background-color: #fff;
+    border: 1px solid #979797 !important;
+    border-radius: 3px !important;
+    padding: 5px 10px;
+    /* margin: 5px; */
+}

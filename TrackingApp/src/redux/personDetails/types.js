@@ -1,0 +1,2 @@
+export const SET_PERSON_DETAILS = 'SET_PERSON_DETAILS';
+export const SET_LOADING = 'SET_LOADING';

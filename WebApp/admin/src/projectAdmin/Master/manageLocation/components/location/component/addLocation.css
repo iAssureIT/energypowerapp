@@ -1,0 +1,76 @@
+.masterstateinput {
+    margin-bottom: 2em;
+}
+.masterInput,.masterInputPadding,.addlocationWrapper{
+	padding: 0;
+}
+.manageLocationTabs{
+	margin-top: 2em;
+    margin-bottom: 2em;
+}
+.masterHeading{
+	/*margin-bottom: 1em;*/
+	padding:0;
+
+}
+.bulkUploadBtn{
+	padding: 0;
+	margin-top: .25em;
+}
+.wrapperTitle{
+	margin-bottom: 1em;
+    padding: 0;
+    /*border-bottom: 1px solid #eee;*/
+}
+/*.locationHr{
+	border-top: 1px solid #eee;
+    width: 67.25em;
+}*/
+.csvIcon{
+	background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 4px 0px 9px 3px #e600041c;
+    /*height: 60px;*/
+        height: 50px;
+
+}
+.locationlabel{
+	letter-spacing: 1px;
+	color: #1b1c20;
+	font-weight: bold;
+}
+.masterSubHeading{
+	margin-bottom: 1em;
+}
+.bulkuploadTitle,.bulkUploadWrapper{
+	/*padding: 0;*/
+}
+.displayNone{
+	display: none;
+}
+.displayBlock{
+	display: block;
+}
+.labelAlign{
+	text-align: left;
+}
+.manageLocModalHeader,.updateLoc{
+	padding: 0;
+}
+.manageLocClose{
+	margin-top: .5em !important;
+    margin-right: 15px;
+}
+.addLocSwitch{
+	padding:0 !important;
+	text-align: center;
+}
+.addLoc{
+	margin-top: 10px;
+}
+.marginBottom{
+	border-bottom: 1px solid #ecf0f5;
+    margin-bottom: 2em;
+    width: 97.5%;
+    margin-left: 15px;
+}

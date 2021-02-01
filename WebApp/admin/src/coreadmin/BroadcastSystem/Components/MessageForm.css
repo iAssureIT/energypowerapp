@@ -1,0 +1,160 @@
+/*.MessageFormwrap{
+	   This bit sets up the horizontal layout 
+  display:flex;
+  flex-direction:row;
+  
+   This bit draws the box around it 
+  border:1px solid grey;
+
+   I've used padding so you can see the edges of the elements. 
+  padding:2px;
+
+}
+.addemailsbtn{
+	  Tell the input to use all the available space 
+  flex-grow:2;
+   And hide the input's outline, so the form looks like the outline 
+  border:none;
+  border-top: none;
+  border-left: none;
+
+}
+.addemailsbtn:focus{
+	  removing the input focus blue box. Put this on the form if you like. 
+  outline: none;
+
+}
+
+
+.buttonAddEmails {
+   Just a little styling to make it pretty 
+  border:1px solid blue;
+  background:blue;
+  color:white;
+}
+*/
+/*Clearing Floats*/
+.cf:before, .cf:after{
+    content:"";
+    display:table;
+}
+
+.cf:after{
+    clear:both;
+}
+
+.cf{
+    zoom:1;
+}    
+/* Form wrapper styling */
+.MessageFormwrap {
+    /*width: 450px;*/
+    /*padding: 15px;*/
+    /*margin: 150px auto 50px auto;*/
+    /*background: #444;*/
+    /*background: rgba(0,0,0,.2);*/
+    /*border-radius: 10px;*/
+    /*box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);*/
+}
+
+/* Form text input */
+
+.MessageFormwrap input {
+    width: 85.9%;
+    height: 40px;
+    padding: 10px 5px;
+    float: left;   
+    font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    /*border: 0;*/
+    /*background: #eee;*/
+    border-radius: 3px 0 0 3px;     
+}
+
+.MessageFormwrap input:focus {
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+
+.MessageFormwrap input::-webkit-input-placeholder {
+   color: #999;
+   font-weight: normal;
+   font-style: italic;
+}
+
+.MessageFormwrap input:-moz-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.MessageFormwrap input:-ms-input-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}   
+
+/* Form submit button */
+.MessageFormwrap button {
+    overflow: visible;
+    position: relative;
+    float: right;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 40px;
+    width: 14.1%;
+    font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    color: #fff;
+    text-transform: uppercase;
+    background: #3c8dbc;
+    border-radius: 0 3px 3px 0;     
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+}  
+
+.MessageFormwrap button:hover{    
+    background: #e54040;
+}  
+
+.MessageFormwrap button:active,
+.MessageFormwrap button:focus{  
+    background: #c42f2f;
+    outline: 0;  
+}
+
+.MessageFormwrap button:before { /* left arrow */
+    content: '';
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #3c8dbc transparent;
+    top: 12px;
+    left: -6px;
+}
+
+.MessageFormwrap button:hover:before{
+    border-right-color: #e54040;
+}
+
+.MessageFormwrap button:focus:before,
+.MessageFormwrap button:active:before{
+        border-right-color: #c42f2f;
+}     
+
+.MessageFormwrap button::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
+    border: 0;
+    padding: 0;
+}  
+.modalwidth{
+	width: 1110px;
+}
+.boxInModal{
+	padding: 10px;
+	margin: 10px;
+	/*border: 1px solid #aaa;*/
+}
+.nxtbtn{
+	margin-top: 25px;
+    margin-right: 25px;
+    padding: 10px;
+}

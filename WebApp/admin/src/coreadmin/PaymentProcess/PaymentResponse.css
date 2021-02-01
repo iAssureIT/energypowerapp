@@ -1,0 +1,50 @@
+@media print 
+{
+    tr, td, th {page-break-inside:avoid}
+    thead {display:table-header-group}
+    .NoPrint {visibility:hidden; display:none}
+    a {color:#000000}
+}
+.note{
+	font-size: 25px;
+	color: #0f98d1;
+	margin-top: 50px;
+}
+.noteRed{
+  font-size: 25px;
+  color: #f00;
+  margin-top: 50px;
+}
+.outerBorder{
+	border:1px solid #aaa;
+}
+.selectedPlanPR{
+  height: 335px;
+  padding:30px;
+  color: #fff;
+  font-size: 15px;
+  background-size: 100% 100%;
+  font-family: Arial !important;
+  background-image: url("/images/bannerImgOrder.jpg");
+}
+.selectedPlanPR label{
+	font-size: 40px;
+}
+.selectedPlanPR img{
+  padding-top:8px;
+  height: 90px;
+}
+.mt100{
+	margin-top: 100px;
+	margin-bottom: 60px;
+}
+.warning{
+	font-size: 14px;
+	font-weight: normal !important;
+}
+.successPay{
+	color: #0cd222;
+}
+.failPay{
+  color: #f00;
+}

@@ -1,0 +1,215 @@
+.noWrapText{
+  white-space: nowrap !important;
+}
+.deleteBtn {
+    width: 122px;
+    white-space: pre-line;
+    box-shadow: 3px 3px 3px #ddd;
+    font-weight: 700;
+    margin-top: 2%;
+    margin-bottom: 5px;
+    border: none;
+    color: var(--white-color);
+    /* padding: 4px 4px; */
+    /* text-align: center; */
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: 0;
+     background-color: #D9534F; 
+    font-size: 11px;
+}
+
+.restoreBtn {
+    width: 122px;
+    white-space: pre-line;
+    box-shadow: 3px 3px 3px #ddd;
+    font-weight: 700;
+    margin-top: 2%;
+    margin-bottom: 5px;
+    border: none;
+    color: var(--white-color);
+    /* padding: 4px 4px; */
+    /* text-align: center; */
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: 0;
+     background-color: #5CB85C; 
+    font-size: 11px;
+}
+.tbmgtp{
+  margin-top: 20px;
+}
+.srchicn{
+  padding: 9px 12px !important;
+    font-size: 14px;
+    font-weight: 400;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc !important;
+    cursor: pointer;
+  background-color: #eee!important;
+}
+.input-group-addon {
+  padding: 9px 12px!important;
+  font-size: 14px;
+  font-weight: 400;
+  color: #555;
+  text-align: center;
+  background-color: #eee!important;
+  border-right: 1px solid #ccc!important;
+  border-top: 1px solid #ccc!important;
+  border-bottom: 1px solid #ccc!important;
+  cursor: pointer;
+} 
+.input_status {
+  background-color: var(--white-background)!important;
+  border: none!important;
+}
+.uMDetailContainer input {
+    position: relative;
+    opacity: 0;
+    z-index: 1;
+    cursor: pointer;
+    height: 17px;
+    width: 17px;
+    margin-top: 2px;
+}
+.uMDetailContainer {
+    position: relative;
+    align-content: center;
+    cursor: pointer;
+    font-size: 10px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    text-align: center;
+}
+.uMDetailCheck {
+    position: absolute;
+    vertical-align: center !important;
+    height: 17px;
+    width: 17px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    border: 2px solid #ddd;
+    z-index: 0;
+    left: 35%;
+}
+
+.uMDetailContainer:hover input ~ .uMDetailCheck{
+  background-color: #eee;
+}
+/* When the checkbox is checked, add a blue background */
+.uMDetailContainer input:checked ~ .uMDetailCheck {
+  background-color: #2196F3;
+  border:1px solid #efefef;
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.uMDetailCheck:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Show the checkmark when checked */
+.uMDetailContainer input:checked ~ .uMDetailCheck:after {
+  display: block;
+}
+/* Style the checkmark/indicator */
+.uMDetailContainer .uMDetailCheck:after {
+  left: 5px;
+  top: 01px;
+  width: 6px;
+  height: 10px;
+  align-content: center;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+
+/*new css*/
+.mt100{
+  margin-top: 110px
+}
+
+.my-custom-scrollbar {
+position: relative;
+height: 225px;
+overflow-y: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+
+.scrolltbl{
+  overflow-y:auto;
+}
+.iAssureITtable-bordered > thead > tr > th, .iAssureITtable-bordered > tbody > tr > th, .iAssureITtable-bordered > tfoot > tr > th, .iAssureITtable-bordered > thead > tr > td, .iAssureITtable-bordered > tbody > tr > td, .iAssureITtable-bordered > tfoot > tr > td {
+}
+
+.table-striped>tbody>tr:nth-of-type(even) {
+    background-color: #fff;
+}
+.iAssureITtable-bordered{
+}
+.lefttxt{
+  float: left !important;
+}
+.pointer i{
+  cursor: pointer;
+}
+.paginationAdminWrap{
+  text-align: center !important;
+  width: 100%;
+}
+.centerText{
+  text-align: center;
+}
+.textAlignLeft{
+
+  text-align: left !important;
+}
+.paginationAdminOES > li > a{
+  margin-right: 5px !important;
+  margin-bottom: 5px !important;
+}
+.paginationAdminOES > li{
+    display: inline-block;
+    margin-left: 0 !important;
+    font-size: 10px;
+}
+.queDataCircle p{
+  height: 100%;
+  width: 100%;
+}
+.activeQueDataCircle{
+  background: #7f7f7f !important;
+}
+.queDataCircle {
+  padding-top: 4px;
+  font-size: 12px;
+  border: 1px solid #e8e6e6 !important;
+  height: 24px !important;
+  width: 24px !important;
+  border-radius: 100% !important;
+  box-shadow: 3px 4px 7px -3px #aeabab !important;
+  text-align: center;
+}
+.marginTop17{
+  margin-top: 17px;
+}
+.showHideEye {
+  top: -28px !important;
+  /* left: -136px !important; */
+  float: right;
+  z-index: 999;
+  position: relative;
+}
+.marBtm{
+  margin-bottom: 6px;
+}

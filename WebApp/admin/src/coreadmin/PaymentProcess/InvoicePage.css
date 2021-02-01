@@ -1,0 +1,182 @@
+@media print 
+{
+    tr, td, th {page-break-inside:avoid}
+    thead {display:table-header-group}
+    .NoPrint {visibility:hidden; display:none}
+    a {color:#000000}
+}
+.selectedPlan{
+	height: auto;
+  font-size: 15px;
+  background-size: 100% 100%;
+	margin-top:50px !important;
+  margin-bottom:80px !important; 
+  border:1px solid #333;
+	font-family: Arial !important;
+
+}
+.selectedPlan label{
+	font-size: 40px;
+}
+.selectedPlan img{
+  padding-top:8px;
+  height: 90px;
+}
+.PlanDetails{
+	height: auto;
+	padding: 15px !important;
+	font-family: Arial !important;
+	margin-bottom: 50px;
+  box-shadow: 1px 1px 10px 2px #ccc;
+
+}
+.centreDetaillistItemIP{
+  padding-left: 0px !important;
+  font-family: Arial !important;
+  font-weight: bold;
+  font-size: 25px !important;
+}
+.priceDivIP{
+  font-weight: bold;
+  font-size: 25px !important;
+}
+.radioCheckIP{
+  position: absolute;
+  top: 2px;
+  left: 52px;
+  vertical-align: center !important;
+  align-content: center;
+  height: 30px;
+  width: 30px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  margin-left: -37px;
+  z-index: 0;
+}
+.companyDetails{
+  margin-top: 12px;
+}
+.centreDetailContainer input:checked ~ .radioCheckIP {
+  background-color: #201a47;
+  border:2px solid #201a47;
+   height: 30px;
+  width: 30px;
+}
+.customUlIP{
+  list-style: none;
+  font-size: 16px;
+  padding-left: 20px !important;
+  
+}
+.customUlIP li{
+ padding-top: 5px;
+}
+.customUlIPFeatures{
+  list-style: circle;
+  font-size: 16px;
+  padding-left: 40px !important;
+  
+}
+.customUlIPFeatures li{
+ padding-top: 5px;
+}
+.listStyleNone{
+  list-style: none !important;
+    margin-left: -20px !important;
+
+}
+.btnContainer{
+  margin-bottom: 40px;
+
+}
+.makePaymentButton{
+	padding: 15px;
+	margin-bottom: 5px;
+	background-color: #10a4e2;
+	color: #fff;
+	font-family: Arial !important;
+	text-align: center;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 15px;
+	border-radius: 3px;
+}
+.fs30{
+  font-size: 30px;
+}
+.priceDivUP{
+  border-top:5px #201a47 solid;
+  padding:40px;
+}
+.iconContainerIP{
+  padding-top: 40px;
+  height: 180px;
+}
+.logoContainerIP{
+
+  padding-top: 20px;
+  height: 180px;
+}
+.invoiceHead{
+  font-size: 22px;
+
+}
+.dateContain{
+  font-size: 14px !important;
+}
+.paymentDetails{
+  color: #333;
+
+}
+.userDetails{
+  color: #333;
+}
+.userName{
+  color: #10a4e2;
+  text-transform: capitalize;
+  font-size: 24px;
+}
+.PaymentContainer{
+  color: #10a4e2;
+  font-size: 14px;
+}
+.customTableIP{
+  color: #333 !important;
+}
+.customTableIP>th> td {
+  border: 0px solid #aaa;
+      text-align: center !important;
+
+}
+.customTableIP th{
+  color: #fff !important;
+  background-color: #10a4e2; 
+}
+.customTableIP td {
+    background-color: #afafaf2e; 
+
+}
+.customTableIPTD{
+padding: 15px !important;
+
+padding-top: 50px !important;
+padding-bottom: 50px !important;
+
+}
+.thankYouDiv{
+  font-size: 25px;
+  text-align: right;
+  color: #10a4e2;
+}
+.bottomDiv{
+  margin-top: 40px;
+  border-bottom: 3px solid #10a4e2;
+}
+.receiptFooter{
+  text-align: center;
+  padding: 10px;
+}
+.receiptFooter label{
+  font-size: 14px !important;
+}

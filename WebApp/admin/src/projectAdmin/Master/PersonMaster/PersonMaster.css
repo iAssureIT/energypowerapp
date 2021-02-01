@@ -1,0 +1,245 @@
+.modalIndex{
+    z-index: 1045;
+}
+*:focus{
+	outline:none;
+}
+.subHead{
+	padding-top:20px;
+}
+
+.toggleButton:focus, .toggleButton.focus{
+	color:#333;
+	outline:none;
+}
+.toggleButton.active.focus, .toggleButton.active:focus, .toggleButton.focus, .toggleButton:active.focus, .toggleButton:active:focus, .toggleButton:focus{
+	outline:none;
+}
+.padtop{
+    padding-top: 14px !important;
+}
+.customToggleButton{
+	border: 1px solid #e4e0e0;
+    margin-right: 8px;
+    font-size: 12px !important;
+    padding-left:5px !important;
+    padding-right:5px !important;
+    padding-top:8px !important;
+    padding-bottom:8px !important;
+
+}
+.customToggleButtonPermission{
+    border: 1px solid #e4e0e0;
+    margin-right: 8px !important;
+    font-size: 12px !important;
+    padding-left: 19px !important;
+    padding-right: 19px !important;
+    padding-top: 3px !important;
+    padding-bottom: 2px !important;
+
+}
+.addedDivPM{
+    display: none;
+   	height: 140px;
+    padding: 0px 0px 0px 10px;
+    background-color: var(--blue-color);
+}
+.addedDivPM img{
+	height: 20px;
+    padding: 4px;
+    margin-top: 55px;
+}
+.selectedSupplier .addedDivPM{
+	display: block !important;
+}
+.addMarginTopPM{
+	margin-top: 20px;
+}
+
+.toggleButton.active, .toggleButton:active{
+    border-radius: 3px;
+	background-color: var(--blue-background);
+	color:#fff;
+}
+.CustomImageUpload{
+	margin-top: -180px;
+}
+.uploadImage{
+    height: 100px;
+    border:1px solid #eee;
+    margin-top: -30px;
+}
+.brdlogosPM{
+    background-size: 232px 128px;
+    background-repeat: no-repeat;
+    background: #ebebeb;
+    border: 1px dashed #999;
+    height: 15em;
+    padding: 0;
+}
+.subHeadingPM{
+    font-size: 14px;
+    font-weight: bold;
+}
+.noRightMargin{
+    margin-right: 0px !important;
+}
+.imgContainerDoc{
+    text-align: center;
+    word-break: break-all;
+
+}
+.imgContainerDoc img{
+    height: 60px;
+}
+.pdfContainerPM img{
+    height: 30px;
+    margin-left: 25%;
+}
+.pdfContainerPM{
+    text-align: center !important;
+    word-break: break-all;
+}
+.pdfContainerPM span{
+    font-size: 10px;
+}
+.bulkbutton{
+    background-color: #337ab7 ! important;
+    color: #ffffff ! important;
+}
+.deleteemplist{
+    background-color: #D9534F! important;
+    color: #ffffff ! important;
+}
+.guestdiv{
+    opacity: -1 ! important;
+}
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url(http://smallenvelop.com/wp-content/uploads/2014/08/Preloader_10.gif) center no-repeat #fff;
+}
+.loader_img{
+    opacity:1;
+}
+.employeeLogoImage{
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    margin-top: 30px !important;
+    border: dashed 1px #aaa;
+}
+#LogoImageUpEmployee{
+    background-size: 232px 128px;
+    background-repeat: no-repeat;
+    background: #ebebeb;
+    border: 1px dashed #999;
+    cursor: pointer;
+    height: 15em;
+    padding: 0
+}
+#LogoImageUpEmployee {
+    align-items: center;
+    text-align: center;
+    display: grid;
+}
+
+#LogoImageUpEmployee i {
+    font-size: 20px;
+    color: var(--waikawagrey-color);
+}
+
+#LogoImageUpEmployee p {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--waikawagrey-color);
+}
+.fileManage{
+    position: absolute;
+    height: 50px;
+    cursor: pointer;
+}
+.cursorPointer{
+    cursor: pointer !important;
+}
+.brdlogosPersonmaster {
+    background-size: 232px 128px;
+    background-repeat: no-repeat;
+    background: #ebebeb;
+    border: 1px dashed #999;
+    height: 4.1em;
+    padding: 0
+}
+.margin-top{
+    top: 33px;
+}
+.deletelogoPersonMaster{
+    background: #dad8d8;
+    border-radius: 100%;
+    height: 15px;
+    width: 15px;
+    padding: 0px;
+    font-size: 10px;
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    right: 5px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.empHeadview{
+    margin-top: 5px;
+    padding-top: 10px !important;
+    width: 420px;
+}
+.empHeadview label{
+    font-size: 20px;
+    color: var(--blue-color)
+}
+.empHeadview span{
+    font-size: 13px;
+}
+.padding20{
+    padding: 30px !important;
+}
+.seperaterBorder{
+    border-bottom: 1.5px solid #eee;
+    margin:5px 0px 25px 0px; 
+}
+.marginLeft5{
+    margin-left: 14px;
+}
+.marginRight5{
+    margin-right: 14px;
+}
+.width18px{
+    width: 18px;
+}
+.fz18{
+    font-size: 15px;
+}
+.colorWhite{
+    position: absolute;
+    right: -40px;
+    bottom: 10px;
+    font-size: 14px;
+    cursor: default;
+    color: #fff;
+}
+.changeAppAuth{
+    font-size: 12px;
+    margin-top: 26px;
+    color: var(--blue-color)
+
+}
+.changeAppAuth label{
+    cursor: pointer;
+    
+}

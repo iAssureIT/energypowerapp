@@ -1,0 +1,29 @@
+@media print {
+ *{  transition: none !important }
+   
+  @page{
+    size: A4 landscape;
+    max-height:100%;
+    max-width:100%
+  }
+  img{
+    width:100%;
+    height:100%;
+    display:block;
+  }
+  .printhide, .printhide td,  .printhide th{
+    display: none !important;
+  }
+  .tablerow{
+    border: 2px solid #eee !important;
+    height: 60px !important;
+  }
+  
+  #section-to-print table td{
+    border: 1px solid #333!important;
+  }
+  .imgtab{
+    width: 20% !important;
+    height: 4% !important;
+  }
+}

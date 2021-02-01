@@ -1,0 +1,35 @@
+
+.policy3{
+	font-size: 16px;
+}
+.policyTitle{
+	font-size: 16px;
+}
+.BoxSize2{
+	background-color: #919a9a;
+}
+.terms1{
+	height: 30px;
+    background-color: #56add8;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.terms2{
+	font-size: 18px;
+	padding-top: 3px;
+}
+.termTitle{
+	color: #803737;
+    font-size: 16px;
+}
+.About1{
+	height: auto;
+    color: #555;
+    background-color: #fff;
+    margin-top: 30px;
+    opacity: 0.95;
+}
+.mb20{
+    margin-bottom: 20px;
+}

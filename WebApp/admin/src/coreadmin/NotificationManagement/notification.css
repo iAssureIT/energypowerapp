@@ -1,0 +1,1193 @@
+/*********button css***********/
+
+.nav-pillss>li.active>a,
+.nav-pillss>li.active>a:hover,
+.nav-pillss>li.active>a:focus {
+    color: #fff;
+    background-color: #fff !important;
+    text-decoration-color: none;
+}
+
+.notifTab {
+    position: absolute;
+    left: -35px;
+    z-index: 2;
+    border: none;
+    margin-top: -42px;
+}
+
+.notifTab li a {
+    padding: 12px 15px;
+    margin-right: 248px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--blue-color );
+    text-transform: uppercase;
+    border: 1px solid var(--waikawagrey-background);
+    border-radius: 0px;
+    overflow: hidden;
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    margin-top: 20px;
+    color: var(--waikawagrey-background);
+    width: 180px;
+}
+
+.notifTab li a:hover,
+.notifTab li a:focus,
+.notifTab li.active a {
+    background: transparent;
+    border: 1px solid var(--waikawagrey-background) !important;
+    color: #fff !important;
+}
+
+.notifTab li a:before {
+    content: "";
+    width: 520%;
+    height: 0;
+    background: var(--waikawagrey-background);
+    position: absolute;
+    top: 56%;
+    left: 35%;
+    opacity: 0;
+    z-index: -1;
+    transform: translateX(-49%) translateY(-65%) rotate(5deg);
+    transition: all 0.3s ease-in-out 0s;
+}
+
+.notifTab li a:hover:before,
+.notifTab li.active a:before {
+    height: 200%;
+    opacity: 1;
+}
+
+.NotificationContent {
+    min-height: 600px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 32px;
+    padding-right: 15px;
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 200px !important;
+    overflow-y: auto;
+    overflow-x: hidden!important;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.CreateTempModal {
+    margin-top: 8px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.CreateTempModalDelete {
+    margin-top: -30px !important;
+}
+
+.inputValid {
+    height: 35px;
+}
+
+.inputValid:valid {
+    border: 1px solid #ccc;
+}
+
+.inputrow {
+    margin-bottom: 1%;
+}
+
+.inputrow1 {
+    margin-bottom: 4%;
+    margin-top: 4%;
+}
+
+.NOpadding {
+    padding: 0px !important;
+}
+
+.notifWrapper {
+    height: auto;
+    border-radius: 3px;
+    margin-left: 0 !important;
+    background: #fff !important;
+    margin-top: 5%;
+    margin-bottom: 7%;
+}
+
+.hideDiv {
+    visibility: hidden;
+}
+
+.notifWrapper .title {
+    text-align: center !important;
+    font-size: 25px;
+    color: #333;
+    margin: 2% 0% !important;
+}
+
+.notificationTitle {
+    text-align: center;
+    color: #DA2128;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.text-message-content-wrapper {
+    height: auto;
+    padding: 1%;
+    background: #AED6F1;
+}
+
+.text-message-innerWrapper {
+    height: auto;
+    padding: 2%;
+    background: #ffffff;
+}
+
+.toLabeldiv {
+    height: 54px;
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
+.tolabel {
+    text-align: center;
+    margin-top: 18px;
+    font-weight: bold;
+    font-size: 13px;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.fixlength {
+    color: #1B4F72;
+    font-family: 'Roboto', sans-serif !important;
+    margin-top: 5px;
+}
+
+#textarea {
+    border-radius: 0px;
+    border-color: #aaa;
+    border-radius: 4px;
+}
+
+#textarea_feedback {
+    color: #1B4F72;
+    font-family: 'Roboto', sans-serif !important;
+    margin-top: -19px;
+}
+
+.senderTxtarea {
+    border-radius: 0px;
+    border-color: #aaa;
+    border-radius: 4px;
+}
+
+.sendtxtmsgbtn {
+    border-radius: 0px;
+}
+
+.create-email-template-wrapper {
+    height: auto;
+    padding: 1.3%;
+    /*border: 5px solid #3c8dbc;*/
+    margin-bottom: 5%;
+}
+
+.sidertemplatebar {
+    height: auto;
+    min-height: 299px;
+    /*border-right: 5px solid #2189d1;*/
+    padding-top: 4px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    overflow-x: visible;
+    /*overflow-y: auto;   */
+    background: #f1f1f1;
+}
+
+.editPencil,
+.deleteEM {
+    margin-left: 12px;
+    margin-right: 5px;
+}
+
+.bellIcon {
+    margin-right: 10px;
+    margin-left: 4px;
+}
+
+.saveTemplateWrapper {
+    height: auto;
+    min-height: 200px;
+    background: #fff;
+    /*padding: 1.3%;*/
+    /*border: 1px solid #f1f1f1  ;*/
+}
+
+.ViewTemplateWrapper1 {
+    height: 600px;
+    background: rgba(179, 220, 237, 1);
+    padding: 1.3%;
+    border: 7px solid #3c8dbc;
+    display: none;
+}
+
+.ViewNotifTemplateWrapper1 {
+    height: 600px;
+    background: rgba(179, 220, 237, 1);
+    padding: 1.3%;
+    border: 7px solid #3c8dbc;
+    display: none;
+}
+
+.notificationTemplateWrapper {
+    display: none;
+    height: 600px;
+    background: #fff;
+    padding: 1.3%;
+    border: 7px solid #3c8dbc;
+}
+
+.userDefinedTemplateWrapper {
+    display: none;
+}
+
+.newTemplate {
+    background: #3c8dbc;
+    height: 50px;
+    padding: 5%;
+    text-align: center;
+    width: 93%;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 2%;
+}
+
+.notificationTemplate {
+    background: #3c8dbc;
+    height: 50px;
+    padding: 5%;
+    text-align: center;
+    width: 93%;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 2%;
+}
+
+.smsTemplate {
+    background: #3c8dbc;
+    height: 50px;
+    padding: 5%;
+    text-align: center;
+    width: 93%;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 2%;
+}
+
+.tempCategory {
+    height: 65px;
+    list-style: none;
+    text-align: left;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: -1%;
+    margin-left: -25px;
+    font-size: 12px;
+    border-bottom: 1px solid #999;
+    width: 104%;
+    color: #666;
+    padding-top: 1.4em;
+}
+
+.tempCategoryName {
+    padding: 5%;
+    height: 50px;
+    cursor: pointer;
+}
+
+.tempCategory a {
+    color: #fff !important;
+}
+
+.tempactive {
+    width: 104% !important;
+    box-shadow: 0px 8px 40px #aaa;
+    color: #666;
+    font-size: 13px;
+    z-index: 2 !important;
+    position: relative;
+}
+
+.tempactive .iconCss {
+    border-radius: 18px;
+    background: var(--blue-color );
+    padding: 0.7em;
+    color: #fff;
+}
+
+.emailSpan {
+    color: #333;
+    margin-top: .7em;
+    font-family: 'Roboto', sans-serif !important;
+    letter-spacing: 1px;
+}
+
+#emailTemplates {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    height: auto;
+    min-height: 300px;
+}
+
+#notificationTemplates {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    height: auto;
+    min-height: 300px;
+}
+
+.templateTitle {
+    font-family: 'Roboto', sans-serif !important;
+    letter-spacing: 1px;
+}
+
+#smsTemplates {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    height: auto;
+    min-height: 300px;
+}
+
+.savetemp b {
+    margin-left: 3px;
+    font-size: 13px;
+}
+
+.input-category {
+    width: 100%;
+    height: 35px;
+    border-radius: 2px;
+    border: 1px solid #aaa;
+    padding: 4px;
+}
+
+.label-category {
+    color: #111;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 0;
+}
+
+.headercreatetemplate {
+    font-size: 15px;
+    color: #ffffff;
+}
+
+.savetemp {
+    margin-top: 10px;
+}
+
+.category-check {
+    height: 16px;
+    width: 16px;
+}
+
+.labelWrapper {
+    height: auto;
+    background: #ffffff;
+    box-shadow: 0px 0px 10px #999;
+    padding: 2%;
+}
+
+.labelcontactsHeader {
+    text-align: center;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.labelContainer {
+    margin-top: 10px;
+}
+
+.filesymbol {}
+
+.filesymbol li {
+    list-style: none;
+    float: left;
+    margin-left: 10px;
+    cursor: pointer;
+    margin-top: -21px;
+}
+
+.labelContainer {
+    height: auto;
+    padding: 2%;
+    border: 1px solid #aaa;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.createLabelContainer {
+    padding: 9px;
+}
+
+.createlabel-label {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif !important;
+    color: #616A6B;
+}
+
+.createlabel-label1 {
+    font-size: 13px;
+    font-weight: normal;
+    font-family: 'Roboto', sans-serif !important;
+    color: #616A6B;
+}
+
+.email-template-wrapper {
+    height: auto;
+    padding: 0px !important;
+    border: 5px solid #ccc;
+}
+
+.sidebarAllTemplate {
+    height: 561px;
+    background: #ffffff;
+    border-right: 7px solid #ccc;
+    padding: 1%;
+}
+
+.emailbodyWrapper {
+    height: 561px;
+    background: #fff;
+    padding: 2%;
+    border: 7px solid #2574A9;
+}
+
+.toemaildiv {
+    height: 54px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.senderTxtarea1 {
+    border-radius: 3px;
+    border-color: #aaa;
+}
+
+.senderccInput {
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    height: 30px;
+    padding: 4px;
+}
+
+.toccdiv {
+    height: 30px;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.alllabel {
+    text-align: center;
+    margin-top: 7px;
+    font-weight: bold;
+    font-size: 13px;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.sendemailbtn {
+    border-radius: 0px;
+    margin-top: 10px;
+}
+
+.templateLibrary {
+    /*padding:0px;*/
+}
+
+.templateLibrary ul {
+    padding: 0px;
+}
+
+.templateLibrary ul li {
+    list-style: none;
+    height: 40px;
+    background: linear-gradient(to bottom, #e1e5f1, #bfc2cb);
+    width: 93%;
+    text-align: center;
+    color: #000;
+}
+
+.textAreaBox {
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.tempCategory {
+    text-align: left;
+    cursor: pointer;
+    margin-bottom: -1%;
+    margin-left: -25px;
+    font-size: 12px;
+    border-bottom: 1px solid #999;
+    width: 104%;
+    padding-top: 1em;
+}
+
+.templateLibrary ul li a {
+    text-decoration: none;
+    color: #444 !important;
+    font-size: 13px;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.templateLibrary ul li:hover {
+    background: linear-gradient(to bottom, #bfc2cb, #dadde7, #bfc2cb);
+}
+
+.templateLibraryHeader {
+    padding: 2%;
+    font-weight: bold;
+    font-size: 13px;
+    text-align: center;
+    margin-left: -3em;
+}
+
+.library-submenu li {
+    background: rgba(143, 181, 214, 1);
+    height: 50px;
+    padding: 2%;
+    text-align: center;
+    width: 93%;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 2%;
+}
+
+.editTemp a {
+    color: #000;
+}
+
+.editTemp {
+    width: 100%;
+    padding: 0;
+    border-radius: 0px;
+}
+
+.checkMail span.glyphicon {
+    opacity: 0;
+}
+
+.checkMail.active span.glyphicon {
+    opacity: 1;
+}
+
+.checkMail {
+    border: 1px solid #eee;
+}
+
+.messageContent {
+    height: 280px;
+    background: #fff;
+    overflow-y: scroll;
+}
+
+.statusColor {
+    background: #00c0ef;
+}
+
+.notifmenu {
+    font-size: 12px;
+}
+
+.notifFooter {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    font-size: 12px;
+    padding: 7px 10px !important;
+    border-bottom: 1px solid #eeeeee;
+    color: #fff !important;
+    text-align: center;
+}
+
+.notifFooter a {
+    color: #fff !important;
+}
+
+.notifSpan {
+    padding: 0px !important;
+}
+
+.notifSpan li {
+    list-style: none;
+    font-size: 12px
+}
+
+.iconCss {
+    border-radius: 18px;
+    background: #ddd;
+    padding: 0.7em;
+    color: #fff;
+}
+
+.notifSpan {
+    padding: 0px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.notifContent {
+    /*color: #fff;*/
+    padding: 1%;
+    display: block;
+    white-space: nowrap;
+    background-color: #eee;
+    border-bottom: 1px solid #ccc;
+}
+
+.innerNotifLi {
+    margin-bottom: 1%;
+}
+
+.notif1 {
+    text-align: left;
+    font-size: 12px !important;
+}
+
+.notif2 {
+    font-size: 10px !important;
+}
+
+.notiful {
+    padding: 0px;
+    top: 100%;
+    left: 0;
+    float: left;
+    min-height: 335px;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    color: #fff;
+    background-clip: padding-box;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.notiful li {
+    padding: 0px;
+    color: #fff;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.notiful li:hover {
+    background-color: #777;
+    color: #fff;
+}
+
+.notiful li a {
+    color: #fff;
+}
+
+.submitConfig {
+    padding: 0;
+    margin: 3px 0 0;
+    width: 81%;
+    background: #f89b1c;
+    color: #fff;
+    font-size: 15px;
+    height: 38px;
+    border: 0;
+    border-radius: 0;
+}
+
+.notificationFooter a {
+    background: #fff;
+    text-align: center;
+}
+
+.notificationheader {
+    background: #fff;
+    text-align: center;
+}
+
+.notifbody {
+    font-size: 12px;
+}
+
+.notifdate {
+    font-size: 10px;
+}
+
+.notifvalMenu {
+    max-height: 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: hidden;
+}
+
+.notif-dropdown {
+    width: 280px;
+    padding: 0 0 0 0;
+    margin: 0;
+    top: 100%;
+    border: 0px !important;
+}
+
+.tabContentStyle {
+    margin-top: 10%;
+}
+
+.defaultMsg {
+    color: #ccc;
+    text-align: center;
+    margin-top: 15%;
+}
+
+.defaultMsg i {
+    font-size: 24px;
+}
+
+.updatebtn {
+    display: none;
+}
+
+.showTemplate {
+    height: 242px;
+}
+
+.noBorderBox {
+    border: 0px !important;
+}
+
+.contentBox {
+    padding: 2%;
+}
+
+.box.box-primary {
+    border-top-color: #2189d1 !important;
+}
+
+.box {
+    padding-bottom: 2%;
+}
+
+.notifyHeader {
+    padding-top: 15px;
+    padding-right: 26px;
+    padding-left: 26px;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 1em;
+}
+
+.rowPadding {
+    margin-bottom: 1em;
+}
+
+.modalContent {
+    margin-top: 2%;
+    border-radius: 10px;
+}
+
+/*.fade.in {
+opacity: 1 !important;
+}
+
+.modal.in .modal-dialog {
+-webkit-transform: translate(0, 0) !important;
+-o-transform: translate(0, 0) !important;
+transform: translate(0, 0) !important;
+}
+
+.modal-backdrop .fade .in {
+opacity: 0.5 !important;
+}
+
+.modal-backdrop.fade {
+opacity: 0.5 !important;
+}
+*/
+.notifTabs {
+    text-align: center;
+    margin-bottom: 3em;
+    margin-top: 5em;
+}
+
+.dropbtn {
+    color: #666;
+    /*padding: 16px;*/
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: -8px;
+    min-width: 160px;
+    box-shadow: 0px 8px 8px 0px #eee;
+    z-index: 1;
+    border-radius: 5px;
+    border: 1px solid #f1f1f1;
+}
+
+.dropdown-content .deleteNotif:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #fff;
+    color: #666;
+}
+
+.dropdown-content .deleteNotif:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+    color: #666666;
+    /*padding: 7px 7px;*/
+    text-decoration: none;
+    display: block;
+    border-radius: 3px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    background: #fff;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #fff;
+    color: #666;
+}
+
+.deleteNotif {
+    padding: .5em;
+    border-radius: 15px;
+}
+
+.dropdown-content:after {
+    position: absolute;
+    top: -11px;
+    right: 19px;
+    display: inline-block;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #f2f2f2;
+    border-left: 10px solid transparent;
+    content: '';
+}
+
+.addNotifybutton {
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 1px 3px 1px rgba(60, 64, 67, 0.149);
+    font-family: 'Roboto', sans-serif !important;
+    letter-spacing: 1px;
+    background-color: #fff;
+    -webkit-border-radius: 24px;
+    border-radius: 24px;
+    color: #3c4043;
+    display: inline-flex;
+    height: 36px;
+}
+
+.plusIconNt {
+    margin-right: 10px;
+    margin-left: 3px;
+}
+
+.modalCloseBtn {
+    margin-top: -45px !important;
+}
+
+.deleteModalContent {
+    border-radius: 10px;
+    border-top: 3px solid #2189d1;
+}
+
+.tab-content {
+    padding: 10px 15px;
+}
+
+/*.box {
+    height: 650px;
+}
+*/
+.dropbtn {
+    color: #666;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.defaultNotification {
+    color: #ccc;
+    text-align: center;
+    margin-top: 15%;
+}
+
+.defaultSMS {
+    color: #ccc;
+    text-align: center;
+    margin-top: 15%;
+}
+
+.astrick {
+    color: #ea0202;
+}
+
+.error {
+    color: #ea0202;
+}
+
+.blackFont {
+    color: #333;
+}
+
+.redFont {
+    color: #ea0202;
+}
+
+.NOpadding-left {
+    padding-left: 0px;
+}
+
+.NOpadding-right {
+    padding-right: 0px;
+}
+
+.adminModal-header {
+    border-radius: 9px 9px 0 0;
+    background: var(--blue-color);
+    color: #fff;
+    border: none;
+}
+
+.adminModal-body {
+    margin-top: 0px !important;
+    background: #fff !important;
+}
+
+.adminModal-footer {
+    border-radius: 0 0 9px 9px;
+    background: #eee;
+}
+
+.adminCancel-btn,
+.adminFinish-btn {
+    margin-bottom: 15px;
+    box-shadow: 2px 2px 9px -2px var(--blue-color );
+}
+
+.btnUpdate {
+    color: #fff;
+    background: var(--blue-color );
+    margin-bottom: 15px;
+    box-shadow: 2px 2px 9px -2px var(--blue-color );
+}
+
+.btnSubmit {
+    height: 40px;
+    background-color: var(--blue-color );
+    color: #fff;
+    font-weight: 600 !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px !important;
+    border-radius: 5px;
+    border: none;
+}
+
+.adminCloseCircleDiv {
+    display: inline-grid;
+    box-shadow: 3px 4px 7px -3px #666!important;
+    height: 30px;
+    width: 30px;
+    background: #fff;
+    border-radius: 100%;
+}
+
+.adminCloseButton {
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    font-size: 24px!important;
+    opacity: 1!important;
+    float: left;
+}
+
+.textAlignCenter {
+    text-align: center!important;
+}
+
+.textAlignLeft {
+    text-align: left!important;
+}
+
+.textAlignRight {
+    text-align: right!important;
+}
+
+.addexamform {
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    background: var(--blue-color );
+    border: 1px solid var(--blue-color );
+    padding: 8px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .302), 0 1px 3px 1px rgba(60, 64, 67, .149);
+}
+.overAuto{
+    overflow: hidden;
+}
+.overflowHiddenxy{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.btn_oval{
+    border-radius:40px;
+}
+.marginRT{
+    margin-right: 10%;
+}
+.textCenter{
+    text-align: center;
+}
+.defaultColor{
+    background: #eee;
+    border: 1px solid #ddd;
+}
+.divStyle{
+    margin-bottom: 4%;
+    box-shadow: 1px 1px 1px 1px #666;
+    margin-top: 1%;
+    padding-top: 2% !important;
+}
+
+.showTokens{
+    display: none;
+    /*text-align: center;*/
+    border: 1px solid #eee;
+    padding: 2%;
+}
+
+.btnToken{
+    border: 1px solid #eee !important;
+}
+.filterWrapper{
+    display: none;
+}
+
+/*  Toggle Switch  */
+
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 6em;
+  height: 2.5em;
+}
+
+.toggleSwitch input { display: none; }
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+  transition: 0.2s;
+  border-radius: 99999px;
+}
+
+.toggleSlider::before {
+  position: absolute;
+  content: "";
+  height: 1.5em;
+  width: 1.5em;
+  left: 0.45em;
+  bottom: 0.45em;
+  background-color: white;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+  transition: 0.2s;
+  border-radius: 50%;
+}
+
+.toggleSwitch input:checked + .toggleSlider {
+  background-color: #27AAE1;
+}
+
+.toggleSwitch input:focus + .toggleSlider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.toggleSwitch input:checked + .toggleSlider::before {
+  transform: translateX(3.6em);
+}
+
+.toggleSlider::after {
+ content: 'inactive';
+ color: black;
+ display: block;
+ position: absolute;
+ transform: translate(-50%,-50%);
+ transition: 0.2s;
+ top: 50%;
+ left: 40%;
+ font-size: 12px;
+ font-family: Verdana, sans-serif;
+}
+
+.toggleSwitch input:checked + .toggleSlider::after {  
+  content: 'active';
+  color: white;
+}
+
+/*  End Toggle toggleSwitch  */

@@ -1,0 +1,447 @@
+/* *********  Common CSS Rules  *********** */
+.locationform{
+	
+	border:3px solid #d3d6de;
+	height:450px;
+	margin-top:25px;
+}
+.formpad{
+	padding-top:25px;
+}
+.edittitle{
+	font-weight: bold;
+}
+
+.errorinput.error{
+	border:1px solid red!important;
+}
+.inputValid.error{
+	border:1px solid red!important;
+}
+.error{
+	font-weight:normal!important;
+}
+.statedrop{
+	margin-top: 7px;
+}
+.glyf{
+	margin-right:10px;
+}
+.changePassWrap{
+	margin-top:20px;
+}
+/*#msgError,.error{
+	color:red;
+}*/
+.statedrop{
+	margin-top: 7px;
+}
+.rolesField{
+	border-radius: 3px!important;
+}
+
+.companysettingbox{
+	min-height:385px!important;
+}
+.departmentWrapper{
+	margin-bottom: 2em; 
+    margin-top: 2em; 
+}
+.searchBox{
+	/*padding-right: 0;*/
+	margin-bottom: 1em;
+    margin-top: 1em;
+}
+.searchBoxBugt{
+	margin-bottom: 1em;
+}
+.searchBarMstrDisplay{
+	padding:0;
+}
+.MasterTitle{
+	margin-top: 10px;
+	padding:0;
+	/*dffont-family:'Myriad-Pro-Semibold';*/
+}
+.MasterBudgetTitle{
+	/*font-family:'Myriad-Pro-Semibold';*/
+    letter-spacing: 1px;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.locationbtn{
+	margin-top: 25px;
+	padding-left: 0;
+}
+
+.areapincodemodalbody{
+	width:495px!important;
+}
+.locationfield{
+	border-color:blue;
+}
+.transactiontbl{
+	border:1px solid #eee;
+}
+.quottop{
+	margin-top: 2em;
+}
+
+
+.myTable{
+	border:1px solid #d3d6de;
+}
+.bodyheight{
+	min-height:800px;
+	padding-top:15px;
+}
+.contentheight{
+min-height:990px!important;
+background:#ecf0f5;
+}
+
+.instructionsforaddlocation{
+	margin-left: 79px;
+}
+.modalBodyStyle{
+	background-color: #fff;
+}
+
+
+.parkingreport{
+	padding-left:0!important;
+	padding-right:0!important;
+}
+.sidetabs{
+	width:178px;
+	/*border:3px solid #d2d6de;*/
+	margin-top:14px!important;
+}
+/*.content-wrapper{
+	background:#ecf0f5;
+}
+*/
+.tablistsmngloctn{
+margin-left: 0%;
+}
+.mnglocationwrapper > li {
+    width: 20%;
+    text-align: center;
+    margin-bottom: 0px;
+ 
+}
+.headbulkbtn{
+	margin-top: 15px;
+	margin-left: 0!important;
+}
+.disthead{
+	margin-left: 15%;
+}
+.countrybulkbtn{
+	margin-top: 20px;
+}
+.areaMasterBtn {
+    border-radius: 0;
+    margin-bottom: 3%;
+    margin-left: 45%;
+}
+.locationMasterBtn {
+    border-radius: 0;
+    margin-bottom: 3%;
+    margin-top: 30px;
+    margin-left: 45%;
+}
+
+.masterAreaBox {
+    background: #fff;
+    border-top: 3px solid #e60000;
+    box-shadow: 0px 0px 5px 0px;
+    margin: 1% 0px 30px;
+    height: auto;
+}
+.masterAreaBox1 {
+    background: #fff;
+    border-top: 3px solid #e60000;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px;
+    margin: 1% 15px 30px;
+    height: 450px;
+}
+
+.statelabel{
+	color:#333;
+}
+.submitcolor{
+	background:#e60004; 
+    color: #fff!important;
+}
+.masterFormHeading {
+    text-align: center;
+	color:#333;
+
+}
+
+.bulkuploadInstruction {
+    height: auto;
+    background: #eaeaea;
+    width: 83%;
+    color: #333;
+    margin-left: 10%;
+    margin-top: 20px;
+}
+.uploadQuesinst{
+  /*font-family: 'MYRIADPROREGULAR';*/
+  font-size: 14px;
+  padding: 0;
+}
+.uploadQuesinst li{
+	list-style: none;
+}
+.bulkcountry{
+	width: 95%;
+	margin-left: 9px;
+	margin-top: 2em;
+	margin-bottom: 1em;
+}
+.uploadbulk{
+	height: auto;
+    width: 80%;
+    color: rgb(51, 51, 51);
+    margin-left: 13%;
+}
+.edittitle{
+	font-size: 22px!important;
+}
+.btnpos{
+	margin-top: 25px;
+}
+.manageLocTitle{
+	letter-spacing: 1px;
+}
+
+
+.uploadQuesinst{
+	list-style-type: circle;
+	letter-spacing: .5px;
+}
+
+.csvDLWrap {
+	padding: 0px;
+    /* margin-top: 15px; */
+    padding-top: 2px;
+    padding-bottom: -4px;
+    /* margin-bottom: 12px; */
+    background-color: #fff;
+    height: 16.5em;
+    margin-bottom: 20px;
+    box-shadow: 0px 3px 8px 1px #DDD;
+}
+.outerdiv{
+	padding:15px;
+	padding-left:20px;
+	padding-right:20px;
+}
+
+.fieldTitle{
+	margin-left: 17%;
+	width: 50%;
+}
+
+#bulkuploads{
+    display: none;
+}
+#bulkuploadtaluka{
+	display: none;
+}
+#bulkuploaddist{
+    display: none;
+}
+#bulkuploadstate{
+	display: none;
+}
+#locationbulkupload {
+	display: none;
+}
+tr.odd {
+   background: #888;
+   border-top: 2px solid #eee;
+
+}
+.distbtnbulk{
+	    width: 100%;
+	    margin-top: 15px;
+	    margin-left: 7px;
+}
+.adddistbtn{
+	margin-left: -20px;
+}
+.addcountrylist{
+	margin-top: 30px;
+}
+
+.btndeleterole{
+	width: 90px;
+}
+/*.modal-content{
+	width: 600px;
+	margin-left: 30%;
+}*/
+.locationform{
+	
+	border:3px solid #d3d6de;
+	height:450px;
+	margin-top:25px;
+}
+
+.locationlistbox{
+	margin-left: 15%!important;
+}
+.bulkbtn{
+	background:#dedede; 
+}
+
+.nav-pillss > li > a:hover, .nav-pillss > li > a:focus{
+	text-decoration: none;
+    background-color: #666666; 
+    color: #fff;
+/*    font-family: 'MYRIADPROREGULAR';
+    letter-spacing: 1px;*/
+}
+.MasterTitle{
+	 /*font-family:'Myriad-Pro-Semibold';*/
+}
+/**********manage location css*****/
+/*.masterDataTab:not(:first-child)::before{
+   width: 0;
+   height: 0;
+   border-top: 20px inset transparent;
+   border-bottom: 20px inset transparent;
+   border-left: 20px solid #929292;
+   position: absolute;
+   content: “”;
+   top: 0;
+   left: -8px;
+   content: "";
+}
+.masterDataTab::after {
+   width: 0;
+   height: 0;
+   border-top: 20px inset transparent;
+   border-bottom: 20px inset transparent;
+   border-left: 20px solid #ffffff;
+   position: absolute;
+   content: “”;
+   top: 0;
+   right: -7px;
+   content: "";
+   z-index: 1;
+}*/
+.csvimg {
+    width: 75px;
+    margin-left: -22px;
+    margin-top: 32px;
+}
+
+.notClickable{
+    pointer-events: none;
+    color: #d2c5c5;
+}
+.manageLocationTitle h4{
+	padding-left: 13px;
+	/*font-family: 'Myriad-Pro-Semibold';*/
+    letter-spacing: 1px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+
+}
+.bulkUploadForm{
+	margin-top: 25px;
+}
+.inputFieldBulk{
+	padding:0;
+}
+.inputBulk{
+	margin-top: .5em;
+}
+.uploadFileInput{
+	padding: 6px 6px 29px !important;
+}
+.bulkImage{
+	margin-top: 10px;
+}
+.paddingCost{
+	padding: 7px!important;
+}
+.mr15{
+	margin-right: 15px;
+}
+.pt20{
+	padding-top: 20px;
+}
+.usrmgnhead{
+	padding-top: 50px;
+	text-align: center;
+}
+
+/*-----------------------------*/
+
+.reportWrapper{
+	margin-top: 2em;
+}
+.padding-zero{
+	padding: 0px;
+}
+.pr28{
+	padding-right: 28px;
+}
+.action-btn:hover{
+	cursor: pointer;
+}
+
+.manual-auto ul li{
+	margin-left: 20px;
+}
+.ht80{
+	height: 80px;
+}
+.stateHeight{
+	height: 95px;
+}
+.ht110{
+	height: 110px;
+}
+.ht95{
+	height: 95px;
+}
+/*#listOfUsersDwnld tr {
+  display: none;
+}*/
+.ReactTable .-pagination .-pageSizeOptions{
+	display: none;
+}
+.nav-pills > li > a {
+    background-color: #f2f2f2;
+    color: #333333;
+}
+.nav-pills >li+li {
+     margin-left: 0px ! important; 
+}
+
+.firstTab{
+	background-color: #beb8b8 ! important;
+	color: #322f2f ! important;
+}
+
+.selectbox
+{
+    background: transparent !important ;
+    height: 35px ! important;
+} 
+.inputbox{
+	height: 35px;
+}
+.mainDiv{
+	margin-top: 25px;
+	background-color: #ffffff;
+}

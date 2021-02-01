@@ -1,0 +1,67 @@
+
+.centreDetaillistItemOP{
+  padding-left: 0px !important;
+  padding-bottom:  15px;
+  font-family: Arial !important;
+  font-weight: bold;
+  font-size: 18px !important;
+}
+.dateDivOP{
+  font-weight: bold;
+  font-size: 20px !important;
+}
+.PlanDetailsOP{
+	height: auto;
+	border-top:10px #201a47 solid;
+	padding: 40px !important;
+	border-radius: 5px;
+	font-family: Arial !important;
+	margin-bottom: 50px;
+    box-shadow: 1px 1px 10px 2px #ccc;
+    cursor: pointer;
+}
+.PlanDetailsOP:hover{
+	
+    box-shadow: 1px 1px 10px 8px #ccc;
+    cursor: pointer;
+}
+.PlanDetailsOP:hover .hoverEffect{
+	color: #109dd7 !important;
+}
+.noBold{
+	font-weight: normal !important;
+}
+.orderDetailsDiv{
+	border-bottom: 1px solid #ccc;
+	padding: 0px !important;
+	padding-bottom: 10px !important;
+	padding-top: 10px !important;
+}
+.orderDetailsDiv label{
+		font-weight: normal !important;
+}
+.orderSummaryHead{
+	font-size: 18px;
+}
+.totalDiv{
+	margin-top: 10px;
+}
+.selectedPlanOP{
+	height: auto;
+  	font-size: 30px;
+  	background-size: 100% 100%;
+	margin-top:120px !important;
+  	margin-bottom:80px !important; 
+	font-family: Arial !important;
+
+}
+.selectedPlanNoOrders{
+	height: 200px;
+  	font-size: 30px;
+  	text-align: center;
+  	background-size: 100% 100%;
+	margin-top:220px !important;
+  	margin-bottom:150px !important; 
+	font-family: Arial !important;
+
+}
