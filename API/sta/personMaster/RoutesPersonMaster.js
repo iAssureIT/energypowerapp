@@ -45,6 +45,8 @@ router.patch('/patch/basicInfo',personMaster.updatePersonBasicInfo);
 
 router.patch('/patch/addressInfo',personMaster.updatePersonAddressInfo);
 
+router.patch('/patch/workImages',personMaster.updateWorkImages);
+
 router.patch('/patch/documentsInfo',personMaster.updatePersonDocumentsProof);
 
 router.patch('/patch/personProfilePhoto',personMaster.personProfilePhoto);

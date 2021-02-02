@@ -13,7 +13,7 @@ class CameraModel extends Component{
     super(props);
     this.state = {
       "tableHeading": {
-          cameraModel: "Camera Model",
+          cameraModel: "Equipment Model",
           actions: 'Action',
       },
       "tableObjects": {
@@ -27,8 +27,8 @@ class CameraModel extends Component{
       "startRange": 0,
       "limitRange": 10,
       fields : {
-        placeholder : "Enter Camera Model No ..",
-        title       : "Camera Model",
+        placeholder : "Enter Equipment Model No ..",
+        title       : "Equipment Model",
         attributeName : "cameraModel"
       },
     };

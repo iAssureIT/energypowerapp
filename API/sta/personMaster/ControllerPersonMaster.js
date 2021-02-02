@@ -53,6 +53,7 @@ exports.insertPerson = (req, res, next) => {
             badgeNumber: req.body.badgeNumber,
             address: req.body.address,
             vehicle:req.body.vehicle,
+            workImages:req.body.workImages,
             fuelreimbursement_id:req.body.fuelreimbursement_id,
             home_office_distance: req.body.home_office_distance,
             // drivingLicense              : req.body.drivingLicense,
@@ -268,6 +269,7 @@ exports.updatePerson = (req, res, next) => {
                 'firstName': req.body.firstName,
                 'middleName': req.body.middleName,
                 'lastName': req.body.lastName,
+                'workImages':req.body.workImages,
                 'DOB': req.body.DOB,
                 'gender': req.body.gender,
                 'contactNo': req.body.contactNo,
@@ -1265,6 +1267,45 @@ exports.updatePersonAddressInfo = (req, res, next) => {
                     // addressProof: req.body.addressProof
                 }],
 
+            }
+        }
+    )
+        .exec()
+        .then(data => {
+            if (data.nModified == 1) {
+                PersonMaster.updateOne(
+                    { _id: req.body.person_id },
+                    {
+                        $push: {
+                            'updateLog': [{
+                                updatedAt: new Date(),
+                                updatedBy: req.body.updatedBy
+                            }]
+                        }
+                    })
+                    .exec()
+                    .then(data => {
+                        res.status(200).json({ updated: true });
+                    })
+            } else {
+                res.status(200).json({ updated: false });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err });
+        });
+
+};
+
+
+//For Driver Work Images Info
+exports.updateWorkImages = (req, res, next) => {
+    PersonMaster.updateOne(
+        { _id: req.body.person_id },
+        {
+            $set: {
+                'workImages': req.body.workImages,
             }
         }
     )

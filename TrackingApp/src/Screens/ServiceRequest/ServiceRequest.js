@@ -448,8 +448,8 @@ const FormBody = props => {
 				    />
 				    <FormDropDown
 				    	data            = {recordingLocations}
-				        labelName 		= "Recording Location"
-				        placeholder 	= "Recording Location..."
+				        labelName 		= "Project Location"
+				        placeholder 	= "Project Location..."
 				        onChangeText 	= {recFunction}
 				        errors 			= {errors}
 				        name 			= "recordingLocation"
@@ -461,8 +461,8 @@ const FormBody = props => {
 				    />
 				    <FormDropDown
 				    	data            = {cameraLocations}
-				        labelName 		= "Camera Location"
-				        placeholder 	= "Camera Location..."
+				        labelName 		= "Equipment Location"
+				        placeholder 	= "Equipment Location..."
 				        onChangeText 	= {handleChange('cameraLocation')}
 				        errors 			= {errors}
 				        name 			= "cameraLocation"

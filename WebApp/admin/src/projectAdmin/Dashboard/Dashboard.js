@@ -103,8 +103,8 @@ export default class Dashboard extends Component{
                 display={true}
 	           		bgColor="bg-red"
 	           		faIcon="fa-map-marker"
-	           		firstField={{"Field":"Recording Locations","method":"get","path":"/api/recordinglocation/get/count"}}
-                 secondField={{"Field":"Camera Locations","method":"get","path":"/api/cameralocation/get/count"}}
+	           		firstField={{"Field":"Project Locations","method":"get","path":"/api/recordinglocation/get/count"}}
+                 secondField={{"Field":"Equipment Locations","method":"get","path":"/api/cameralocation/get/count"}}
                  path="/locationmap" 
                  history={this.props.history}
 	           	/>

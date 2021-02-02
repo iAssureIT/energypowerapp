@@ -13,7 +13,7 @@ class Brands extends Component{
     super(props);
     this.state = {
       "tableHeading": {
-          maxchannels  : "Max Channels",
+          maxchannels  : "Process",
           actions     : 'Action',
       },
       "tableObjects": {
@@ -27,8 +27,8 @@ class Brands extends Component{
       "startRange": 0,
       "limitRange": 10,
       "fields" : {
-        placeholder   : "Max Channels ..",
-        title         : "Max Channels",
+        placeholder   : "Enter Process..",
+        title         : "Process",
         attributeName : "maxchannels"
       }
     };

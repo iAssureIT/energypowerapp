@@ -84,10 +84,10 @@ export default class CreateTicket extends Component {
     }, "Please Select issue");
     $.validator.addMethod("regx6", function (value, element, arg) {
        return arg !== value;
-    }, "Please Select Recording Location");
+    }, "Please Select Project Location");
     $.validator.addMethod("regx7", function (value, element, arg) {
        return arg !== value;
-    }, "Please Select Camera Location");
+    }, "Please Select Equipment Location");
     $.validator.addMethod("regx8", function (value, element, arg) {
        return arg !== value;
     }, "Please Select Contact Person");
@@ -847,7 +847,7 @@ export default class CreateTicket extends Component {
   } 
 
   swalMessageRecording(){
-    swal("Please select recording location first.");
+    swal("Please select Project Location first.");
   }
 
 
@@ -1004,7 +1004,7 @@ export default class CreateTicket extends Component {
                                 </div>
                                 <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                                   <div className=""id="project">
-                                    <label className="labelform">Recording Location<span className="astrick">*</span></label>
+                                    <label className="labelform">Project Location<span className="astrick">*</span></label>
                                       <div className="input-group" id="recordingLocationName_err" >
                                         <select ref="recordingLocationName" name="recordingLocationName" id="recordingLocationName" 
                                             value={this.state.recordingLocationName}  onChange={this.handleChange.bind(this)}
@@ -1021,7 +1021,7 @@ export default class CreateTicket extends Component {
                                             }   
                                         </select>
                                         {this.state.client_id !== "" ?
-                                         <div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#recordingId"  onClick={this.recordingModalClickEvent.bind(this)} title="Add recording Location" ><i className="fa fa-plus "></i>
+                                         <div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#recordingId"  onClick={this.recordingModalClickEvent.bind(this)} title="Add Project Location" ><i className="fa fa-plus "></i>
                                           </div>
                                           :
                                           <div className="input-group-addon inputIcon plusIconBooking" onClick={this.swalMessage.bind(this)} title="Add Location" ><i className="fa fa-plus "></i>
@@ -1032,7 +1032,7 @@ export default class CreateTicket extends Component {
                                 </div>
                                 <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                                   <div className=""id="project">
-                                    <label className="labelform">Camera Location</label>
+                                    <label className="labelform">Equipment Location</label>
                                     <div className="input-group" >
                                       <select ref="locationName" name="locationName"  
                                           value={this.state.locationName}  onChange={this.handleChange.bind(this)}
@@ -1050,7 +1050,7 @@ export default class CreateTicket extends Component {
                                           }   
                                        </select>
                                       {this.state.recordingLocation_id !== "" ?
-                                        <div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#cameraId"  onClick={this.cameraModalClickEvent.bind(this)} title="Add Camera Location" ><i className="fa fa-plus "></i>
+                                        <div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#cameraId"  onClick={this.cameraModalClickEvent.bind(this)} title="Add Equipment Location" ><i className="fa fa-plus "></i>
                                         </div>
                                          :
                                         <div className="input-group-addon inputIcon plusIconBooking" onClick={this.swalMessageRecording.bind(this)} title="Add Location" ><i className="fa fa-plus "></i>

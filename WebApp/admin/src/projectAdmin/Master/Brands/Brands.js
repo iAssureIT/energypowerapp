@@ -13,7 +13,7 @@ class Brands extends Component{
     super(props);
     this.state = {
       "tableHeading": {
-          brand: "Brand",
+          brand: "Industry",
           actions: 'Action',
       },
       "tableObjects"  : 
@@ -29,8 +29,8 @@ class Brands extends Component{
           "limitRange"   : 10,
           "fields"       : 
       {
-            placeholder   : "Enter Brand ..",
-            title         : "Brand",
+            placeholder   : "Enter Industry ..",
+            title         : "Industry",
             attributeName : "brand"
       }
     };

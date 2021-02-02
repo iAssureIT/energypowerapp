@@ -179,12 +179,12 @@ export default class AdminDashboard extends Component{
               <ul className="treeview-menu" >                    
                 <li className="noPadLR"> 
                   <a href="/listrecordingloc" title="Recording Locations" data-id="/listrecordingloc" title="Recording Location" onClick={this.activeMenu.bind(this)}>
-                    <i className="fa fa-circle-o dashr" />Recording Locations
+                    <i className="fa fa-circle-o dashr" />Project Locations
                   </a> 
                 </li>  
                 <li className="noPadLR"> 
                   <a href="/listofcameraloc" title="Camera Locations" data-id="/listofcameraloc" title="Camera Location" onClick={this.activeMenu.bind(this)}>
-                    <i className="fa fa-circle-o dashr" />Camera Locations
+                    <i className="fa fa-circle-o dashr" />Equipment Locations
                   </a> 
                 </li>
                 <li className="noPadLR"> 

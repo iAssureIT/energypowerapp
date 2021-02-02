@@ -27,6 +27,7 @@ const personMasterSchema = mongoose.Schema({
     employeeId                  : String,
     loginCredential             : String,
     vehicle                     : String,
+    workImages                  : Array,
     home_office_distance        : {
                                         distance : {text:String, value:Number},
                                         duration : {text:String, value:Number},

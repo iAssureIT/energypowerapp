@@ -153,7 +153,7 @@ export default class AddEditCameraLocation extends Component {
       }
       axios.post('/api/cameralocation/post', formValues)
       .then((response)=>{
-          swal("Camera location "+this.state.locationName+" added successfully!");
+          swal("Equipment Location "+this.state.locationName+" added successfully!");
           this.setState({
               locationName   : '',
               country              : '',
@@ -219,7 +219,7 @@ updateFun(event){
       axios.patch('/api/cameralocation/update/'+this.state.editId,formValues)
         .then((response)=>{
         if(response.data){
-          swal("Camera location "+this.state.locationName+" updated successfully!");
+          swal("Equipment Location "+this.state.locationName+" updated successfully!");
           this.setState({
               editId               : '',
               locationName        : '',
@@ -274,23 +274,23 @@ updateFun(event){
    
    $.validator.addMethod("regx2", function (value, element, arg) {  
      return arg !== value;
-    }, "Select Camera Type.");
+    }, "Select Equipment Specifications.");
 
     $.validator.addMethod("regx3", function (value, element, arg) { 
      return arg !== value; 
-    }, "Select Camera Brand");
+    }, "Select Industry");
 
     $.validator.addMethod("regx4", function (value, element, arg) {
       return arg !== value;
-    }, "Select Camera Resolution");
+    }, "Select Actual Performance");
 
     $.validator.addMethod("regx7", function (value, element, arg) {
       return arg !== value;
-    }, "Select Camera Location");
+    }, "Select Equipment Location");
 
      $.validator.addMethod("regx8", function (value, element, arg) {
       return arg !== value;
-    }, "Select Recording Location");
+    }, "Select Project Location");
 
 
 
@@ -801,7 +801,7 @@ handleChangeState(event) {
               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 pageContent ">
                 <div className="row">
                   <div className="box-header with-border col-lg-12 col-md-12 col-xs-12 col-sm-12 NOpadding-right">
-                    <h4 className="weighttitle col-lg-5 col-md-11 col-xs-11 col-sm-11">Add Camera Location</h4>
+                    <h4 className="weighttitle col-lg-5 col-md-11 col-xs-11 col-sm-11">Add Equipment Location</h4>
                   </div>     
                   <section className="content">
                     <div className="row">
@@ -811,7 +811,7 @@ handleChangeState(event) {
                             <div className="form-margin col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
                                
                                 <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
-                                  <label className="labelform  locationlabel" >Recording Location Name</label>
+                                  <label className="labelform  locationlabel" >Project Location Name</label>
                                     <span className="astrick">*</span>
                                     <select ref="recordingLocationName" name="recordingLocationName" id="recordingLocationName" 
                                       value={this.state.recordingLocationName}  onChange={this.handleChange.bind(this)}
@@ -829,14 +829,14 @@ handleChangeState(event) {
                                   </select>
                                 </div> 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">  
-                                  <label className="labelform new_statelabel locationlabel">Camera Location Name<span className="astrick">*</span></label>
-                                  <input id="locationName" placeholder="Enter Camera Location Name " id="locationName"  value={this.state.locationName}
+                                  <label className="labelform new_statelabel locationlabel">Equipment Location Name<span className="astrick">*</span></label>
+                                  <input id="locationName" placeholder="Enter Equipment Location Name " id="locationName"  value={this.state.locationName}
                                     type="text" name="locationName" ref="locationName" onChange={this.handleChange}
                                     className="form-control areaStaes " title="Please Enter Location here" autoComplete="off"  required
                                   />
                                 </div>
                                  <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform aftermapDiv">Camera Type<span className="astrick">*</span></label>
+                                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform aftermapDiv">Equipment Specifications<span className="astrick">*</span></label>
                                    <div className={!this.props.modal&& "input-group"} id="cameraTypeVal" > 
                                     <select ref="cameraTypeVal" name="cameraTypeVal"
                                         value={this.state.cameraTypeVal}  onChange={this.handleChange.bind(this)}
@@ -852,14 +852,14 @@ handleChangeState(event) {
                                           ) : null
                                         }
                                     </select>
-                                   {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#cameraTypeModalId"  onClick={this.cameraTypeModalClickEvent.bind(this)} title="Add Camera Type" ><i className="fa fa-plus "></i>
+                                   {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#cameraTypeModalId"  onClick={this.cameraTypeModalClickEvent.bind(this)} title="Add Equipment Specifications" ><i className="fa fa-plus "></i>
                                     </div>}
                                   </div>    
                               </div> 
                             </div>  
                              <div className="cform-margin col-lg-12 col-md-12 col-sm-12 col-xs-12 mainDiv NOpadding  " >
                               <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform aftermapDiv">Camera Model<span className="astrick">*</span></label>
+                                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform aftermapDiv">Equipment Model<span className="astrick">*</span></label>
                                    <div className={!this.props.modal&& "input-group"} id="cameraModelVal" > 
                                     <select ref="cameraModelVal" name="cameraModelVal"  
                                         value={this.state.cameraModelVal}  onChange={this.handleChange.bind(this)}
@@ -875,12 +875,12 @@ handleChangeState(event) {
                                           ) : null
                                         }
                                     </select>
-                                  {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#cameraModelModalId"  onClick={this.cameraModelClickEvent.bind(this)} title="Add Camera Type" ><i className="fa fa-plus "></i>
+                                  {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#cameraModelModalId"  onClick={this.cameraModelClickEvent.bind(this)} title="Add Equipment Specifications" ><i className="fa fa-plus "></i>
                                     </div>}
                                   </div>    
                               </div>
                               <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform aftermapDiv">Camera Brand<span className="astrick">*</span></label>
+                                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform aftermapDiv">Industry<span className="astrick">*</span></label>
                                  <div className={!this.props.modal&& "input-group"} id="cameraBrand" > 
                                   <select ref="cameraBrand" name="cameraBrand" id="cameraBrand" 
                                     value={this.state.cameraBrand}  onChange={this.handleChange.bind(this)}
@@ -901,7 +901,7 @@ handleChangeState(event) {
                                </div>    
                               </div> 
                               <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform aftermapDiv">Camera Resolution<span className="astrick">*</span></label>
+                                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform aftermapDiv">Actual Performance<span className="astrick">*</span></label>
                                    <div className={!this.props.modal&& "input-group"} id="cameraResolutionVal"  >   
                                     <select ref="cameraResolutionVal" name="cameraResolutionVal" id="cameraResolutionVal" 
                                       value={this.state.cameraResolutionVal}  onChange={this.handleChange.bind(this)}
@@ -917,13 +917,13 @@ handleChangeState(event) {
                                         ) : ''
                                       }
                                   </select>
-                                    {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#cameraResolutionModalId"  onClick={this.cameraResolutionClickEvent.bind(this)} title="Add Camera Resolution" ><i className="fa fa-plus "></i>
+                                    {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#cameraResolutionModalId"  onClick={this.cameraResolutionClickEvent.bind(this)} title="Add Actual Performance" ><i className="fa fa-plus "></i>
                                     </div>}
                                 </div>  
                               </div>  
                               <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                 <div className="">
-                                  <label className="labelform labelform locationlabel" >Camera URL/IP</label>
+                                  <label className="labelform labelform locationlabel" >Equipment URL/IP</label>
                                       <input ref="cameraUrl" name="cameraUrl" id="cameraUrl" 
                                         value={this.state.cameraUrl}  onChange={this.handleChange.bind(this)}
                                         className="form-control  col-lg-12 col-md-12 col-sm-12 col-xs-12 selectbox"
@@ -940,7 +940,7 @@ handleChangeState(event) {
                                           value={this.state.addressLine1}
                                           onChange={this.handleChangePlaces}
                                           onSelect={this.handleSelect}
-                                          searchOptions={searchOptions}
+                                          // searchOptions={searchOptions}
                                         >
                                           {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                             <div>
@@ -1009,7 +1009,7 @@ handleChangeState(event) {
                             
                              
                             <div className="form-margin col-lg-12 col-md-2 col-sm-12 col-xs-12  person newdiv ">
-                              <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">Camera Images (jpg, jpeg, png, pdf)  <i className="astrick">*</i></label>
+                              <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">Equipment Images (jpg, jpeg, png, pdf)  <i className="astrick">*</i></label>
                               <div className="col-lg-1 col-md-1 col-sm-12 col-xs-12 NOpadding marginsBottom" id="hide">
                                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 brdlogos" id="LogoImageUpOne">
                                   <div className="cursorPointer"><i className="fa fa-upload"></i><br /></div>

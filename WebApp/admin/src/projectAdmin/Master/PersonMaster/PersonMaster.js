@@ -67,6 +67,7 @@ class PersonMaster extends Component {
       "addressProof": [],
       "identityProof": [],
       "verificationProof": [],
+      imagesArray:[],
       "COI": [],
       "loading": false,
       fileDetailUrl: "/api/personmaster/get/filedetails/",
@@ -287,6 +288,7 @@ class PersonMaster extends Component {
               latLng:response.data.address[0] ? {lat:response.data.address[0].latitude,lng:response.data.address[0].longitude}:"",
               profilePhoto: response.data.profilePhoto,
               userId:response.data.userId,
+              imagesArray:response.data.workImages,
               createdBy: localStorage.getItem("user_ID")
             }, () => {
               this.getEntityLocation(this.state.corporate_Id);
@@ -704,6 +706,7 @@ class PersonMaster extends Component {
         vehicle:this.state.vehicle,
         fuelreimbursement_id:this.state.fuelreimbursement_id,
         'employeeId' : this.state.employeeID,
+        workImages : this.state.imagesArray, 
         address: {
           addressLine1: this.state.addressLine1,
           addressLine2: this.state.addressLine2,
@@ -977,7 +980,7 @@ class PersonMaster extends Component {
 
       })
       .catch((error) => {
-
+        console.log("error",error);
       })
   }
   saveContact(userDetails){
@@ -1091,6 +1094,7 @@ class PersonMaster extends Component {
             pincode: this.state.pincode,
             addressProof: this.state.addressProof,
           },
+          workImages : this.state.imagesArray, 
           updatedBy: localStorage.getItem("user_ID"),
           status: "Active",
           username: "MOBILE"
@@ -2124,6 +2128,113 @@ class PersonMaster extends Component {
       $('.modal-backdrop').remove();
     }
 
+    imgBrowse(event) {
+      event.preventDefault();
+      var imagesArray = [];
+      if (event.currentTarget.files && event.currentTarget.files[0]) {
+        for (var i = 0; i < event.currentTarget.files.length; i++) {
+          var file = event.currentTarget.files[i];
+          if (file) {
+            var fileName = file.name;
+            var ext = fileName.split('.').pop();
+            if (ext === "jpg" || ext === "png" || ext === "jpeg" || 
+                ext === "JPG" || ext === "PNG" || ext === "JPEG" || 
+                ext === "pdf" || ext === "PDF"
+              ) {
+              if (file) {
+                var objTitle = { fileInfo: file }
+                imagesArray.push(objTitle);
+              } else {
+                swal("Images not uploaded");
+              }//file
+            } else {
+              swal("Allowed images formats are (jpg, png, pdf)");
+              this.setState({
+                gotTicketImage:false
+              })
+            }//file types
+          }//file
+        }//for 
+  
+        if (event.currentTarget.files) {
+           this.setState({
+              gotTicketImage:true
+            })
+          main().then(formValues => {
+            var imagesArray = this.state.imagesArray;
+            for (var k = 0; k < formValues.length; k++) {
+              imagesArray.push(formValues[k].imagesArray)
+            }
+  
+            this.setState({
+              imagesArray: imagesArray,
+              gotTicketImage:false
+            })
+          });
+  
+          async function main() {
+            var formValues = [];
+            for (var j = 0; j < imagesArray.length; j++) {
+              var config = await getConfig();
+              var s3url = await s3upload(imagesArray[j].fileInfo, config, this);
+              const formValue = {
+                "imagesArray": s3url,
+                gotTicketImage:false,
+                "status": "New"
+              };
+              formValues.push(formValue);
+            }
+            return Promise.resolve(formValues);
+          }
+  
+  
+          function s3upload(image, configuration) {
+  
+            return new Promise(function (resolve, reject) {
+              S3FileUpload
+                .uploadFile(image, configuration)
+                .then((Data) => {
+                  resolve(Data.location);
+                })
+                .catch((error) => {
+                })
+            })
+          }
+          function getConfig() {
+            return new Promise(function (resolve, reject) {
+              axios
+                .get('/api/projectsettings/get/S3')
+                .then((response) => {
+                  const config = {
+                    bucketName: response.data.bucket,
+                    dirName: 'workImages',
+                    region: response.data.region,
+                    accessKeyId: response.data.key,
+                    secretAccessKey: response.data.secret,
+                  }
+                  resolve(config);
+                })
+                .catch(function (error) {
+                })
+  
+            })
+          }
+        }
+      }
+    }
+
+    deleteImage(event){
+      event.preventDefault();
+        const imagesArray = this.state.imagesArray;
+        const index = event.target.getAttribute("id");
+        if (index > -1) {
+            imagesArray.splice(index, 1);
+        }
+        this.setState({
+            imagesArray
+        })
+    }  
+
   render() {
 
     var oldDate = new Date();
@@ -2484,7 +2595,7 @@ class PersonMaster extends Component {
                                                 value={this.state.addressLine1}
                                                 onChange={this.handleChangePlaces}
                                                 onSelect={this.handleSelect}
-                                                searchOptions={searchOptions}
+                                                // searchOptions={searchOptions}
                                               >
                                                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                                   <div>
@@ -2551,6 +2662,40 @@ class PersonMaster extends Component {
                                     </div>
                                     <div className = "col-lg-12 marginTop17">
                                       <MapContainer address={this.state.addressLine1} latLng={this.state.latLng} addMarker={this.addMarker.bind(this)} />
+                                    </div>
+                                    <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 NOpadding mt20">
+                                      <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12">Attach Work Images</label>
+                                      </div>
+                                      <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 nopadding">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginsBottom" id="hide">
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 imageView" id="LogoImageUpOne">
+                                            {this.state.gotTicketImage ?
+                                              <img src="/images/loading.gif" className="img-responsive logoStyle"/>
+                                              :
+                                              <div><i className="fa fa-upload"></i> <br /></div>
+                                            }  
+                                            <input multiple onChange={this.imgBrowse.bind(this)} id="LogoImageUp" type="file" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" title="" name="companyLogo" />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      {
+                                        this.state.imagesArray && this.state.imagesArray.length > 0 ?
+                                          this.state.imagesArray.map((image, i) => {
+                                            return (
+                                              <div  key={i} className="col-lg-2 col-md-2 col-sm-12 col-xs-12 nopadding">
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  marginsBottom" id="hide">
+                                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 imageView" id="LogoImageUpOne">
+                                                    <label className="labelform deleteImage  col-lg-12 col-md-12 col-sm-12 col-xs-12" id={i} onClick={this.deleteImage.bind(this)}>x</label>
+                                                    <embed src={image+"#toolbar=0"} className="img-responsive logoStyle" />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            );
+                                          })
+                                          :
+                                          null
+                                      }
                                     </div>
                                     {
                                       this.state.DocumentsDetails && this.state.DocumentsDetails.length > 0 ?

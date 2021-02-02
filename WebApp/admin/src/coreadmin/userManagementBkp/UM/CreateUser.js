@@ -728,7 +728,8 @@ class CreateUser extends Component {
                                   value={this.state.cityName}
                                   onChange={this.handleChangePlaces}
                                   onSelect={this.handleSelectLocation}
-                                  searchOptions={searchOptions}>
+                                  // searchOptions={searchOptions}
+                                  >
                                   {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                     <div>
                                       <input

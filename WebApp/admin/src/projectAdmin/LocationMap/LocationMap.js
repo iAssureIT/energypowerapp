@@ -19,7 +19,7 @@ import './LocationMap.css';
 var _ = require('lodash');
 
 const formValues = {
-  locationType : 'Recording',
+  locationType : 'Project',
   client_id    : 'All',
   department   : 'All',
   project      : 'All'
@@ -73,7 +73,7 @@ export default class ShelterMap extends Component {
       selectedMarker: false,
       show:false,
       department:[],
-      locationType:"Recording",
+      locationType:"Project",
       clientName:"All",
       department:"All",
       project:"All",
@@ -211,7 +211,7 @@ export default class ShelterMap extends Component {
       [name]: event.target.value,
      });
      if(name === "locationType"){
-      formValues.locationType = event.target.value;
+      formValues.locationType = event.target.value === "Project" ? "Recording": event.target.value === "Equipment" ? "Camera" :event.target.value;
      }else if(name==="client"){
        if(event.target.value!=="All"){
         this.setState({clientName:this.state.clientArray.find(a=>a.client_id === event.target.value).clientName})
@@ -280,8 +280,8 @@ export default class ShelterMap extends Component {
         <div className="pageContent col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div className="box-header with-border col-lg-12 col-md-12 col-xs-12 col-sm-12 marbtm30"  >
              <h4 className="weighttitle col-lg-3 col-md-2 col-xs-11 col-sm-11 noPadding">Location Map</h4>
-              <h5 className="weighttitle col-lg-3 col-md-3 col-xs-11 col-sm-11 noPadding"><img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" style={{"height":'20px'}}/>Total Recording Location :&nbsp;&nbsp;<b>{this.state.recordingLocCount}</b></h5>
-              <h5 className="weighttitle  col-lg-3 col-md-3 col-xs-11 col-sm-11 noPadding"><img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png" style={{"height":'20px'}}/>Total Camera Location :&nbsp;&nbsp;<b>{this.state.cameraLocCount}</b></h5>
+              <h5 className="weighttitle col-lg-3 col-md-3 col-xs-11 col-sm-11 noPadding"><img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" style={{"height":'20px'}}/>Total Project Location :&nbsp;&nbsp;<b>{this.state.recordingLocCount}</b></h5>
+              <h5 className="weighttitle  col-lg-3 col-md-3 col-xs-11 col-sm-11 noPadding"><img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png" style={{"height":'20px'}}/>Total Equipment Location :&nbsp;&nbsp;<b>{this.state.cameraLocCount}</b></h5>
               <div className={this.state.show === false ? "btn btn-primary col-lg-2 col-md-2 col-sm-12 col-xs-12":"btn btn-success col-lg-2 col-md-2 col-sm-12 col-xs-12"} onClick={()=>this.setState({show:!this.state.show})}>
                 Show Info Window
               </div>
@@ -298,8 +298,8 @@ export default class ShelterMap extends Component {
                 <select onChange={this.handleChange.bind(this)} value={this.state.locationType} id="locationType" ref="locationType" name="locationType" className="col-lg-12 col-md-12 col-sm-6 col-xs-12  noPadding form-control">
                   <option value="Not Selected" disabled>Select Location</option>
                   <option value='All'>All</option>
-                  <option value='Recording' selected>Recording Location</option>
-                  <option value='Camera'>Camera Location</option>
+                  <option value='Project' selected>Project Location</option>
+                  <option value='Equipment'>Equipment Location</option>
                 </select>
               </div>
             </div>
@@ -361,7 +361,7 @@ export default class ShelterMap extends Component {
           <div className="col-lg-12 col-md-8 col-xs-12 col-xs-12 noPadding" id="pdfdiv">
             <div className="col-lg-12 col-md-8 col-xs-12 col-xs-12 mt20 ">
               <div className="col-lg-6 col-md-12 col-xs-12 col-xs-12  tableBorder" >
-                <h5 className="col-lg-12"><b>Location Type</b> : {this.state.locationType+" Locations ( "+(this.state.locationType === "Recording" ? this.state.recordingCount : this.state.locationType === "Camera" ? this.state.cameraCount : "Total : "+this.state.totalCount+", Recording : "+this.state.recordingCount+", Camera : "+this.state.cameraCount)+" ) "}</h5>
+                <h5 className="col-lg-12"><b>Location Type</b> : {this.state.locationType+" Locations ( "+(this.state.locationType === "Project" ? this.state.recordingCount : this.state.locationType === "Equipment" ? this.state.cameraCount : "Total : "+this.state.totalCount+", Recording : "+this.state.recordingCount+", Camera : "+this.state.cameraCount)+" ) "}</h5>
                 <h5 className="col-lg-12"><b>Client</b> : {this.state.clientName+(this.state.clientName==="All" ? " ( "+this.state.clientArray.length+" ) ": "")}</h5>
               </div>
               <div className="col-lg-6 col-md-12 col-xs-12 col-xs-12 tableBorder">  

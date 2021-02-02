@@ -17,10 +17,10 @@ export default class ListOfCameraLocations extends Component{
 
       "tableHeading": {
         clientDetails         : "Client Details",
-        recordingLocationName : "Recording Location",
-        locationName          : "Camera Location",
+        recordingLocationName : "Project Location",
+        locationName          : "Equipment Location",
         address               : "Address",
-        cameraDetails         : "Camera Details",
+        cameraDetails         : "Equipment Details",
         images                : "Images",
         actions               : 'Action'
       },
@@ -118,7 +118,7 @@ export default class ListOfCameraLocations extends Component{
           recordingLocationName  : a.recordingLocationName,
           locationName           : "<div class='divWrap'>"+a.locationName+"</div>",
           address                : "<div class='divWrap'>"+a.address[0].addressLine1+"</div>",
-          cameraDetails          : "<div><b>Brand : </b>"+a.cameraBrand+"</div>"+"<div><b>Resolution : </b>"+a.cameraResolution+"</div>"+"<div><b>Type : </b>"+a.cameraType+"</div>"+"<div><b>Model : </b>"+a.cameraModel+"</div>"+"<div><b>Url : </b>"+a.cameraUrl+"</div>",
+          cameraDetails          : "<div><b>Industry : </b>"+a.cameraBrand+"</div>"+"<div><b>Actual Performance : </b>"+a.cameraResolution+"</div>"+"<div><b>Equipment Specifications : </b>"+a.cameraType+"</div>"+"<div><b>Equipment Model : </b>"+a.cameraModel+"</div>"+"<div><b>Url : </b>"+a.cameraUrl+"</div>",
           images                 : a.images.length > 0 ? "<a target='_blank'  class='imageOuterContainerDM' title='Click to View' href="+(a.images[0])+"><embed src="+(a.images[0])+" class=' tableImage'/></a><span class='col-lg-12 nopadding text-info pointerCls'  data-toggle='modal' data-target='#myModal' onclick=window.showImages('" +a._id +"')>View More</span>": "<img src='/images/noImagePreview.png' class='img-responsive tableImage'/>"
         }
       })
@@ -154,10 +154,10 @@ export default class ListOfCameraLocations extends Component{
                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 pageContent ">
                             <div className="row">
                                 <div className="box-header with-border col-lg-12 col-md-12 col-xs-12 col-sm-12 NOpadding-right">
-                                  <h4 className="weighttitle col-lg-5 col-md-11 col-xs-11 col-sm-11">Camera Location List</h4>
+                                  <h4 className="weighttitle col-lg-5 col-md-11 col-xs-11 col-sm-11">Equipment Location List</h4>
                                    <a href="/cameralocation">
                                     <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 pull-right">
-                                      <span className="col-lg-6 col-lg-offset-5 sentanceCase addButtonList"><i  className="fa fa-plus-circle"></i>&nbsp;&nbsp;Add New Camera Location
+                                      <span className="col-lg-6 col-lg-offset-5 sentanceCase addButtonList"><i  className="fa fa-plus-circle"></i>&nbsp;&nbsp;Add New Equipment Location
                                       </span>
                                     </div>
                                   </a>  

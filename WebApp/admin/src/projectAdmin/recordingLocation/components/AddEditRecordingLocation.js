@@ -77,11 +77,11 @@ export default class AddEditRecordingLocation extends Component{
   
     $.validator.addMethod("regxA1", function (value, element, regexpr) {
       return regexpr.test(value);
-    }, "Please enter Recording Location");
+    }, "Please enter Project Location");
 
     $.validator.addMethod("regxA4", function (value, element, arg) {
        return arg !== value;
-    }, "Please Select Recorder Type");
+    }, "Please Select Division");
     
      $.validator.addMethod("regxA2", function (value, element, arg) {
       return arg !== value;
@@ -319,7 +319,7 @@ export default class AddEditRecordingLocation extends Component{
           axios.post('/api/recordinglocation/post', formValues)
           .then((response)=>{
             if(response.data.created){
-              swal("Recording location "+this.state.locationName+" added successfully!");
+              swal("Project Location "+this.state.locationName+" added successfully!");
                this.setState({
                   "editId"                    :"",
                   "clientName"                : "",   
@@ -343,7 +343,7 @@ export default class AddEditRecordingLocation extends Component{
                })
                 this.props.history.push('/listrecordingloc')
               }else if(response.data.duplicate){
-                swal("Recording location "+this.state.locationName+" already exist!");
+                swal("Project Location "+this.state.locationName+" already exist!");
               }
           })
           .catch((error)=>{
@@ -387,7 +387,7 @@ export default class AddEditRecordingLocation extends Component{
       };
       axios.patch('/api/recordinglocation/update/'+this.state.editId,formValues)
         .then((response)=>{
-          swal("Recording location "+this.state.locationName+" updated successfully!");
+          swal("Project Location "+this.state.locationName+" updated successfully!");
          if(response.data){
           this.setState({
              "editId"                    :"",
@@ -824,7 +824,7 @@ deleteDoc(event){
   } 
 
   swalMessageRecording(){
-    swal("Please select recording location first.");
+    swal("Please select Project Location first.");
   }
 
   onInputClick = (event) => {
@@ -844,7 +844,7 @@ deleteDoc(event){
                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 pageContent ">
                   <div className="row">
                     <div className="box-header with-border col-lg-12 col-md-12 col-xs-12 col-sm-12 NOpadding-right">
-                      <h4 className="weighttitle col-lg-5 col-md-11 col-xs-11 col-sm-11">Add Recording Location</h4>
+                      <h4 className="weighttitle col-lg-5 col-md-11 col-xs-11 col-sm-11">Add Project Location</h4>
                     </div>     
                     <section className="content">
                       <div className="row">
@@ -932,7 +932,7 @@ deleteDoc(event){
                               </div>
                                <div className="form-margin col-lg-12 col-md-12 col-sm-12 col-xs-12 zzero">
                                  <div className=""id="locationName">
-                                    <label className="control-label labelform locationlabel">Recording Location Name</label>
+                                    <label className="control-label labelform locationlabel">Project Location Name</label>
                                     <span className="astrick">*</span>
                                       <input  placeholder="Enter Location " value={this.state.locationName}
                                        type="text" name="locationName" ref="locationName" onChange={this.handleChange}
@@ -941,7 +941,7 @@ deleteDoc(event){
                                </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mainDiv NOpadding">
                                   <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 shippingInput">
-                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform">Recorder Type<span className="astrick">*</span></label>
+                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform">Division<span className="astrick">*</span></label>
                                     <div className={!this.props.modal&& "input-group"} id="recorderTypeVal" > 
                                       <select ref="recorderTypeVal" name="recorderTypeVal" 
                                           value={this.state.recorderTypeVal}  onChange={this.handleChange.bind(this)}
@@ -956,12 +956,12 @@ deleteDoc(event){
                                               ) : ''
                                             }
                                       </select>
-                                      {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#recorderModalId"  onClick={this.recorderModalClickEvent.bind(this)} title="Add Recorder Type" ><i className="fa fa-plus "></i>
+                                      {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#recorderModalId"  onClick={this.recorderModalClickEvent.bind(this)} title="Add Division" ><i className="fa fa-plus "></i>
                                       </div>}
                                     </div>  
                                   </div>
                                   <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 shippingInput" >
-                                   <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform">Recorder Brand<span className="astrick">*</span></label>
+                                   <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform">Industry<span className="astrick">*</span></label>
                                       <div className={!this.props.modal&& "input-group"} id="brandVal" >  
                                        <select ref="brandVal" name="brandVal" 
                                         value={this.state.brandVal}  onChange={this.handleChange.bind(this)}
@@ -977,12 +977,12 @@ deleteDoc(event){
                                           ) : ''
                                         }
                                       </select>
-                                        {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#recorderBrandModalId"  onClick={this.recorderBrandModalClickEvent.bind(this)} title="Add Recorder Brand" ><i className="fa fa-plus "></i>
+                                        {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#recorderBrandModalId"  onClick={this.recorderBrandModalClickEvent.bind(this)} title="Add Industry" ><i className="fa fa-plus "></i>
                                         </div>}
                                     </div> 
                                   </div> 
                                   <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 shippingInput" >
-                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform">Max Channels<span className="astrick">*</span></label>
+                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding labelform">Process<span className="astrick">*</span></label>
                                     <div className={!this.props.modal&& "input-group"} id="maxchannelsVal" >  
                                       <select  ref="maxchannelsVal" name="maxchannelsVal" 
                                         value={this.state.maxchannelsVal}  onChange={this.handleChange.bind(this)}
@@ -999,7 +999,7 @@ deleteDoc(event){
                                           ) : ''
                                         }
                                       </select>
-                                        {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#channelModalId"  onClick={this.channelModalClickEvent.bind(this)} title="Add Recorder Brand" ><i className="fa fa-plus "></i>
+                                        {!this.props.modal&&<div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#channelModalId"  onClick={this.channelModalClickEvent.bind(this)} title="Add Industry" ><i className="fa fa-plus "></i>
                                         </div>}
                                     </div> 
                                   </div>
@@ -1013,7 +1013,7 @@ deleteDoc(event){
                                                 value={this.state.addressLine1}
                                                 onChange={this.handleChangePlaces}
                                                 onSelect={this.handleSelect}
-                                                searchOptions={searchOptions}
+                                                // searchOptions={searchOptions}
                                               >
                                                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                                   <div>
@@ -1080,7 +1080,7 @@ deleteDoc(event){
                                 <MapContainer address={this.state.addressLine1} latLng={this.state.latLng} addMarker={this.addMarker.bind(this)} />
                               </div>
                              <div className="form-margin col-lg-12 col-md-2 col-sm-12 col-xs-12  person newdiv ">
-                                <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">Recording Images (jpg, jpeg, png, pdf)  <i className="astrick">*</i></label>
+                                <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">Project Images (jpg, jpeg, png, pdf)  <i className="astrick">*</i></label>
                                 <div className="col-lg-1 col-md-1 col-sm-12 col-xs-12 NOpadding marginsBottom" id="hide">
                                   <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 brdlogos" id="LogoImageUpOne">
                                     <div className="cursorPointer"><i className="fa fa-upload"></i><br /></div>

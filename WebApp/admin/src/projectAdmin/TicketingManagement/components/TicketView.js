@@ -613,7 +613,7 @@ export default class TicketingManagement extends Component {
                               </div>   
                             }
                             <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding marginTop17" style={{'border-bottom': '1px solid #d4d4d4'}}>
-                              <h4><b>Recording Details</b></h4>
+                              <h4><b>Project Details</b></h4>
                               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
                                 <h5><b>{this.state.recordingLoc ? this.state.recordingLoc.locationName : null}</b></h5>
                                 <h5 style={{lineHeight:'1.5'}}>{this.state.recordingLoc ? (this.state.recordingLoc.address[0].addressLine2 ? this.state.recordingLoc.address[0].addressLine2+", ":"")+this.state.recordingLoc.address[0].addressLine1 : null}</h5>
@@ -644,19 +644,19 @@ export default class TicketingManagement extends Component {
                               </div>
                               <div clientName="marginTop17 col-lg-12 col-md-12 col-xs-12 col-sm-12">
                                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 noPadding">
-                                  <h5><b>Brand :</b> {this.state.recordingLoc ? this.state.recordingLoc.brand : null}</h5>
+                                  <h5><b>Industry :</b> {this.state.recordingLoc ? this.state.recordingLoc.brand : null}</h5>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 noPadding">
-                                  <h5><b>Max Channels :</b> {this.state.recordingLoc ? this.state.recordingLoc.maxchannels : null}</h5>
+                                  <h5><b>Process :</b> {this.state.recordingLoc ? this.state.recordingLoc.maxchannels : null}</h5>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
-                                  <h5><b>Recorder Type :</b> {this.state.recordingLoc ? this.state.recordingLoc.recorderType : null}</h5>
+                                  <h5><b>Division :</b> {this.state.recordingLoc ? this.state.recordingLoc.recorderType : null}</h5>
                                 </div>
                               </div>  
                             </div>
                             {this.state.cameraLoc ?
                               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding marginTop17" style={{'border-bottom': '1px solid #d4d4d4'}}>
-                                <h4><b>Camera Details</b></h4>
+                                <h4><b>Equipment Details</b></h4>
                                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
                                   <h5><b>{this.state.cameraLoc ? this.state.cameraLoc.locationName : null}</b></h5>
                                   <h5 style={{lineHeight:'1.5'}}>{this.state.cameraLoc ? (this.state.cameraLoc.address[0].addressLine2 ? this.state.cameraLoc.address[0].addressLine2+", ":"")+this.state.cameraLoc.address[0].addressLine1 : null}</h5>
@@ -686,16 +686,16 @@ export default class TicketingManagement extends Component {
                                   </div>  
                                 </div>
                                 <div clientName="marginTop17 col-lg-12 col-md-12 col-xs-12 col-sm-12">
-                                  <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 noPadding">
-                                    <h5><b>Brand :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraBrand : null}</h5>
+                                  <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
+                                    <h5><b>Industry :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraBrand : null}</h5>
                                   </div>
-                                  <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 noPadding">
-                                    <h5><b>Type :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraType : null}</h5>
+                                  <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
+                                    <h5><b>Equipment Specifications :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraType : null}</h5>
                                   </div>
-                                  <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 noPadding">
-                                    <h5><b>Resolution :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraResolution : null}</h5>
+                                  <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
+                                    <h5><b>Actual Performance :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraResolution : null}</h5>
                                   </div>
-                                  <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 noPadding">
+                                  <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
                                     <h5><b>Url/IP :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraUrl : null}</h5>
                                   </div>
                                 </div>  

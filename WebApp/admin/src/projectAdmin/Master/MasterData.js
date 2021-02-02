@@ -91,15 +91,15 @@ import '../../coreadmin/companysetting/css/CompanySetting.css';
                   <div className="boxMinHeight boxMinHeighttab addMarginTop">
                       <div className="col-lg-3 col-md-3 col-xs-12 col-sm-12 noPadding"> 
                           <ul className="nav nav-tabs tabs-left sideways">
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12 active "><a className="tabLeft lettersp tablefthr" href="#Brands" data-toggle="tab" onClick={this.tab.bind(this)}>  Brand </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#RecorderType" data-toggle="tab" onClick={this.tab.bind(this)}>  Recorder Type </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#MaxChannels" data-toggle="tab" onClick={this.tab.bind(this)}>  Max Channels </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#CameraType" data-toggle="tab" onClick={this.tab.bind(this)}>  Camera Type </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#CameraModel" data-toggle="tab" onClick={this.tab.bind(this)}>  Camera Model </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#CameraResolution" data-toggle="tab" onClick={this.tab.bind(this)}>  Camera Resolution </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12 active "><a className="tabLeft lettersp tablefthr" href="#Brands" data-toggle="tab" onClick={this.tab.bind(this)}>  Industry </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#RecorderType" data-toggle="tab" onClick={this.tab.bind(this)}>  Division </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#MaxChannels" data-toggle="tab" onClick={this.tab.bind(this)}>  Process </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#CameraType" data-toggle="tab" onClick={this.tab.bind(this)}>  Equipment Specifications </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#CameraModel" data-toggle="tab" onClick={this.tab.bind(this)}>  Equipment Model </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#CameraResolution" data-toggle="tab" onClick={this.tab.bind(this)}>  Actual Performance </a></li>
                             <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#TaskTypes" data-toggle="tab" onClick={this.tab.bind(this)}>  Type of Issue </a></li>
                             {/*<li className="col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#DocumentList" data-toggle="tab" onClick={this.tab.bind(this)}> Document List Master  </a></li>*/}
-                            <li className="col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#Reimbursement" data-toggle="tab" onClick={this.tab.bind(this)}> Fuel Reimbursement  </a></li>
+                            {/* <li className="col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#Reimbursement" data-toggle="tab" onClick={this.tab.bind(this)}> Fuel Reimbursement  </a></li> */}
                           </ul>   
                       </div>
                       <div className="tab-content col-lg-9 col-md-9 col-xs-12 col-sm-12">   
@@ -117,14 +117,14 @@ import '../../coreadmin/companysetting/css/CompanySetting.css';
                             history={this.props.history}
                           />  
                         </div> 
-                        <div className="tab-pane " id="Reimbursement">   
+                       {/*  <div className="tab-pane " id="Reimbursement">   
                           <Reimbursement
                             editId={this.state.editId} 
                             editUrl='/project-master-data'
                             oneFieldEditId={this.state.oneFieldEditId}
                             history={this.props.history}
                           /> 
-                        </div>                              
+                        </div> */}                              
                       </div> 
                     </div>
                   </div>

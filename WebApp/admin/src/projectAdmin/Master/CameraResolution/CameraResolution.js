@@ -13,7 +13,7 @@ class CameraResolution extends Component{
     super(props);
     this.state = {
       "tableHeading": {
-          cameraResolution: "Camera Resolution",
+          cameraResolution: "Actual Performance",
           actions: 'Action',
       },
       "tableObjects": {
@@ -27,8 +27,8 @@ class CameraResolution extends Component{
       "startRange": 0,
       "limitRange": 10,
       fields : {
-        placeholder : "Enter Camera Resolution ..",
-        title       : "Camera Resolution",
+        placeholder : "Enter Actual Performance ..",
+        title       : "Actual Performance",
         attributeName : "cameraResolution"
       },
     };

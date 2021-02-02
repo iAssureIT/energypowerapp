@@ -142,8 +142,8 @@ const FormBody = (props) => {
   const getMapRegion = {
     latitude: coordinate.latitude,
     longitude: coordinate.longitude,
-    latitudeDelta: coordinate.latitude * 0.0001,
-    longitudeDelta: coordinate.longitude * 0.0001 
+    latitudeDelta: Math.abs(coordinate.latitude * 0.0001),
+    longitudeDelta: Math.abs(coordinate.longitude * 0.0001) 
   };
 
   const addMarker=(coordinate)=>{
@@ -271,8 +271,7 @@ const FormBody = (props) => {
                 coordinate={coordinate}
                 draggable={true}
                 onDragEnd={(e) =>addMarker(e.nativeEvent.coordinate)}
-              />
-           }  
+              />}
           </MapView>
           :
           <MapView
@@ -416,7 +415,7 @@ const FakeInput = (props) => {
                 }}
                 getDefaultValue={() => ''}
                 query={{
-                  key: 'AIzaSyCrzFPcpBm_YD5DfBl9zJ2KwOjiRpOQ1lE',
+                  key: 'AIzaSyA4P7G_n4iRBp9flTUKoDbIBLg1vs8s300',
                 }}
                 styles={{
                   textInputContainer: {

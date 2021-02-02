@@ -13,7 +13,7 @@ class RecorderType extends Component{
     super(props);
     this.state = {
       "tableHeading": {
-          recorderType   : "Recorder Type",
+          recorderType   : "Division",
           actions        : 'Action',
       },
       "tableObjects"  : 
@@ -29,8 +29,8 @@ class RecorderType extends Component{
           "limitRange"   : 10,
           "fields"       : 
       {
-        placeholder   : "Enter Recorder Type ..",
-        title         : "Recorder Type",
+        placeholder   : "Enter Division...",
+        title         : "Division",
         attributeName : "recorderType"
       }
     };

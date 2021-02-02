@@ -463,7 +463,7 @@ class TwoFieldForm extends Component {
                                                 value={this.state.attributeName}
                                                 onChange={this.handleChangePlaces}
                                                 onSelect={this.handleSelectLocation}
-                                                searchOptions={searchOptions}
+                                                // searchOptions={searchOptions}
 
                                               >
                                                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (

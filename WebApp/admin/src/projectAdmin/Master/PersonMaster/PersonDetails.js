@@ -13,6 +13,7 @@ class PersonDetails extends Component {
 		super(props);
 		this.state = {
 			id: '',
+			roles:[],
 		};
 	}
 
@@ -35,15 +36,14 @@ class PersonDetails extends Component {
 	getData(id) {
 		axios.get("/api/personmaster/get/one/" + id)
 		.then((response) => {
+			this.getRoles(response.data.userId)
+			this.getManagerData(response.data.approvingAuthorityId1,response.data.approvingAuthorityId2,response.data.approvingAuthorityId3);
+			this.tracking(response.data.userId);
 			this.setState({
 				personInfo 		: response.data,
 				type 			: response.data.type,
 				address  		: response.data.address,
 				Documentarray   :response.data.Documentarray
-			}, () => {
-				this.getManagerData(this.state.personInfo.approvingAuthorityId1,this.state.personInfo.approvingAuthorityId2,this.state.personInfo.approvingAuthorityId3);
-				this.getRoles(this.state.personInfo.userId)
-				this.tracking(this.state.personInfo.userId)
 			});
 		})
 		.catch((error) => {
@@ -372,20 +372,46 @@ class PersonDetails extends Component {
 									<li className="marginLeft5">{this.state.personInfo.DOB ? moment(this.state.personInfo.DOB).format('DD-MM-YYYY') : "- NA -"}</li>
 								</ul>
 							</div>
-					  	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadding seperaterBorder">
-					  	</div>
-					  	<ul className="col-lg-8 col-md-4 col-sm-4 col-xs-12 noPadding listLI">
+							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadding seperaterBorder">
+							</div>
+					  		<ul className="col-lg-8 col-md-4 col-sm-4 col-xs-12 noPadding listLI">
 								<li><i className="fa fa-envelope changeColor " aria-hidden="true"></i>&nbsp;&nbsp;{this.state.personInfo.email}</li>
-								<i className="fa fa-map-marker textAlignLeft noPadding changeColor col-lg-1 width18px" aria-hidden="true"></i><li className="col-lg-10 noPadding">{this.state.personInfo.address && this.state.personInfo.address.length > 0 && this.state.personInfo.address[0].addressLine2!==undefined ? ((this.state.personInfo.address[0].addressLine2 ? this.state.personInfo.address[0].addressLine2 +" , " : "")+ this.state.personInfo.address[0].addressLine1 +" , "+ this.state.personInfo.address[0].pincode) : " - Address not entered -" }</li>
+								<i className="fa fa-map-marker textAlignLeft noPadding changeColor col-lg-1 width18px" aria-hidden="true"></i><li className="col-lg-10 noPadding">
+										{this.state.personInfo.address && this.state.personInfo.address.length > 0 ? 
+											this.state.personInfo.address[0].addressLine2!==undefined ? 
+												this.state.personInfo.address[0].addressLine2 +" , " 
+											 : 
+											 ""+ this.state.personInfo.address[0].addressLine1 +" , "+ this.state.personInfo.address[0].pincode
+										: " - Address not entered -" }</li>
 							</ul>
 							<ul className="col-lg-4 col-md-4 col-sm-4 col-xs-12 listLI">
 								<li><i className="fa fa-mobile changeColor " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;{this.state.personInfo.contactNo}</li>
 								{this.state.personInfo.altContactNo ? <li><i className="fa fa-mobile changeColor " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;{this.state.personInfo.altContactNo}</li>:""}
 								{this.state.personInfo.whatsappNo ? <li><i className="fa fa-whatsapp changeColor " aria-hidden="true"></i>&nbsp;&nbsp;{this.state.personInfo.whatsappNo}</li>:""}
 							</ul>
+							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadding seperaterBorder">
+						</div>		
+						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+							<label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">Work Images</label>						
+							{
+							this.state.personInfo.workImages && this.state.personInfo.workImages.length > 0 ?
+								this.state.personInfo.workImages.map((image, i) => {
+								return (
+									<div  key={i} className="col-lg-2 col-md-2 col-sm-12 col-xs-12 nopadding">
+									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  marginsBottom" id="hide">
+										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 imageView" id="LogoImageUpOne">
+										<embed src={image+"#toolbar=0"} className="img-responsive logoStyle" />
+										</div>
+									</div>
+									</div>
+								);
+								})
+								:
+								null
+							}
+						</div>	
 					  </div>
-
-
+					 								
 					 {this.state.tracking_id&& this.state.tracking_status && <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderAllED padding20">
 					  	<div className="col-lg-8 col-md-8 col-lg-offset-2 col-sm-12 col-xs-12">
 				  			<a href={"/tracking/"+this.state.tracking_id} target="_blank"><button className="btn btn-primary pull-left">Show Live Tracking</button></a>

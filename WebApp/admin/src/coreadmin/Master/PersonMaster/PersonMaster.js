@@ -2909,7 +2909,7 @@ class PersonMaster extends Component {
                                                 value={this.state.addressLine1}
                                                 onChange={this.handleChangePlaces}
                                                 onSelect={this.handleSelect}
-                                                searchOptions={searchOptions}
+                                                // searchOptions={searchOptions}
                                               >
                                                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                                   <div>

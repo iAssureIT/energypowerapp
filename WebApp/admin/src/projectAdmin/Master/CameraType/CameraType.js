@@ -13,7 +13,7 @@ class cameraType extends Component{
     super(props);
     this.state = {
       "tableHeading": {
-          cameraType: "Camera Type",
+          cameraType: "Equipment Specifications",
           actions: 'Action',
       },
       "tableObjects"  : 
@@ -29,8 +29,8 @@ class cameraType extends Component{
           "limitRange"   : 10,
           "fields"       : 
       {
-            placeholder   : "Enter camera Type ..",
-            title         : "Camera Type",
+            placeholder   : "Enter Equipment Specifications ..",
+            title         : "Equipment Specifications",
             attributeName : "cameraType"
       }
     };
