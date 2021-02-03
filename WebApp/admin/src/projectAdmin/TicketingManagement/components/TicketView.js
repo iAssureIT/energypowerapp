@@ -93,8 +93,8 @@ export default class TicketingManagement extends Component {
             serviceRequest: response.data.serviceRequest,
             contactPerson : response.data.contactPerson,
             cost          : response.data.cost,
-            recordingLoc  : response.data.recordingLocation_id,
-            cameraLoc     : response.data.cameraLocation_id,
+            projectLoc  : response.data.projectLocation_id,
+            equipmentLoc     : response.data.equipmentLocation_id,
             createdAt     : response.data.createdAt,
             is_type       : response.data.is_type,
             isLoading     : false
@@ -615,13 +615,13 @@ export default class TicketingManagement extends Component {
                             <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding marginTop17" style={{'border-bottom': '1px solid #d4d4d4'}}>
                               <h4><b>Project Details</b></h4>
                               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
-                                <h5><b>{this.state.recordingLoc ? this.state.recordingLoc.locationName : null}</b></h5>
-                                <h5 style={{lineHeight:'1.5'}}>{this.state.recordingLoc ? (this.state.recordingLoc.address[0].addressLine2 ? this.state.recordingLoc.address[0].addressLine2+", ":"")+this.state.recordingLoc.address[0].addressLine1 : null}</h5>
+                                <h5><b>{this.state.projectLoc ? this.state.projectLoc.locationName : null}</b></h5>
+                                <h5 style={{lineHeight:'1.5'}}>{this.state.projectLoc ? (this.state.projectLoc.address[0].addressLine2 ? this.state.projectLoc.address[0].addressLine2+", ":"")+this.state.projectLoc.address[0].addressLine1 : null}</h5>
                               </div>
                               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
                                <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
                                   <h5 className="col-lg-8 noPadding"><b>Images</b></h5>
-                                  {this.state.recordingLoc && this.state.recordingLoc.images.length > 2 ?
+                                  {this.state.projectLoc && this.state.projectLoc.images.length > 2 ?
                                     <div className="col-lg-2 col-md-2 col-xs-12 col-sm-12 noPadding  pull-right" style={{width:'70px'}}>
                                       <button  type="button" className='col-lg-5 btn arrow-left1  btn-default pull-left' style={{ width:"30px",height:'30px',}}title="Left Scroll"><i className="fa fa-chevron-left"/></button>
                                       <button type="button" className='col-lg-5 btn arrow-right1  btn-default pull-right' style={{ width:"30px",height:'30px',}} title="Right Scroll"><i className="fa fa-chevron-right"/></button>
@@ -631,8 +631,8 @@ export default class TicketingManagement extends Component {
                                   }
                                 </div>    
                                <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 marginTop8 noPadding scroll1">
-                                  {this.state.recordingLoc && this.state.recordingLoc.images.length > 0 ?
-                                    this.state.recordingLoc.images.map((image,index)=>{
+                                  {this.state.projectLoc && this.state.projectLoc.images.length > 0 ?
+                                    this.state.projectLoc.images.map((image,index)=>{
                                       return(
                                          <a href={image} target="_blank"  className="imageOuterContainerDM" title="Click to View"><img src={image}  style={{'height':'100px','width':'120px',marginRight:'15px','border': '1px solid #d4d4d4'}}/></a>
                                       )
@@ -644,27 +644,27 @@ export default class TicketingManagement extends Component {
                               </div>
                               <div clientName="marginTop17 col-lg-12 col-md-12 col-xs-12 col-sm-12">
                                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 noPadding">
-                                  <h5><b>Industry :</b> {this.state.recordingLoc ? this.state.recordingLoc.brand : null}</h5>
+                                  <h5><b>Industry :</b> {this.state.projectLoc ? this.state.projectLoc.industry : null}</h5>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 noPadding">
-                                  <h5><b>Process :</b> {this.state.recordingLoc ? this.state.recordingLoc.maxchannels : null}</h5>
+                                  <h5><b>Process :</b> {this.state.projectLoc ? this.state.projectLoc.process : null}</h5>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
-                                  <h5><b>Division :</b> {this.state.recordingLoc ? this.state.recordingLoc.recorderType : null}</h5>
+                                  <h5><b>Division :</b> {this.state.projectLoc ? this.state.projectLoc.division : null}</h5>
                                 </div>
                               </div>  
                             </div>
-                            {this.state.cameraLoc ?
+                            {this.state.equipmentLoc ?
                               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding marginTop17" style={{'border-bottom': '1px solid #d4d4d4'}}>
                                 <h4><b>Equipment Details</b></h4>
                                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
-                                  <h5><b>{this.state.cameraLoc ? this.state.cameraLoc.locationName : null}</b></h5>
-                                  <h5 style={{lineHeight:'1.5'}}>{this.state.cameraLoc ? (this.state.cameraLoc.address[0].addressLine2 ? this.state.cameraLoc.address[0].addressLine2+", ":"")+this.state.cameraLoc.address[0].addressLine1 : null}</h5>
+                                  <h5><b>{this.state.equipmentLoc ? this.state.equipmentLoc.locationName : null}</b></h5>
+                                  <h5 style={{lineHeight:'1.5'}}>{this.state.equipmentLoc ? (this.state.equipmentLoc.address[0].addressLine2 ? this.state.equipmentLoc.address[0].addressLine2+", ":"")+this.state.equipmentLoc.address[0].addressLine1 : null}</h5>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
                                   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
                                   <h5 className="col-lg-8 noPadding"><b>Images</b></h5>
-                                  {this.state.cameraLoc && this.state.cameraLoc.images.length > 2 ?
+                                  {this.state.equipmentLoc && this.state.equipmentLoc.images.length > 2 ?
                                     <div className="col-lg-2 col-md-2 col-xs-12 col-sm-12 noPadding  pull-right" style={{width:'70px'}}>
                                       <button  type="button" className='col-lg-5 btn arrow-left2  btn-default pull-left' style={{ width:"30px",height:'30px',}}title="Left Scroll"><i className="fa fa-chevron-left"/></button>
                                       <button type="button" className='col-lg-5 btn arrow-right2  btn-default pull-right' style={{ width:"30px",height:'30px',}} title="Right Scroll"><i className="fa fa-chevron-right"/></button>
@@ -674,8 +674,8 @@ export default class TicketingManagement extends Component {
                                   }
                                 </div>    
                                   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 marginTop8 noPadding scroll2">
-                                    {this.state.cameraLoc && this.state.cameraLoc.images.length > 0 ?
-                                      this.state.cameraLoc.images.map((image,index)=>{
+                                    {this.state.equipmentLoc && this.state.equipmentLoc.images.length > 0 ?
+                                      this.state.equipmentLoc.images.map((image,index)=>{
                                         return(
                                            <a href={image} target="_blank"  className="imageOuterContainerDM" title="Click to View"><img src={image} style={{'height':'100px',width:"120px",marginRight:'15px','border': '1px solid #d4d4d4'}} /></a>
                                         )
@@ -687,16 +687,16 @@ export default class TicketingManagement extends Component {
                                 </div>
                                 <div clientName="marginTop17 col-lg-12 col-md-12 col-xs-12 col-sm-12">
                                   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
-                                    <h5><b>Industry :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraBrand : null}</h5>
+                                    <h5><b>Industry :</b> {this.state.equipmentLoc ? this.state.equipmentLoc.industry : null}</h5>
                                   </div>
                                   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
-                                    <h5><b>Equipment Specifications :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraType : null}</h5>
+                                    <h5><b>Equipment Specifications :</b> {this.state.equipmentLoc ? this.state.equipmentLoc.equipmentSpecifications : null}</h5>
                                   </div>
                                   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
-                                    <h5><b>Actual Performance :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraResolution : null}</h5>
+                                    <h5><b>Actual Performance :</b> {this.state.equipmentLoc ? this.state.equipmentLoc.actualPerformance : null}</h5>
                                   </div>
                                   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding">
-                                    <h5><b>Url/IP :</b> {this.state.cameraLoc ? this.state.cameraLoc.cameraUrl : null}</h5>
+                                    <h5><b>Url/IP :</b> {this.state.equipmentLoc ? this.state.equipmentLoc.equipmentUrl : null}</h5>
                                   </div>
                                 </div>  
                               </div>

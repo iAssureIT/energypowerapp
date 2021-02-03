@@ -1,6 +1,6 @@
 import {
-    SET_CAMERA_LOCATIONS,
-    SET_RECORDING_LOCATIONS,
+    SET_EQUIPMENT_LOCATIONS,
+    SET_PROJECT_LOCATIONS,
     SET_TYPE_OF_ISSUE,
     SET_LOADING
   } from './types';
@@ -15,10 +15,10 @@ export const getDropDownList = (client_id) => {
       });
     const store = getState();
 
-    Axios.get('api/recordinglocation/get/list/client/'+client_id) 
+    Axios.get('/api/projectlocation/get/list/client/'+client_id) 
     .then(res => {
       dispatch({
-        type: SET_RECORDING_LOCATIONS,
+        type: SET_PROJECT_LOCATIONS,
         payload: res.data,
       });
     })

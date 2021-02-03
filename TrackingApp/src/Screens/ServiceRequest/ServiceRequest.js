@@ -32,7 +32,7 @@ import HTML 							from 'react-native-render-html';
 import { WebView } from 'react-native-webview';
 import Video 							from 'react-native-video';
 import {
-    SET_CAMERA_LOCATIONS}               from '../../redux/list/types';
+    SET_EQUIPMENT_LOCATIONS}               from '../../redux/list/types';
 import Loading                 	 		from '../../layouts/Loading/Loading.js';
 
 const window = Dimensions.get('window');
@@ -42,8 +42,8 @@ const ServiceRequestSchema = Yup.object().shape({
 //   project 			: Yup.string().required('This field is required'),
   site 				: Yup.string().required('This field is required'),
   typeOfIssue 		: Yup.string().required('This field is required'),
-  recordingLocation : Yup.string().required('This field is required'),
-//   cameraLocation 	: Yup.string().required('This field is required'),
+  projectLocation : Yup.string().required('This field is required'),
+//   equipmentLocation 	: Yup.string().required('This field is required'),
   description 		: Yup.string().required('This field is required'),
 });
 
@@ -67,7 +67,7 @@ export const ServiceRequest = withCustomerToaster((props) => {
 					console.log("values",values);
               		fun.resetForm(values);
 					setLoading(true);
-					let {department,project,site,typeOfIssue, recordingLocation,recordingLocation_id,cameraLocation_id, cameraLocation, description, cameraPath,images,videos} = values;
+					let {department,project,site,typeOfIssue, projectLocation,projectLocation_id,equipmentLocation_id, equipmentLocation, description, equipmentPath,images,videos} = values;
 					const payload = {
 				      client_id             :  clientDetails.data._id,
 				      clientName            :  clientDetails.data.companyName,
@@ -76,10 +76,10 @@ export const ServiceRequest = withCustomerToaster((props) => {
 				      project               :  department.split("-")[1],
 				      contactPerson         :  userDetails.firstName + " " + userDetails.lastName ,
      				  contactPerson_id      :  userDetails.person_id,
-				      recordingLocationName :  recordingLocation.split("-")[0], 
-				      recordingLocation_id  :  recordingLocation_id!=='' ? recordingLocation_id :recordingLocation.split("-")[1], 
-				      cameraLocationName    :  cameraLocation.split("-")[0], 
-				      cameraLocation_id     :  cameraLocation_id!=='' ? cameraLocation_id: cameraLocation.split("-")[1], 
+				      projectLocationName :  projectLocation.split("-")[0], 
+				      projectLocation_id  :  projectLocation_id!=='' ? projectLocation_id :projectLocation.split("-")[1], 
+				      equipmentLocationName    :  equipmentLocation.split("-")[0], 
+				      equipmentLocation_id     :  equipmentLocation_id!=='' ? equipmentLocation_id: equipmentLocation.split("-")[1], 
 				      description           :  description,
 				      images                :  images,
 				      typeOfIssue           :  typeOfIssue,
@@ -127,10 +127,10 @@ export const ServiceRequest = withCustomerToaster((props) => {
 		        	// project             : ticket ? ticket.project :'',
 		        	site                : ticket ? ticket.site :'',
 		          	typeOfIssue 	  	: ticket ? ticket.typeOfIssue :'',
-		          	recordingLocation 	: ticket ? ticket.recordingLocationName : "",
-		          	recordingLocation_id : ticket ? ticket.recordingLocation_id : "",
-		          	cameraLocation_id   : ticket ? ticket.cameraLocation_id : "",
-		          	cameraLocation 		: ticket ? ticket.cameraLocationName : "",
+		          	projectLocation 	: ticket ? ticket.projectLocationName : "",
+		          	projectLocation_id : ticket ? ticket.projectLocation_id : "",
+		          	equipmentLocation_id   : ticket ? ticket.equipmentLocation_id : "",
+		          	equipmentLocation 		: ticket ? ticket.equipmentLocationName : "",
 		          	description       	: ticket ? ticket.description :'',
 		          	images              : ticket ? ticket.images :[],
 		          	videos              : ticket ? ticket.videos :[],
@@ -174,11 +174,11 @@ const FormBody = props => {
 		list 				: store.list,
 		s3Details       	: store.s3Details.data,
 	}));
-
+	console.log("list store",store);
   	const {list,clientDetails,s3Details} = store;
 
 	var issues				=  [];
-  	var recordingLocations 	=  [];
+  	var projectLocations 	=  [];
 	
   	var departments			=  [];		
   	var projects		    =  [];		
@@ -186,7 +186,7 @@ const FormBody = props => {
   	const dispatch 					= useDispatch();
   	if(!list.loading && !clientDetails.loading && clientDetails.data[0]!==''){
   		 issues				    = list.typeOfIssue && list.typeOfIssue.length > 0 ? list.typeOfIssue.map((a,i)=>{return{label  : a.taskType,value  : a.taskType}}) : [];
-  		 recordingLocations 	= list.recordingLocations && list.recordingLocations.length > 0 ? list.recordingLocations.map((a,i)=>{return{label  : a.locationName,value  : a.locationName+"-"+a._id}}) : [];
+  		 projectLocations 	= list.projectLocations && list.projectLocations.length > 0 ? list.projectLocations.map((a,i)=>{return{label  : a.locationName,value  : a.locationName+"-"+a._id}}) : [];
   		 departments			= clientDetails.data.departments && clientDetails.data.departments.length > 0 ?clientDetails.data.departments.map((a,i)=>{return{label  : a.departmentName+" - "+a.projectName,value  : a.departmentName+"-"+a.projectName}}) : [];		
   		 projects			    = clientDetails.data.departments && clientDetails.data.departments.length > 0 ? clientDetails.data.departments.map((a,i)=>{return{label  : a.projectName,value  : a.projectName+"-"+a._id}}) : [];		
   		 siteArray				= clientDetails.data.locations && clientDetails.data.locations.length > 0 ? clientDetails.data.locations.map((a,i)=>{return{label  : a.addressLine1,value  : a.addressLine1+"-"+a._id,department:a.department}}): [];		
@@ -197,7 +197,7 @@ const FormBody = props => {
   	const [videoLoading, setVideoLoading] 	= useState(false);
   	const [video, setVideo] 				= useState('');
 
-  	const [cameraLocations, setCameraLoaction] 		= useState([]);
+  	const [equipmentLocations, setEquipmentLoaction] 		= useState([]);
   	const [openModal, setModal] 					= useState(false);
   	const [openModalVideo, setModalVideo] 			= useState(false);
   	const [imageVisible, setImageVisible] 			= useState(false);
@@ -206,12 +206,13 @@ const FormBody = props => {
   	const [deleteIndex,setDeleteIndex]      		= useState(false);
   	const [sites,setSites]      		            = useState([]);
 
-  	const getCameraLoc=(recording_id)=>{
+  	const getEquipmentLoc=(project_id)=>{
   		
-  		axios.get('api/cameralocation/get/list/recording/'+recording_id.split("-")[1]) 
+  		axios.get('api/equipmentlocation/get/list/project/'+project_id.split("-")[1]) 
 	    .then(res => {
-	      var cameraList = res.data && res.data.length > 0 ? res.data.map((a,i)=>{return{label  : a.locationName,value  : a.locationName+"-"+a._id}}):[];
-	      setCameraLoaction(cameraList);
+			console.log("res===>",res);
+	      var equipmentList = res.data && res.data.length > 0 ? res.data.map((a,i)=>{return{label  : a.locationName,value  : a.locationName+"-"+a._id}}):[];
+	      setEquipmentLoaction(equipmentList);
 	    })
 	    .catch(err => {
 	      dispatch({
@@ -222,14 +223,14 @@ const FormBody = props => {
   	}
 
   	 const recFunction = (e) => {
-	    getCameraLoc(e);
-	    setFieldValue('recordingLocation',e)
-	    setFieldValue('cameraLocation_id',"")
-	    setFieldValue('cameraLocation',"")
+	    getEquipmentLoc(e);
+	    setFieldValue('projectLocation',e)
+	    setFieldValue('equipmentLocation_id',"")
+	    setFieldValue('equipmentLocation',"")
   	};
 	  
 	  const departmentFun = (e) => {
-	    getCameraLoc(e);
+	    getEquipmentLoc(e);
 		setFieldValue('department',e)
 		var department = e.split("-")[0]+" - "+e.split("-")[1];
 		var siteFilterArray = siteArray.filter(a=> a.department === department);
@@ -238,7 +239,7 @@ const FormBody = props => {
   	};
 
 	const chooseFromLibrary = (props) => {
-	    var openType = props === 'openCamera' ? ImagePicker.openCamera : ImagePicker.openPicker;
+	    var openType = props === 'openEquipment' ? ImagePicker.openEquipment : ImagePicker.openPicker;
 	    request(
 	      Platform.OS === 'ios'
 	        ? PERMISSIONS.IOS.PHOTO_LIBRARY
@@ -255,7 +256,7 @@ const FormBody = props => {
 	              forceJpg: true,
 	            }).then(response => {
 					setImageLoading(true);
-		            response =  props === 'openCamera' ? [response] : response;
+		            response =  props === 'openEquipment' ? [response] : response;
 		            for (var i = 0; i<response.length; i++) {
 		                if(response[i].path){
 							const file = {
@@ -319,7 +320,7 @@ const FormBody = props => {
 	  };
 
 	  const chooseFromLibraryVideo = (openType) => {
-	    var openType = openType === 'openCamera' ? ImagePicker.openCamera : ImagePicker.openPicker;
+	    var openType = openType === 'openEquipment' ? ImagePicker.openEquipment : ImagePicker.openPicker;
 	    request(
 	      Platform.OS === 'ios'
 	        ? PERMISSIONS.IOS.PHOTO_LIBRARY
@@ -447,29 +448,29 @@ const FormBody = props => {
 			        	iconType     	= "font-awesome"
 				    />
 				    <FormDropDown
-				    	data            = {recordingLocations}
+				    	data            = {projectLocations}
 				        labelName 		= "Project Location"
 				        placeholder 	= "Project Location..."
 				        onChangeText 	= {recFunction}
 				        errors 			= {errors}
-				        name 			= "recordingLocation"
-				        value           = {values.recordingLocation}
+				        name 			= "projectLocation"
+				        value           = {values.projectLocation}
 				        required 		= {true}
 				        touched 		= {touched}
 			        	iconName     	= "location"
 			        	iconType     	= "entypo"
 				    />
 				    <FormDropDown
-				    	data            = {cameraLocations}
+				    	data            = {equipmentLocations}
 				        labelName 		= "Equipment Location"
 				        placeholder 	= "Equipment Location..."
-				        onChangeText 	= {handleChange('cameraLocation')}
+				        onChangeText 	= {handleChange('equipmentLocation')}
 				        errors 			= {errors}
-				        name 			= "cameraLocation"
-				        value           = {values.cameraLocation}
+				        name 			= "equipmentLocation"
+				        value           = {values.equipmentLocation}
 				        // required 		= {true}
 				        touched 		= {touched}
-			        	iconName     	= "camera"
+			        	iconName     	= "cogs"
 			        	iconType     	= "font-awesome"
 				    />
 				    <FormInput
@@ -591,15 +592,15 @@ const FormBody = props => {
 		        <View style={{flexDirection: 'row'}}>
 		          <TouchableOpacity
 		            style={commonStyle.block1}
-		            onPress={() => chooseFromLibrary('openCamera')}>
+		            onPress={() => chooseFromLibrary('openEquipment')}>
 		            <Icon
-		              name="camera"
+		              name="equipment"
 		              type="material-community"
 		              size={50}
 		              color={'#aaa'}
 		              style={{}}
 		            />
-		            <Text>Camera</Text>
+		            <Text>Equipment</Text>
 		          </TouchableOpacity>
 		          <TouchableOpacity
 		            style={commonStyle.block1}
@@ -627,7 +628,7 @@ const FormBody = props => {
 		           <View style={{flexDirection: 'row'}}>
 		          <TouchableOpacity
 		            style={commonStyle.block1}
-		            onPress={() => chooseFromLibraryVideo('openCamera')}>
+		            onPress={() => chooseFromLibraryVideo('openEquipment')}>
 		            <Icon
 		              name="video"
 		              type="material-community"

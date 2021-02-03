@@ -34,10 +34,10 @@ exports.create_Ticket = (req, res, next) => {
             client_id              :    req.body.client_id,
             contactPerson          :    req.body.contactPerson,
             contactPerson_id       :    req.body.contactPerson_id,
-            recordingLocationName  :    req.body.recordingLocationName,
-            recordingLocation_id   :    req.body.recordingLocation_id,
-            cameraLocationName     :    req.body.cameraLocationName,
-            cameraLocation_id      :    req.body.cameraLocation_id ? req.body.cameraLocation_id : null,
+            projectLocationName  :    req.body.projectLocationName,
+            projectLocation_id   :    req.body.projectLocation_id,
+            equipmentLocationName     :    req.body.equipmentLocationName,
+            equipmentLocation_id      :    req.body.equipmentLocation_id ? req.body.equipmentLocation_id : null,
             department             :    req.body.department,
             project                :    req.body.project,
             site                   :    req.body.site,
@@ -86,8 +86,8 @@ exports.list_Tickets = (req,res,next)=>{
         searchArray.push({"department"              : {"$regex": searchText, $options: "i"}});      
         searchArray.push({"project"                 : {"$regex": searchText, $options: "i"}});      
         searchArray.push({"site"                    : {"$regex": searchText, $options: "i"}});      
-        searchArray.push({"recordingLocationName"   : {"$regex": searchText, $options: "i"}});      
-        searchArray.push({"cameraLocationName"      : {"$regex": searchText, $options: "i"}});      
+        searchArray.push({"projectLocationName"   : {"$regex": searchText, $options: "i"}});      
+        searchArray.push({"equipmentLocationName"      : {"$regex": searchText, $options: "i"}});      
         selector.push({$or : searchArray });
     }
     if(status &&  status.length > 0 ){
@@ -133,8 +133,8 @@ exports.list_Tickets = (req,res,next)=>{
                     await returnData.push({
                         "_id"                     : data[i]._id,
                         "ticketId"                : data[i].ticketId,
-                        "cameraLocationName"      : data[i].cameraLocationName,
-                        "recordingLocationName"   : data[i].recordingLocationName,
+                        "equipmentLocationName"      : data[i].equipmentLocationName,
+                        "projectLocationName"   : data[i].projectLocationName,
                         "clientName"              : data[i].client_id.companyName,
                         "client_id"               : data[i].client_id._id,
                         "contactPerson"           : data[i].contactPerson,
@@ -192,8 +192,8 @@ exports.client_tickets_list = (req,res,next)=>{
     }
     console.log("selector",selector);
     Tickets.find(selector)
-        .populate('recordingLocation_id')
-        .populate('cameraLocation_id')
+        .populate('projectLocation_id')
+        .populate('equipmentLocation_id')
         .populate('contactPerson_id')
         .populate({ path: 'status.statusBy', model: 'users', select: {'profile.fullName':1,'profile.mobile':1} })
         .sort({createdAt: -1})
@@ -240,8 +240,8 @@ exports.client_tickets_list = (req,res,next)=>{
 //             // Tickets
 //             // .populate(data, [
 //             //     { path: 'contactPerson_id', model: 'personmasters'},
-//             //     { path: 'recordingLocation_id', model: 'recordinglocation'},
-//             //     { path: 'cameraLocation_id', model: 'cameralocation'},
+//             //     { path: 'projectLocation_id', model: 'projectlocation'},
+//             //     { path: 'equipmentLocation_id', model: 'equipmentlocation'},
 //             //     { path: 'status.statusBy', model: 'users', select: {'profile.fullName':1,'profile.mobile':1} }
 //             // ])
 //             // .then(tickets=>{
@@ -278,8 +278,8 @@ exports.client_tickets_list = (req,res,next)=>{
 //         myStatus = [status];
 //     }
 //     Tickets.find({ status: { $elemMatch: { allocatedTo: req.params.technician_id }}})
-//         .populate('recordingLocation_id')
-//         .populate('cameraLocation_id')
+//         .populate('projectLocation_id')
+//         .populate('equipmentLocation_id')
 //         .populate('contactPerson_id')
 //         .populate({ path: 'status.statusBy', model: 'users', select: {'profile.fullName':1,'profile.mobile':1} })
 //         .sort({createdAt: -1})
@@ -341,8 +341,8 @@ exports.technician_tickets_list = (req,res,next)=>{
         myStatus = [status];
     }
     Tickets.find({ status: { $elemMatch: { allocatedTo: req.params.technician_id }},"statusValue":{ "$not": {"$regex": "Deleted", $options: "i"}}})
-        .populate('recordingLocation_id')
-        .populate('cameraLocation_id')
+        .populate('projectLocation_id')
+        .populate('equipmentLocation_id')
         .populate('contactPerson_id')
         .populate({ path: 'status.statusBy', model: 'users', select: {'profile.fullName':1,'profile.mobile':1} })
         .sort({createdAt: -1})
@@ -463,8 +463,8 @@ exports.client_dashboard_count = (req,res,next)=>{
 
 exports.fetch_one = (req,res,next)=>{
     Tickets.findOne({"_id":req.params.ticket_id})
-        .populate('recordingLocation_id')
-        .populate('cameraLocation_id')
+        .populate('projectLocation_id')
+        .populate('equipmentLocation_id')
         .populate({ path: 'status.statusBy', model: 'users', select: {'profile.fullName':1} })
         .populate({ path: 'status.allocatedTo', model: 'personmasters', select: {'firstName':1,lastName:1,type:1,contactNo:1}})
         .exec()
@@ -487,10 +487,10 @@ exports.update_Ticket = (req,res,next)=>{
                 client_id              :    req.body.client_id,
                 contactPerson          :    req.body.contactPerson,
                 contactPerson_id       :    req.body.contactPerson_id,
-                recordingLocationName  :    req.body.recordingLocationName,
-                recordingLocation_id   :    req.body.recordingLocation_id,
-                cameraLocationName     :    req.body.cameraLocationName,
-                cameraLocation_id      :    req.body.cameraLocation_id,
+                projectLocationName  :    req.body.projectLocationName,
+                projectLocation_id   :    req.body.projectLocation_id,
+                equipmentLocationName     :    req.body.equipmentLocationName,
+                equipmentLocation_id      :    req.body.equipmentLocation_id,
                 department             :    req.body.department,
                 project                :    req.body.project,
                 site                   :    req.body.site,
@@ -954,8 +954,8 @@ exports.pagination_count = (req,res,next)=>{
         searchArray.push({"department"              : {"$regex": searchText, $options: "i"}});      
         searchArray.push({"project"                 : {"$regex": searchText, $options: "i"}});      
         searchArray.push({"site"                    : {"$regex": searchText, $options: "i"}});      
-        searchArray.push({"recordingLocationName"   : {"$regex": searchText, $options: "i"}});      
-        searchArray.push({"cameraLocationName"      : {"$regex": searchText, $options: "i"}});      
+        searchArray.push({"projectLocationName"   : {"$regex": searchText, $options: "i"}});      
+        searchArray.push({"equipmentLocationName"      : {"$regex": searchText, $options: "i"}});      
         selector.push({$or : searchArray });
     }
     if(status && status.length > 0){

@@ -15,10 +15,10 @@ import Leftsidebar                                from './projectAdmin/common/le
 // import Dashboard                                  from './projectAdmin/common/dashboard/Dashboard.js';
 import Dashboard                                  from './projectAdmin/Dashboard/Dashboard.js';
 
-import AddEditRecordingLocation                   from './projectAdmin/recordingLocation/components/AddEditRecordingLocation.js';
-import ListOfRecordingLocations                   from './projectAdmin/recordingLocation/components/ListOfRecordingLocations.jsx';
-import AddEditCameraLocation                      from './projectAdmin/cameraLocation/components/AddEditCameraLocation.js';
-import ListOfCameraLocations                      from './projectAdmin/cameraLocation/components/ListOfCameraLocations.jsx';
+import AddEditProjectLocation                   from './projectAdmin/projectLocation/components/AddEditProjectLocation.js';
+import ListOfProjectLocations                   from './projectAdmin/projectLocation/components/ListOfProjectLocations.jsx';
+import AddEditEquipmentLocation                      from './projectAdmin/equipmentLocation/components/AddEditEquipmentLocation.js';
+import ListOfEquipmentLocations                      from './projectAdmin/equipmentLocation/components/ListOfEquipmentLocations.jsx';
 import AttendanceManagement                       from './projectAdmin/AttendanceManagement/components/AttendanceManagement.js';
 import Monthlydetails                             from './projectAdmin/Reports/MonthlyDetails.js';
 import DailyReport                                from './projectAdmin/Reports/DailyEmployeeTaskReport.js';
@@ -121,21 +121,21 @@ componentDidMount(){
                                                         <Route path="/multitracking"  component={MultiTracking} exact />
                                   
                                                        
-                                                        <Route path="/recordinglocation"                exact strict component={ AddEditRecordingLocation } />
-                                                        <Route path="/recordinglocation/:id"            exact strict component={ AddEditRecordingLocation } />
-                                                        <Route path="/recordinglocationmodal/:fieldID"       exact strict component={ AddEditRecordingLocation } />
-                                                        <Route path="/recordinglocationmodal/:id/:fieldID"   exact strict component={ AddEditRecordingLocation } />
+                                                        <Route path="/projectlocation"                exact strict component={ AddEditProjectLocation } />
+                                                        <Route path="/projectlocation/:id"            exact strict component={ AddEditProjectLocation } />
+                                                        <Route path="/projectlocationmodal/:fieldID"       exact strict component={ AddEditProjectLocation } />
+                                                        <Route path="/projectlocationmodal/:id/:fieldID"   exact strict component={ AddEditProjectLocation } />
 
-                                                        <Route path="/listrecordingloc"             exact strict component={ ListOfRecordingLocations } />
-                                                        <Route path="/listrecordingloc/:id"         exact strict component={ ListOfRecordingLocations } />
+                                                        <Route path="/listprojectloc"             exact strict component={ ListOfProjectLocations } />
+                                                        <Route path="/listprojectloc/:id"         exact strict component={ ListOfProjectLocations } />
 
-                                                        <Route path="/cameralocation"               exact strict component={ AddEditCameraLocation } />
-                                                        <Route path="/cameralocation/:id"           exact strict component={ AddEditCameraLocation } />
-                                                        <Route path="/cameralocationmodal/:fieldID"     exact strict component={ AddEditCameraLocation } />
-                                                        <Route path="/cameralocationmodal/:id/:fieldID"     exact strict component={ AddEditCameraLocation } />
+                                                        <Route path="/cameralocation"               exact strict component={ AddEditEquipmentLocation } />
+                                                        <Route path="/cameralocation/:id"           exact strict component={ AddEditEquipmentLocation } />
+                                                        <Route path="/cameralocationmodal/:fieldID"     exact strict component={ AddEditEquipmentLocation } />
+                                                        <Route path="/cameralocationmodal/:id/:fieldID"     exact strict component={ AddEditEquipmentLocation } />
 
-                                                        <Route path="/listofcameraloc"              exact strict component={ ListOfCameraLocations } />
-                                                        <Route path="/listofcameraloc/"             exact strict component={ ListOfCameraLocations } />
+                                                        <Route path="/listofequipmentloc"              exact strict component={ ListOfEquipmentLocations } />
+                                                        <Route path="/listofequipmentloc/:id"             exact strict component={ ListOfEquipmentLocations } />
 
 
                                                         

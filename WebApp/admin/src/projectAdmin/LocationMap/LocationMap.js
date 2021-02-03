@@ -37,7 +37,7 @@ const MapWithAMarker = compose(withGoogleMap)(props => {
             onClick={onClick}
             position={{ lat: marker.address.latitude, lng: marker.address.longitude }}
             icon ={
-              marker.address.locationType === "Recording" ?
+              marker.address.locationType === "Project" ?
                 {url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"}
                 :
                 {url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"}
@@ -78,8 +78,8 @@ export default class ShelterMap extends Component {
       department:"All",
       project:"All",
       show_view:false,
-      recordingCount:0,
-      cameraCount:0,
+      projectCount:0,
+      equipmentCount:0,
       totalCount:0,
       departmentArray:[],
       projectArray:[],
@@ -89,8 +89,8 @@ export default class ShelterMap extends Component {
   componentDidMount(){
     this.getLocations();
     this.getRecLocClient();
-    this.getRecordingLocCount();
-    this.getCameraLocCount();
+    this.getProjectLocCount();
+    this.getEquipmentLocCount();
     this.getGoogleAPIKey();
   }
 
@@ -109,7 +109,7 @@ export default class ShelterMap extends Component {
   }
 
   getRecLocClient(){
-      axios.get("/api/recordinglocation/get/list")
+      axios.get("/api/projectlocation/get/list")
       .then(res => {
         console.log("res",res);
           var resArr = [];
@@ -160,22 +160,22 @@ export default class ShelterMap extends Component {
     this.setState({projectArray:resArr})
   }
 
-  getRecordingLocCount(){
-     axios.get("api/recordinglocation/get/count")
+  getProjectLocCount(){
+     axios.get("api/projectlocation/get/count")
       .then(res => {
           console.log("res1",res);
-          this.setState({recordingLocCount:res.data.count})
+          this.setState({projectLocCount:res.data.count})
       })  
       .catch(err=>{
         console.log("err",err);
       })
   }
 
-  getCameraLocCount(){
-     axios.get("api/cameralocation/get/count")
+  getEquipmentLocCount(){
+     axios.get("api/equipmentlocation/get/count")
       .then(res => {
           console.log("res1",res);
-          this.setState({cameraLocCount:res.data.count})
+          this.setState({equipmentLocCount:res.data.count})
       })  
       .catch(err=>{
         console.log("err",err);
@@ -184,18 +184,18 @@ export default class ShelterMap extends Component {
 
 
   getLocations(){
-    axios.post("api/recordinglocation/get/list/address/",formValues)
+    axios.post("api/projectlocation/get/list/address/",formValues)
       .then(loc => {
         console.log("loc",loc);
           var locations = loc.data;
-          var recordingCount = locations.filter(a=>a.address.locationType === "Recording").length;
-          var cameraCount = locations.filter(a=>a.address.locationType === "Camera").length;
-          console.log("recordingCount",recordingCount,"cameraCount",cameraCount)
+          var projectCount = locations.filter(a=>a.address.locationType === "Project").length;
+          var equipmentCount = locations.filter(a=>a.address.locationType === "Equipment").length;
+          console.log("projectCount",projectCount,"equipmentCount",equipmentCount)
           this.setState({
             locations,
-            recordingCount,
-            cameraCount,
-            totalCount:recordingCount+cameraCount
+            projectCount,
+            equipmentCount,
+            totalCount:projectCount+equipmentCount
           })
       })  
       .catch(err=>{
@@ -211,7 +211,7 @@ export default class ShelterMap extends Component {
       [name]: event.target.value,
      });
      if(name === "locationType"){
-      formValues.locationType = event.target.value === "Project" ? "Recording": event.target.value === "Equipment" ? "Camera" :event.target.value;
+      formValues.locationType = event.target.value;
      }else if(name==="client"){
        if(event.target.value!=="All"){
         this.setState({clientName:this.state.clientArray.find(a=>a.client_id === event.target.value).clientName})
@@ -280,8 +280,8 @@ export default class ShelterMap extends Component {
         <div className="pageContent col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div className="box-header with-border col-lg-12 col-md-12 col-xs-12 col-sm-12 marbtm30"  >
              <h4 className="weighttitle col-lg-3 col-md-2 col-xs-11 col-sm-11 noPadding">Location Map</h4>
-              <h5 className="weighttitle col-lg-3 col-md-3 col-xs-11 col-sm-11 noPadding"><img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" style={{"height":'20px'}}/>Total Project Location :&nbsp;&nbsp;<b>{this.state.recordingLocCount}</b></h5>
-              <h5 className="weighttitle  col-lg-3 col-md-3 col-xs-11 col-sm-11 noPadding"><img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png" style={{"height":'20px'}}/>Total Equipment Location :&nbsp;&nbsp;<b>{this.state.cameraLocCount}</b></h5>
+              <h5 className="weighttitle col-lg-3 col-md-3 col-xs-11 col-sm-11 noPadding"><img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" style={{"height":'20px'}}/>Total Project Location :&nbsp;&nbsp;<b>{this.state.projectLocCount}</b></h5>
+              <h5 className="weighttitle  col-lg-3 col-md-3 col-xs-11 col-sm-11 noPadding"><img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png" style={{"height":'20px'}}/>Total Equipment Location :&nbsp;&nbsp;<b>{this.state.equipmentLocCount}</b></h5>
               <div className={this.state.show === false ? "btn btn-primary col-lg-2 col-md-2 col-sm-12 col-xs-12":"btn btn-success col-lg-2 col-md-2 col-sm-12 col-xs-12"} onClick={()=>this.setState({show:!this.state.show})}>
                 Show Info Window
               </div>
@@ -361,7 +361,7 @@ export default class ShelterMap extends Component {
           <div className="col-lg-12 col-md-8 col-xs-12 col-xs-12 noPadding" id="pdfdiv">
             <div className="col-lg-12 col-md-8 col-xs-12 col-xs-12 mt20 ">
               <div className="col-lg-6 col-md-12 col-xs-12 col-xs-12  tableBorder" >
-                <h5 className="col-lg-12"><b>Location Type</b> : {this.state.locationType+" Locations ( "+(this.state.locationType === "Project" ? this.state.recordingCount : this.state.locationType === "Equipment" ? this.state.cameraCount : "Total : "+this.state.totalCount+", Recording : "+this.state.recordingCount+", Camera : "+this.state.cameraCount)+" ) "}</h5>
+                <h5 className="col-lg-12"><b>Location Type</b> : {this.state.locationType+" Locations ( "+(this.state.locationType === "Project" ? this.state.projectCount : this.state.locationType === "Equipment" ? this.state.equipmentCount : "Total : "+this.state.totalCount+", Project : "+this.state.projectCount+", Equipment : "+this.state.equipmentCount)+" ) "}</h5>
                 <h5 className="col-lg-12"><b>Client</b> : {this.state.clientName+(this.state.clientName==="All" ? " ( "+this.state.clientArray.length+" ) ": "")}</h5>
               </div>
               <div className="col-lg-6 col-md-12 col-xs-12 col-xs-12 tableBorder">  

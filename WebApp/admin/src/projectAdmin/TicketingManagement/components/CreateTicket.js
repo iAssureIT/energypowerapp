@@ -14,8 +14,8 @@ import BasicInfo            from '../../ClientMaster/ClientBasicInfo.js';
 import ContactPerson        from '../../ClientMaster/ClientContactDetails.js';
 import LocationDetails      from '../../ClientMaster/ClientLocationDetails.js';
 import DepartmentDetails    from '../../ClientMaster/ClientDepartmentDetails.js';
-import RecordingLocation    from '../../recordingLocation/components/AddEditRecordingLocation.js';
-import CameraLocation    from '../../cameraLocation/components/AddEditCameraLocation.js';
+import ProjectLocation    from '../../projectLocation/components/AddEditProjectLocation.js';
+import EquipmentLocation    from '../../equipmentLocation/components/AddEditEquipmentLocation.js';
 import moment from 'moment';
 
 export default class CreateTicket extends Component {
@@ -33,10 +33,10 @@ export default class CreateTicket extends Component {
        allocatedTo          :  '',
        description          :  '',
        typeOfIssue          :  '',
-       recordingLocationName : '--Select--',
-       recordingLocation_id :  '',
+       projectLocationName : '--Select--',
+       projectLocation_id :  '',
        locationName         :  '',
-       cameraLocation_id    :  '',
+       equipmentLocation_id    :  '',
        client_id            :  '',
        videos               :  '', 
        tabledata            :  '',
@@ -45,8 +45,8 @@ export default class CreateTicket extends Component {
        clientArray          :  [],
        departmentsArray     :  [],
        siteArray            :  [],
-       recordingLocationList:  [],
-       cameraLocationList   :  [],
+       projectLocationList:  [],
+       equipmentLocationList   :  [],
        technicianList       :  [],
        imagesArray          :  [],
        videosArray          :  [],
@@ -122,7 +122,7 @@ export default class CreateTicket extends Component {
           required: true,
           regx5:  "--Select--",
         },
-        recordingLocationName: {
+        projectLocationName: {
           required: true,
           regx6:  "--Select--",
         },
@@ -149,8 +149,8 @@ export default class CreateTicket extends Component {
         if (element.attr("name") === "typeOfIssue") {
           error.insertAfter("#typeOfIssue");
         }
-        if (element.attr("name") === "recordingLocationName") {
-          error.insertAfter("#recordingLocationName_err");
+        if (element.attr("name") === "projectLocationName") {
+          error.insertAfter("#projectLocationName_err");
         }
         if (element.attr("name") === "description") {
           error.insertAfter("#description");
@@ -174,22 +174,23 @@ export default class CreateTicket extends Component {
       })
       .catch((error)=>{})
   } 
-  getRecodingLocation(client_id){
-    axios.get("/api/recordinglocation/get/list/client/"+client_id)
+  getProjectLocation(client_id){
+    axios.get("/api/projectlocation/get/list/client/"+client_id)
       .then((response)=>{
+        console.log("response projectlocation",response)
         if(response.status===200){
           this.setState({
-              recordingLocationList : response.data
+              projectLocationList : response.data
           })
         }
       })
       .catch((error)=>{})
   }  
-  getCameraLocation(recording_id){
-    axios.get("/api/cameralocation/get/list/recording/"+recording_id)
+  getEquipmentLocation(project_id){
+    axios.get("/api/equipmentlocation/get/list/project/"+project_id)
       .then((response)=>{
         this.setState({
-            cameraLocationList : response.data
+            equipmentLocationList : response.data
         })
       })
       .catch((error)=>{})
@@ -211,7 +212,7 @@ export default class CreateTicket extends Component {
       })
       console.log("contactPersonArray",client.contactPersons);
       this.getContactPersons(client_id)
-      this.getRecodingLocation(client_id)
+      this.getProjectLocation(client_id)
     }
     if(name==='department'){
       var e = document.getElementById("departmentValue");
@@ -221,19 +222,19 @@ export default class CreateTicket extends Component {
         siteArray : siteArray,
       })
     }
-    if(name==='recordingLocationName'){
-      var e = document.getElementById("recordingLocationName");
-      var recording_id = e.options[e.selectedIndex].id;
+    if(name==='projectLocationName'){
+      var e = document.getElementById("projectLocationName");
+      var project_id = e.options[e.selectedIndex].id;
       this.setState({
-        recordingLocation_id : recording_id,
+        projectLocation_id : project_id,
       },()=>{
-        this.getCameraLocation(recording_id)
+        this.getEquipmentLocation(project_id)
       })
     }
     if(name==='locationName'){
-      var e = document.getElementById("cameraLocation");
+      var e = document.getElementById("equipmentLocation");
       this.setState({
-        cameraLocation_id : e.options[e.selectedIndex].id,
+        equipmentLocation_id : e.options[e.selectedIndex].id,
       })
     }
     if(name==='contactPerson'){
@@ -271,8 +272,8 @@ export default class CreateTicket extends Component {
     }).then((response)=> {
       var editData = response.data;
       var client = this.state.clientArray.find((elem)=>{return elem._id===editData.client_id})
-      this.getRecodingLocation(editData.client_id);
-      this.getCameraLocation(editData.recordingLocation_id._id)
+      this.getProjectLocation(editData.client_id);
+      this.getEquipmentLocation(editData.projectLocation_id._id)
       this.setState({
         departmentsArray  : client.departments,
         siteArray         : client.locations,
@@ -293,10 +294,10 @@ export default class CreateTicket extends Component {
         "imagesArray"          :editData.images,
         "videosArray"          :editData.videos,
         "typeOfIssue"          :editData.typeOfIssue,
-        "recordingLocationName":editData.recordingLocationName,
-        "recordingLocation_id":editData.recordingLocation_id,
-        "cameraLocation_id":editData.cameraLocation_id,
-        "locationName"   :editData.cameraLocationName 
+        "projectLocationName":editData.projectLocationName,
+        "projectLocation_id":editData.projectLocation_id,
+        "equipmentLocation_id":editData.equipmentLocation_id,
+        "locationName"   :editData.equipmentLocationName 
       });
      }).catch(function (error) {});
   }
@@ -329,10 +330,10 @@ export default class CreateTicket extends Component {
         site                  :  this.state.site,
         department            :  this.state.department.split("-")[0],
         project               :  this.state.department.split("-")[1],
-        recordingLocationName :  this.state.recordingLocationName, 
-        recordingLocation_id  :  this.state.recordingLocation_id, 
-        cameraLocationName    :  this.state.locationName, 
-        cameraLocation_id     :  this.state.cameraLocation_id, 
+        projectLocationName :  this.state.projectLocationName, 
+        projectLocation_id  :  this.state.projectLocation_id, 
+        equipmentLocationName    :  this.state.locationName, 
+        equipmentLocation_id     :  this.state.equipmentLocation_id, 
         description           :  this.state.description,
         images                :  this.state.imagesArray,
         typeOfIssue           :  this.state.typeOfIssue,
@@ -373,10 +374,10 @@ export default class CreateTicket extends Component {
                   site                  : '',
                   project               : '',
                   department            : '',
-                  recordingLocationName : '', 
-                  recordingLocation_id  : '', 
+                  projectLocationName : '', 
+                  projectLocation_id  : '', 
                   locationName          : '', 
-                  cameraLocation_id     : '', 
+                  equipmentLocation_id     : '', 
                   description           : '',
                   imagesArray           : '',
                   typeOfIssue           : '',
@@ -403,10 +404,10 @@ export default class CreateTicket extends Component {
         site                  :  this.state.site,
         department            :  this.state.department.split("-")[0],
         project               :  this.state.department.split("-")[1],
-        recordingLocationName :  this.state.recordingLocationName, 
-        recordingLocation_id  :  this.state.recordingLocation_id, 
-        cameraLocationName    :  this.state.locationName, 
-        cameraLocation_id     :  this.state.cameraLocation_id, 
+        projectLocationName :  this.state.projectLocationName, 
+        projectLocation_id  :  this.state.projectLocation_id, 
+        equipmentLocationName    :  this.state.locationName, 
+        equipmentLocation_id     :  this.state.equipmentLocation_id, 
         description           :  this.state.description,
         images                :  this.state.imagesArray,
         typeOfIssue           :  this.state.typeOfIssue,
@@ -424,10 +425,10 @@ export default class CreateTicket extends Component {
               site                  : '',
               project               : '',
               department            : '',
-              recordingLocationName : '', 
-              recordingLocation_id  : '', 
+              projectLocationName : '', 
+              projectLocation_id  : '', 
               locationName    : '', 
-              cameraLocation_id     : '', 
+              equipmentLocation_id     : '', 
               description           : '',
               imagesArray           : '',
               typeOfIssue           : '',
@@ -827,16 +828,16 @@ export default class CreateTicket extends Component {
     $('.modal-backdrop').remove();
   }
 
-  recordingModalClickEvent(){
-    $('#recordingId').addClass('in');
-    $('#recordingId').css('display','block');
+  projectModalClickEvent(){
+    $('#projectId').addClass('in');
+    $('#projectId').css('display','block');
     $('body').removeClass('modal-open');
     $('.modal-backdrop').remove();
   }
 
-  cameraModalClickEvent(){
-    $('#cameraId').addClass('in');
-    $('#cameraId').css('display','block');
+  equipmentModalClickEvent(){
+    $('#equipmentId').addClass('in');
+    $('#equipmentId').css('display','block');
     $('body').removeClass('modal-open');
     $('.modal-backdrop').remove();
   }
@@ -846,7 +847,7 @@ export default class CreateTicket extends Component {
     swal("Please select client first.");
   } 
 
-  swalMessageRecording(){
+  swalMessageProject(){
     swal("Please select Project Location first.");
   }
 
@@ -1005,23 +1006,23 @@ export default class CreateTicket extends Component {
                                 <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                                   <div className=""id="project">
                                     <label className="labelform">Project Location<span className="astrick">*</span></label>
-                                      <div className="input-group" id="recordingLocationName_err" >
-                                        <select ref="recordingLocationName" name="recordingLocationName" id="recordingLocationName" 
-                                            value={this.state.recordingLocationName}  onChange={this.handleChange.bind(this)}
+                                      <div className="input-group" id="projectLocationName_err" >
+                                        <select ref="projectLocationName" name="projectLocationName" id="projectLocationName" 
+                                            value={this.state.projectLocationName}  onChange={this.handleChange.bind(this)}
                                             className="form-control  col-lg-12 col-md-12 col-sm-12 col-xs-12 selectbox" disabled={this.state.client_id==="" ? true : false} required>
                                             <option>--Select--</option>
                                             {
-                                                this.state.recordingLocationList && this.state.recordingLocationList.length > 0 ?
-                                                this.state.recordingLocationList.map((recordingLocation, index)=>{
+                                                this.state.projectLocationList && this.state.projectLocationList.length > 0 ?
+                                                this.state.projectLocationList.map((projectLocation, index)=>{
                                                   return(      
-                                                      <option key={index} id={recordingLocation._id} value={recordingLocation.locationName}>{recordingLocation.locationName}</option>
+                                                      <option key={index} id={projectLocation._id} value={projectLocation.locationName}>{projectLocation.locationName}</option>
                                                   );
                                                 }
                                               ) : ''
                                             }   
                                         </select>
                                         {this.state.client_id !== "" ?
-                                         <div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#recordingId"  onClick={this.recordingModalClickEvent.bind(this)} title="Add Project Location" ><i className="fa fa-plus "></i>
+                                         <div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#projectId"  onClick={this.projectModalClickEvent.bind(this)} title="Add Project Location" ><i className="fa fa-plus "></i>
                                           </div>
                                           :
                                           <div className="input-group-addon inputIcon plusIconBooking" onClick={this.swalMessage.bind(this)} title="Add Location" ><i className="fa fa-plus "></i>
@@ -1036,24 +1037,24 @@ export default class CreateTicket extends Component {
                                     <div className="input-group" >
                                       <select ref="locationName" name="locationName"  
                                           value={this.state.locationName}  onChange={this.handleChange.bind(this)}
-                                          id='cameraLocation'
-                                          className="form-control  col-lg-12 col-md-12 col-sm-12 col-xs-12 selectbox" disabled={this.state.recordingLocation_id==="" ? true : false} required>
+                                          id='equipmentLocation'
+                                          className="form-control  col-lg-12 col-md-12 col-sm-12 col-xs-12 selectbox" disabled={this.state.projectLocation_id==="" ? true : false} required>
                                           <option>--Select--</option>
                                           {
-                                              this.state.cameraLocationList && this.state.cameraLocationList.length > 0 ?
-                                              this.state.cameraLocationList.map((cameraLocation, index)=>{
+                                              this.state.equipmentLocationList && this.state.equipmentLocationList.length > 0 ?
+                                              this.state.equipmentLocationList.map((equipmentLocation, index)=>{
                                                 return(      
-                                                    <option key={index} id={cameraLocation._id} value={cameraLocation.locationName}>{cameraLocation.locationName}</option>
+                                                    <option key={index} id={equipmentLocation._id} value={equipmentLocation.locationName}>{equipmentLocation.locationName}</option>
                                                 );
                                               }
                                             ) : ''
                                           }   
                                        </select>
-                                      {this.state.recordingLocation_id !== "" ?
-                                        <div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#cameraId"  onClick={this.cameraModalClickEvent.bind(this)} title="Add Equipment Location" ><i className="fa fa-plus "></i>
+                                      {this.state.projectLocation_id !== "" ?
+                                        <div className="input-group-addon inputIcon plusIconBooking" data-toggle="modal"   data-target="#equipmentId"  onClick={this.equipmentModalClickEvent.bind(this)} title="Add Equipment Location" ><i className="fa fa-plus "></i>
                                         </div>
                                          :
-                                        <div className="input-group-addon inputIcon plusIconBooking" onClick={this.swalMessageRecording.bind(this)} title="Add Location" ><i className="fa fa-plus "></i>
+                                        <div className="input-group-addon inputIcon plusIconBooking" onClick={this.swalMessageProject.bind(this)} title="Add Location" ><i className="fa fa-plus "></i>
                                         </div>
                                       }
                                     </div> 
@@ -1279,30 +1280,30 @@ export default class CreateTicket extends Component {
              </div>
             </div>
           </div>
-           <div className="modal" id="recordingId" role="dialog">
+           <div className="modal" id="projectId" role="dialog">
             <div className="adminModal adminModal-dialog marginTopModal col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div className="modal-content adminModal-content col-lg-8 col-lg-offset-2 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 noPadding">
                 <div className="modal-header adminModal-header col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div className="adminCloseCircleDiv pull-right  col-lg-1 col-lg-offset-11 col-md-1 col-md-offset-11 col-sm-1 col-sm-offset-11 col-xs-12 NOpadding-left NOpadding-right">
-                      <button type="button" className="adminCloseButton" data-dismiss="modal" onClick={()=>this.getRecodingLocation(this.state.client_id)}>&times;</button>
+                      <button type="button" className="adminCloseButton" data-dismiss="modal" onClick={()=>this.getProjectLocation(this.state.client_id)}>&times;</button>
                  </div>
                 </div>
                 <div className="modal-body adminModal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                 <RecordingLocation modal={true} clientName={this.state.clientName}  client_id={this.state.client_id}  url="createticket"/>
+                 <ProjectLocation modal={true} clientName={this.state.clientName}  client_id={this.state.client_id}  url="createticket"/>
                 </div>  
              </div>
             </div>
           </div>
-          <div className="modal" id="cameraId" role="dialog">
+          <div className="modal" id="equipmentId" role="dialog">
             <div className="adminModal adminModal-dialog marginTopModal col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div className="modal-content adminModal-content col-lg-8 col-lg-offset-2 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 noPadding">
                 <div className="modal-header adminModal-header col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div className="adminCloseCircleDiv pull-right  col-lg-1 col-lg-offset-11 col-md-1 col-md-offset-11 col-sm-1 col-sm-offset-11 col-xs-12 NOpadding-left NOpadding-right">
-                      <button type="button" className="adminCloseButton" data-dismiss="modal" onClick={()=>this.getCameraLocation(this.state.recordingLocation_id)}>&times;</button>
+                      <button type="button" className="adminCloseButton" data-dismiss="modal" onClick={()=>this.getEquipmentLocation(this.state.projectLocation_id)}>&times;</button>
                  </div>
                 </div>
                 <div className="modal-body adminModal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                 <CameraLocation modal={true} recordingLocationName={this.state.recordingLocationName}  recording_id={this.state.recordingLocation_id} url="createticket"/>
+                 <EquipmentLocation modal={true} projectLocationName={this.state.projectLocationName}  project_id={this.state.projectLocation_id} url="createticket"/>
                 </div>  
              </div>
             </div>

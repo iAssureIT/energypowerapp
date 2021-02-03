@@ -16,7 +16,7 @@ export default class AdminDashboard extends Component{
       menuValues : {
         clientData             : false,
         employeenData         : false,
-        recordingData          : false,
+        projectData          : false,
         cameraData             : false,
         masterData             : false,
         ticketData             : false,
@@ -113,7 +113,7 @@ export default class AdminDashboard extends Component{
   }
 
   render(){
-    let {dashboard,clientData,employeenData,recordingData,ticketData,cameraData,masterData,attendance} = this.state.menuValues;
+    let {dashboard,clientData,employeenData,projectData,ticketData,cameraData,masterData,attendance} = this.state.menuValues;
 
     return(
       <aside className="main-sidebar control-sidebar sidebarWrapper scrollBox">
@@ -151,9 +151,9 @@ export default class AdminDashboard extends Component{
               </a>
             </li>
              {/*<li className="singleTreeview" onClick={this.clickDashboard.bind(this)}>
-              <a href="/listrecordingloc"  title="Recording Location" onClick={()=>this.openMenu("recordingData")}>
+              <a href="/listprojectloc"  title="Project Location" onClick={()=>this.openMenu("projectData")}>
                 <i className="fa fa-dashboard" aria-hidden="true"></i>
-                <span className="sidebarMenuTitle">Recording Location</span>
+                <span className="sidebarMenuTitle">Project Location</span>
               </a>
             </li>
              <li className="singleTreeview" onClick={this.clickDashboard.bind(this)}>
@@ -178,12 +178,12 @@ export default class AdminDashboard extends Component{
               </a>
               <ul className="treeview-menu" >                    
                 <li className="noPadLR"> 
-                  <a href="/listrecordingloc" title="Recording Locations" data-id="/listrecordingloc" title="Recording Location" onClick={this.activeMenu.bind(this)}>
+                  <a href="/listprojectloc" title="Project Locations" data-id="/listprojectloc" title="Project Location" onClick={this.activeMenu.bind(this)}>
                     <i className="fa fa-circle-o dashr" />Project Locations
                   </a> 
                 </li>  
                 <li className="noPadLR"> 
-                  <a href="/listofcameraloc" title="Camera Locations" data-id="/listofcameraloc" title="Camera Location" onClick={this.activeMenu.bind(this)}>
+                  <a href="/listofequipmentloc" title="Camera Locations" data-id="/listofequipmentloc" title="Equipment Location" onClick={this.activeMenu.bind(this)}>
                     <i className="fa fa-circle-o dashr" />Equipment Locations
                   </a> 
                 </li>
@@ -214,11 +214,11 @@ export default class AdminDashboard extends Component{
                     <i className="fa fa-circle-o dashr" />Employee Wise Tickets
                   </a> 
                 </li>
-                <li className="noPadLR"> 
+                {/* <li className="noPadLR"> 
                   <a href="/MonthlyReimbursementReport" title="Monthly Reimbursement" data-id="/MonthlyReimbursementReport" onClick={this.activeMenu.bind(this)}>
                     <i className="fa fa-circle-o dashr" />Monthly Reimbursement
                   </a> 
-                </li>  
+                </li>   */}
               </ul>
             </li>
             <li className="singleTreeview" onClick={this.clickDashboard.bind(this)}>

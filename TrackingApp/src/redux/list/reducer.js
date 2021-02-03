@@ -1,27 +1,27 @@
 import {
-  SET_CAMERA_LOCATIONS,
-  SET_RECORDING_LOCATIONS,
+  SET_EQUIPMENT_LOCATIONS,
+  SET_PROJECT_LOCATIONS,
   SET_TYPE_OF_ISSUE,
   SET_LOADING,
 } from './types';
 
 const initialUserState = {
-  cameraLocations: [],
-  recordingLocations: [],
+  equipmentLocations: [],
+  projectLocations: [],
   typeOfIssue: [],
   loading : false,
 };
 export default (state = initialUserState, {type, payload}) => {
   switch (type) {
-    case SET_CAMERA_LOCATIONS:
+    case SET_EQUIPMENT_LOCATIONS:
       return {
         ...state,
-        cameraLocations : payload,
+        equipmentLocations : payload,
       };
-      case SET_RECORDING_LOCATIONS:
+      case SET_PROJECT_LOCATIONS:
       return {
         ...state,
-        recordingLocations : payload,
+        projectLocations : payload,
       };
       case SET_TYPE_OF_ISSUE:
       return {

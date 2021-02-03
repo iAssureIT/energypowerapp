@@ -31,7 +31,7 @@ import HTML                       from 'react-native-render-html';
 import { WebView }                from 'react-native-webview';
 import Video                      from 'react-native-video';
 import {
-    SET_CAMERA_LOCATIONS}         from '../../redux/list/types';
+    SET_EQUIPMENT_LOCATIONS}         from '../../redux/list/types';
 import {CurrentTime}              from './CurrentTime.js';
 import Geolocation                from 'react-native-geolocation-service';
 import {SET_STARTING_COORDINATES} from '../../redux/attendance/types';

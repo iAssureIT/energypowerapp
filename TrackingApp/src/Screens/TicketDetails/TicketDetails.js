@@ -142,30 +142,30 @@ export const TicketDetails = (props) => {
         <View style={{flexDirection:"row",paddingVertical:5}}>  
           <Icon name='location' type='entypo' size={20} iconStyle={{paddingHorizontal:5,flex:0.1}}/>
           <View style={{flex:0.9}}>
-            <Text style={commonStyle.label}>Recording Location</Text>
+            <Text style={commonStyle.label}>Project Location</Text>
             <Text style={commonStyle.normalText}>{
-                ticketDetails.recordingLocation_id && ticketDetails.recordingLocation_id.address && ticketDetails.recordingLocation_id.address.length > 0 ? 
-                  ticketDetails.recordingLocation_id.address[0].addressLine1 
+                ticketDetails.projectLocation_id && ticketDetails.projectLocation_id.address && ticketDetails.projectLocation_id.address.length > 0 ? 
+                  ticketDetails.projectLocation_id.address[0].addressLine1 
                 : "NA"
             }</Text>
           </View>
-          <TouchableOpacity style={{marginBottom:'1%',marginLeft:'5%',flexDirection:"row",alignItems:"flex-end"}} onPress={()=>goToMap(ticketDetails.recordingLocation_id.address[0].latitude,ticketDetails.recordingLocation_id.address[0].longitude)}>
+          <TouchableOpacity style={{marginBottom:'1%',marginLeft:'5%',flexDirection:"row",alignItems:"flex-end"}} onPress={()=>goToMap(ticketDetails.projectLocation_id.address[0].latitude,ticketDetails.projectLocation_id.address[0].longitude)}>
                   <Icon size={20} name='location-arrow' type='font-awesome' color={colors.theme} />
               </TouchableOpacity> 
         </View> 
-        {ticketDetails.cameraLocation_id ?
+        {ticketDetails.equipmentLocation_id ?
           <View style={{flexDirection:"row",paddingVertical:5}}>  
-            <Icon name='camera' type='entypo' size={20} iconStyle={{paddingHorizontal:5,flex:0.1}}/>
+            <Icon name='cogs' type='font-awesome' size={20} iconStyle={{paddingHorizontal:5,flex:0.1}}/>
             <View style={{flex:0.9}}>
-              <Text style={commonStyle.label}>Camera Location</Text>
+              <Text style={commonStyle.label}>Equipment Location</Text>
               <Text style={commonStyle.normalText}>{
-                ticketDetails.cameraLocation_id && ticketDetails.cameraLocation_id.address && ticketDetails.cameraLocation_id.address.length > 0 ?
-                  ticketDetails.cameraLocation_id.address[0].addressLine1
+                ticketDetails.equipmentLocation_id && ticketDetails.equipmentLocation_id.address && ticketDetails.equipmentLocation_id.address.length > 0 ?
+                  ticketDetails.equipmentLocation_id.address[0].addressLine1
                   :
                   "NA"
               }</Text>
             </View>
-              <TouchableOpacity style={{marginBottom:'1%',marginLeft:'5%',flexDirection:"row",alignItems:"flex-end"}} onPress={()=>goToMap(ticketDetails.cameraLocation_id.address[0].latitude,ticketDetails.cameraLocation_id.address[0].longitude)}>
+              <TouchableOpacity style={{marginBottom:'1%',marginLeft:'5%',flexDirection:"row",alignItems:"flex-end"}} onPress={()=>goToMap(ticketDetails.equipmentLocation_id.address[0].latitude,ticketDetails.equipmentLocation_id.address[0].longitude)}>
                   <Icon size={20} name='location-arrow' type='font-awesome' color={colors.theme} />
               </TouchableOpacity> 
           </View>

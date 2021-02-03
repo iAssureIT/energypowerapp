@@ -48,12 +48,12 @@ const ListOfTechnicianTickets = (props) =>  {
 									</View>	
 									<View style={{flexDirection:"row",marginVertical:2}}>
 										<Icon name="location" size={20} color="black" type="entypo" iconStyle={{marginHorizontal:5}}/>
-										<Text style={commonStyle.normalText}>{item.recordingLocationName}</Text>
+										<Text style={commonStyle.normalText}>{item.projectLocationName}</Text>
 									</View>	
-									{item.cameraLocationName!=="" ?
+									{item.equipmentLocationName!=="" ?
                                         <View style={{flexDirection:"row",marginVertical:2}}>
-										  <Icon name="cctv" size={20} color="black" type="material-community" iconStyle={{marginHorizontal:5}}/>
-										  <Text style={commonStyle.normalText}>{item.cameraLocationName}</Text>
+										  <Icon name="cogs" size={20} color="black" type="font-awesome" iconStyle={{marginHorizontal:5}}/>
+										  <Text style={commonStyle.normalText}>{item.equipmentLocationName}</Text>
 									   </View>
                                        :
                                     null

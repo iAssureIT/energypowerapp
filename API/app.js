@@ -51,8 +51,8 @@
 	const documentListMasterRoutes		= require("./coreAdmin/DocumentListMaster/Routes.js");
 
 	/*sta*/
-	const cameralocationRoutes 			= require('./sta/cameraLocation/Routes.js');
-	const recordinglocationRoutes 	    = require('./sta/recordingLocation/Routes.js');
+	const equipmentlocationRoutes 			= require('./sta/equipmentLocation/Routes.js');
+	const projectlocationRoutes 	    = require('./sta/projectLocation/Routes.js');
 	const addTicketRoutes       	    = require('./sta/ticketMaster/Routes.js');
 	const addsiteRoutes          	    = require('./sta/siteMaster/Routes.js');
 	const addprojectRoutes          	= require('./sta/projectMaster/Routes.js');
@@ -65,13 +65,13 @@
 
 
 	/*Single field masters*/
-	const brandsMasterRoutes    	    = require('./sta/brandMaster/Routes.js');
-	const recorderTypeMasterRoutes    	= require('./sta/recorderTypeMaster/Routes.js');
-	const maxChannelsRoutes         	= require('./sta/maxChannelMaster/Routes.js');
-	const cameraTypeMasterRoutes    	= require('./sta/cameraTypeMaster/Routes.js');
+	const industryMasterRoutes    	    = require('./sta/industryMaster/Routes.js');
+	const divisionMasterRoutes    	= require('./sta/divisionMaster/Routes.js');
+	const processRoutes         	= require('./sta/processMaster/Routes.js');
+	const equipmentSpecificationsRoutes    	= require('./sta/equipmentSpecifications/Routes.js');
 	const taskTypeMasterRoutes      	= require('./sta/taskTypeMaster/Routes.js');
-	const cameraResolutionRoutes      	= require('./sta/cameraResolution/Routes.js');
-	const cameraModelRoutes      	    = require('./sta/cameraModel/Routes.js');
+	const actualPerformanceRoutes      	= require('./sta/actualPerformance/Routes.js');
+	const equipmentModelRoutes      	    = require('./sta/equipmentModel/Routes.js');
 	const departmentMasterRoutes		= require("./coreAdmin/departmentMaster/RoutesDepartmentMaster.js");
 	const designationMasterRoutes		= require("./coreAdmin/designationMaster/RoutesDesignationMaster.js");
 	const locationTypeMasterRoutes		= require("./coreAdmin/locationTypeMaster/RoutesLocationTypeMaster.js");
@@ -116,21 +116,21 @@
 	app.use("/api/EventToken", 					EventTokenRoutes);
 
 	/*sta*/
-	app.use('/api/cameralocation'   ,cameralocationRoutes);
-	app.use('/api/recordinglocation',recordinglocationRoutes);
+	app.use('/api/equipmentlocation',equipmentlocationRoutes);
+	app.use('/api/projectlocation',projectlocationRoutes);
 	app.use('/api/tickets',addTicketRoutes);
 	app.use('/api/addsite',addsiteRoutes);
 	app.use('/api/addproject',addprojectRoutes);
 	app.use('/api/monthlyreimbursement',monthlyReibursementRoutes);
 
 	/*single field*/
-	app.use('/api/brandsMaster',brandsMasterRoutes);
-	app.use('/api/recorderTypeMaster',recorderTypeMasterRoutes);
-	app.use('/api/cameraTypeMaster',cameraTypeMasterRoutes);
-	app.use('/api/maxChannels',maxChannelsRoutes);
+	app.use('/api/industryMaster',industryMasterRoutes);
+	app.use('/api/divisionMaster',divisionMasterRoutes);
+	app.use('/api/equipmentSpecifications',equipmentSpecificationsRoutes);
+	app.use('/api/process',processRoutes);
 	app.use('/api/taskTypeMaster',taskTypeMasterRoutes);
-	app.use('/api/cameraResolution',cameraResolutionRoutes);
-	app.use('/api/cameraModel',cameraModelRoutes);
+	app.use('/api/actualPerformance',actualPerformanceRoutes);
+	app.use('/api/equipmentModel',equipmentModelRoutes);
 	app.use("/api/departmentmaster", departmentMasterRoutes);
 	app.use("/api/designationmaster", designationMasterRoutes);
 	app.use("/api/locationtypemaster", locationTypeMasterRoutes);

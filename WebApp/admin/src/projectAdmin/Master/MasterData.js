@@ -4,12 +4,12 @@ import $                  from "jquery";
 import axios              from 'axios';
 
 import ManageLocations        from './manageLocation/ManageLocations.js';
-import Brands                from './Brands/Brands.js';
-import RecorderType           from './RecorderType/RecorderType.js';
-import MaxChannels            from './MaxChannels/MaxChannels.js';
-import CameraType             from './CameraType/CameraType.js';
-import CameraResolution       from './CameraResolution/CameraResolution.js';
-import CameraModel           from './CameraModel/CameraModel.js';
+import Industry                from './Industry/Industry.js';
+import Division           from './Division/Division.js';
+import Process            from './Process/Process.js';
+import EquipmentSpecifications   from './EquipmentSpecifications/EquipmentSpecifications.js';
+import ActualPerformance       from './ActualPerformance/ActualPerformance.js';
+import EquipmentModel           from './EquipmentModel/EquipmentModel.js';
 import TaskTypes              from './TaskTypes/TaskTypes.js';
 import DocumentRequiredfor    from  './DocumentRequiredfor/DocumentListMaster.js';
 import Reimbursement           from  './Reimbursement/ReimbursementList.js';
@@ -91,24 +91,24 @@ import '../../coreadmin/companysetting/css/CompanySetting.css';
                   <div className="boxMinHeight boxMinHeighttab addMarginTop">
                       <div className="col-lg-3 col-md-3 col-xs-12 col-sm-12 noPadding"> 
                           <ul className="nav nav-tabs tabs-left sideways">
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12 active "><a className="tabLeft lettersp tablefthr" href="#Brands" data-toggle="tab" onClick={this.tab.bind(this)}>  Industry </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#RecorderType" data-toggle="tab" onClick={this.tab.bind(this)}>  Division </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#MaxChannels" data-toggle="tab" onClick={this.tab.bind(this)}>  Process </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#CameraType" data-toggle="tab" onClick={this.tab.bind(this)}>  Equipment Specifications </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#CameraModel" data-toggle="tab" onClick={this.tab.bind(this)}>  Equipment Model </a></li>
-                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#CameraResolution" data-toggle="tab" onClick={this.tab.bind(this)}>  Actual Performance </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12 active "><a className="tabLeft lettersp tablefthr" href="#Industry" data-toggle="tab" onClick={this.tab.bind(this)}>  Industry </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#Division" data-toggle="tab" onClick={this.tab.bind(this)}>  Division </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#Process" data-toggle="tab" onClick={this.tab.bind(this)}>  Process </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#EquipmentSpecifications" data-toggle="tab" onClick={this.tab.bind(this)}>  Equipment Specifications </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#EquipmentModel" data-toggle="tab" onClick={this.tab.bind(this)}>  Equipment Model </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#ActualPerformance" data-toggle="tab" onClick={this.tab.bind(this)}>  Actual Performance </a></li>
                             <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#TaskTypes" data-toggle="tab" onClick={this.tab.bind(this)}>  Type of Issue </a></li>
                             {/*<li className="col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#DocumentList" data-toggle="tab" onClick={this.tab.bind(this)}> Document List Master  </a></li>*/}
                             {/* <li className="col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#Reimbursement" data-toggle="tab" onClick={this.tab.bind(this)}> Fuel Reimbursement  </a></li> */}
                           </ul>   
                       </div>
                       <div className="tab-content col-lg-9 col-md-9 col-xs-12 col-sm-12">   
-                        <div className="tab-pane active " id="Brands">    <Brands               editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
-                        <div className="tab-pane " id="RecorderType">     <RecorderType         editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
-                        <div className="tab-pane " id="MaxChannels">      <MaxChannels          editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
-                        <div className="tab-pane " id="CameraType">       <CameraType           editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
-                        <div className="tab-pane " id="CameraModel">       <CameraModel           editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
-                        <div className="tab-pane " id="CameraResolution"> <CameraResolution     editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
+                        <div className="tab-pane active " id="Industry">    <Industry               editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
+                        <div className="tab-pane " id="Division">     <Division         editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
+                        <div className="tab-pane " id="Process">      <Process          editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
+                        <div className="tab-pane " id="EquipmentSpecifications">       <EquipmentSpecifications           editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
+                        <div className="tab-pane " id="EquipmentModel">       <EquipmentModel           editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
+                        <div className="tab-pane " id="ActualPerformance"> <ActualPerformance     editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
                         <div className="tab-pane " id="TaskTypes">        <TaskTypes            editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
                         <div className="tab-pane" id="DocumentList">      
                           <DocumentRequiredfor  
