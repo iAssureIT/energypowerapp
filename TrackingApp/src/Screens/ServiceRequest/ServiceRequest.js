@@ -470,8 +470,8 @@ const FormBody = props => {
 				        value           = {values.equipmentLocation}
 				        // required 		= {true}
 				        touched 		= {touched}
-			        	iconName     	= "cogs"
-			        	iconType     	= "font-awesome"
+			        	iconName     	= "location"
+			        	iconType     	= "entypo"
 				    />
 				    <FormInput
 				        labelName 		= "Description"
@@ -492,7 +492,7 @@ const FormBody = props => {
 					    	</TouchableOpacity>
 					    	:
 					    	<TouchableOpacity style={{height:60,width:80,backgroundColor:"#999",justifyContent:"center",borderRadius:10,margin:15}} onPress={() => setModal(true)}>
-					    		<Icon name="camera" size={30} color="white" type="font-awesome"/>
+					    		<Icon type="font-awesome" size={30} color="white" type="font-awesome"/>
 					    	</TouchableOpacity>
 					    }
 					    <ScrollView  horizontal={true}>

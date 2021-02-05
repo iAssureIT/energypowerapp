@@ -155,7 +155,7 @@ export const TicketDetails = (props) => {
         </View> 
         {ticketDetails.equipmentLocation_id ?
           <View style={{flexDirection:"row",paddingVertical:5}}>  
-            <Icon name='cogs' type='font-awesome' size={20} iconStyle={{paddingHorizontal:5,flex:0.1}}/>
+            <Icon name='location' type='entypo' size={20} iconStyle={{paddingHorizontal:5,flex:0.1}}/>
             <View style={{flex:0.9}}>
               <Text style={commonStyle.label}>Equipment Location</Text>
               <Text style={commonStyle.normalText}>{

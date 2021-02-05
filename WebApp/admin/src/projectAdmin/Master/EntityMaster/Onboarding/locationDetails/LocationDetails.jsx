@@ -1072,7 +1072,7 @@ class LocationDetails extends Component {
 																			</div>
 																			<ul className="col-lg-10 col-md-10 col-sm-10 col-xs-10 palfclr addrbox">
 																				<li><b>{Suppliersdata.locationType}</b></li>
-																				<li>{Suppliersdata.addressLine2 && Suppliersdata.addressLine2+", "+Suppliersdata.addressLine1}</li>
+																				<li>{Suppliersdata.addressLine2 ? Suppliersdata.addressLine2+", "+Suppliersdata.addressLine1: Suppliersdata.addressLine1}</li>
 																				<li>{Suppliersdata.city ? Suppliersdata.city :""}</li>
 																				<li>{Suppliersdata.state ? Suppliersdata.state:""}</li>
 																				<li>{Suppliersdata.pincode?Suppliersdata.pincode:""}</li>

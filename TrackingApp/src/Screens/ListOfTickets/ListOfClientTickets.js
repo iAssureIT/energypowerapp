@@ -49,7 +49,7 @@ const ListOfClientTickets = (props) =>  {
 										<Text style={commonStyle.normalText}>{item.projectLocationName}</Text>
 									</View>	
 									{item.equipmentLocationName ? <View style={{flexDirection:"row",marginVertical:2}}>
-										<Icon name="cogs" size={20} color="black" type="font-awesome" iconStyle={{marginHorizontal:5}}/>
+										<Icon name='location' type='entypo' size={20} color="black" iconStyle={{marginHorizontal:5}}/>
 										<Text style={commonStyle.normalText}>{item.equipmentLocationName}</Text>
                                     </View>:null}	
                                     <View style={{flexDirection:"row",marginVertical:2,justifyContent:"flex-end"}}>

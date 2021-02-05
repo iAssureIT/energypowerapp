@@ -32,7 +32,7 @@ const entitySchema = mongoose.Schema({
                                     district            : String,
                                     city                : String,
                                     area                : String,
-                                    pincode             : Number,
+                                    pincode             : String,
                                     latitude            : Number,
                                     longitude           : Number,
                                     GSTIN               : String,

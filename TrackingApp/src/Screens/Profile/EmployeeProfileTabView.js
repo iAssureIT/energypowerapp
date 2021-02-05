@@ -45,7 +45,7 @@ export const EmployeeProfileTabView=(props)=>{
       return <Icon name='address-book' size={20} color={iconColor} type='font-awesome'/>
     }
     else if(route.key === 'third'){
-      return <Icon name='address-book' size={20} color={iconColor} type='font-awesome'/>
+      return <Icon name='briefcase' size={20} color={iconColor} type='font-awesome'/>
     }
   }
 

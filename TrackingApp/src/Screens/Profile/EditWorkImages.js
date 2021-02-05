@@ -32,6 +32,8 @@ import styles from './styles.js';
 import MapView, {PROVIDER_GOOGLE,Marker} from 'react-native-maps';
 import { KeyboardAwareScrollView }      from 'react-native-keyboard-aware-scroll-view';
 import Geocoder from 'react-native-geocoding';
+import ImageView                  from 'react-native-image-view';
+import Loading                 	 		from '../../layouts/Loading/Loading.js';
 const window = Dimensions.get('window');
 
 
@@ -74,16 +76,18 @@ const store = useSelector((store) => ({
                   includeExif: true,
                   forceJpg: true,
                 }).then(response => {
-                setImageLoading(true);
+                  console.log("response",response);
                   response =  props === 'openCamera' ? [response] : response;
                   for (var i = 0; i<response.length; i++) {
-                      if(response[i].path){
-                const file = {
-                  uri  : response[i].path,
-                  name : response[i].path.split('/').pop().split('#')[0].split('?')[0],
-                  type : 'image/jpeg',
-                }
-                  if(file) {
+                    if(response[i].path){
+                      setImageLoading(true)
+                    const file = {
+                      uri  : response[i].path,
+                      name : response[i].path.split('/').pop().split('#')[0].split('?')[0],
+                      type : 'image/jpeg',
+                    }
+                    console.log("file",file);
+                    if(file) {
                         var fileName = file.name; 
                         var ext = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2); 
                         if(ext=="jpg" || ext=="png" || ext=="jpeg" || ext=="JPG" || ext=="PNG" || ext=="JPEG"){  
@@ -91,16 +95,15 @@ const store = useSelector((store) => ({
                               RNS3
                               .put(file,store.s3Details)
                               .then((Data)=>{
-                                 setGallery([
-                              ...gallery,
-                              Data.body.postResponse.location,
-                            ]);
-                            // gallery.push(Data.body.postResponse.location) ; 
-                            // setFieldValue('images', gallery);
-                            setImageLoading(false);
+                                console.log("data",Data);
+                                setGallery([
+                                    ...gallery,
+                                    Data.body.postResponse.location,
+                                  ]);
+							                  setImageLoading(false);
                               })
                               .catch((error)=>{
-                                  console.log("err",error)
+                                console.log("err",error)
                                 setToast({text: 'Something went wrong.', color: 'red'});
                                 setImageLoading(false);
                               });
@@ -114,7 +117,8 @@ const store = useSelector((store) => ({
                         }
                       }
                    }    
-                 }       
+                 }   
+                 setImageLoading(false);
                 });
                 break;
                 case RESULTS.UNAVAILABLE:
@@ -171,19 +175,29 @@ const store = useSelector((store) => ({
 }
  
   console.log("store",store.personDetails);
+  console.log("gallery",gallery);
+  console.log("window",window);
   return (
     <React.Fragment>
       <KeyboardAwareScrollView  behavior="padding"  keyboardShouldPersistTaps='always'  getTextInputRefs={() => { return [this._textInputRef];}}>
             <View style={commonStyle.modalView}>
             <Text style={styles.label}>Work Images</Text>
-             <ScrollView contentContainerStyle={{flexDirection:"row",paddingVertical:25}} horizontal={true}>
+             <View style={{paddingVertical:25}}>
+             {imageLoading ?
+                <TouchableOpacity style={{height:60,width:80,backgroundColor:"#999",justifyContent:"center",borderRadius:10,margin:15}}>
+					    		<Loading />
+					    	</TouchableOpacity>
+                :
                   <TouchableOpacity style={{height:60,width:80,backgroundColor:"#999",justifyContent:"center",borderRadius:10,margin:15}} onPress={() => setModal(true)}>
                     <Icon name="camera" size={30} color="white" type="font-awesome"/>
                   </TouchableOpacity>
+                } 
+              </View>
+                 <View style={{flexDirection:"row",flexWrap:"wrap"}} >  
                   {gallery && gallery.length > 0 ?
                     gallery.map((item,index)=>{
                       return(
-                        <TouchableOpacity key={index} style={commonStyle.image} 
+                        <TouchableOpacity key={index} style={{padding:15}} 
                         onPress={() => {
                             setImage([
                               {
@@ -198,7 +212,7 @@ const store = useSelector((store) => ({
                             setImageVisible(true);
                           }}>
                           <ImageBackground
-                            style={{height: 60, width: 60}}
+                            style={{height:130, width: (window.width-120)/2}}
                             source={{uri:item}}
                             resizeMode={'contain'}
                           >
@@ -212,7 +226,7 @@ const store = useSelector((store) => ({
                   :
                   []
                 }
-              </ScrollView> 
+              </View> 
               <FormButton
                 title={'Save Changes'}
                 onPress={handleSubmit}

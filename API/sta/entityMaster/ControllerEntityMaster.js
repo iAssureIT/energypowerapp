@@ -557,6 +557,7 @@ exports.singleLocation = (req,res,next)=>{
     });
 };
 exports.updateSingleLocation = (req,res,next)=>{
+    console.log("req.body",req.body);
     var locationdetails = req.body.locationDetails;
     insertLocationdetails();
     async function insertLocationdetails() {
@@ -602,6 +603,7 @@ exports.updateSingleLocation = (req,res,next)=>{
                 }
             })
             .catch(err =>{
+                console.log("err",err);
                 res.status(500).json({ error: err });
             });
         // }
