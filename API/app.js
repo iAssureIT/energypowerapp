@@ -71,6 +71,7 @@
 	const equipmentSpecificationsRoutes    	= require('./sta/equipmentSpecifications/Routes.js');
 	const taskTypeMasterRoutes      	= require('./sta/taskTypeMaster/Routes.js');
 	const actualPerformanceRoutes      	= require('./sta/actualPerformance/Routes.js');
+	const socialMediaRoutes      	= require('./sta/socialMediaMaster/Routes.js');
 	const equipmentModelRoutes      	    = require('./sta/equipmentModel/Routes.js');
 	const departmentMasterRoutes		= require("./coreAdmin/departmentMaster/RoutesDepartmentMaster.js");
 	const designationMasterRoutes		= require("./coreAdmin/designationMaster/RoutesDesignationMaster.js");
@@ -103,6 +104,7 @@
 	app.use("/api/paymentgateway", paymentgatewayRoutes);
 	app.use("/api/documententitymaster", documententitymasterRoutes);
 	app.use("/api/documentlistmaster", documentListMasterRoutes);
+	app.use("/api/socialmediamaster", socialMediaRoutes);
     // app.use("/users", userRoutes);
 
 	/*app.use("/roles", rolesRoutes);

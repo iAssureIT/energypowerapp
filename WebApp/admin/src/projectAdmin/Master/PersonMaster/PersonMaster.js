@@ -24,6 +24,7 @@ import Geocode from "react-geocode";
 import Department from  '../../../coreadmin/Master/Department/DepartmentMaster-GlobalMaster.js';
 import Designation from  '../../../coreadmin/Master/Designation/DesignationMaster-GlobalMaster.js';
 import ReimbursementMaster from '../Reimbursement/ReimbursementList.js';
+import IAssureTable         from "../../../coreadmin/IAssureTable/IAssureTable.jsx";
 
 var contactarray = [];
 var personIDOF = "";
@@ -67,6 +68,7 @@ class PersonMaster extends Component {
       "addressProof": [],
       "identityProof": [],
       "verificationProof": [],
+      socialMediaArray:[],
       imagesArray:[],
       "COI": [],
       "loading": false,
@@ -101,7 +103,8 @@ class PersonMaster extends Component {
         designation: "Designation",
         employeeId: "Employee Id",
         failedRemark: "Failed Data Remark"
-      }
+      },
+   
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -150,6 +153,7 @@ class PersonMaster extends Component {
     this.dynamicvalidation();
     this.getRoles();
     this.getVehicles();
+    this.getSocialMedia();
     console.log("this.props.match.params.personID===>",this.props.match.params.personID);
     console.log("this.pathname===>",this.state.pathname);
     this.setState({
@@ -157,6 +161,23 @@ class PersonMaster extends Component {
     }, () => {
       this.edit();
     })
+  }
+
+  getSocialMedia(){
+    axios.post("/api/socialmediamaster/get/list")
+      .then((response) => {
+        console.log("response",response);
+      var socialMediaOptions = response.data;
+      this.setState({
+        socialMediaOptions: socialMediaOptions
+      },()=>{
+
+      })
+      })
+      .catch((error) => {
+         console.log("error",error);
+
+      })
   }
 
 
@@ -289,6 +310,7 @@ class PersonMaster extends Component {
               profilePhoto: response.data.profilePhoto,
               userId:response.data.userId,
               imagesArray:response.data.workImages,
+              socialMediaArray:response.data.socialMediaArray ? response.data.socialMediaArray : [],
               createdBy: localStorage.getItem("user_ID")
             }, () => {
               this.getEntityLocation(this.state.corporate_Id);
@@ -707,6 +729,7 @@ class PersonMaster extends Component {
         fuelreimbursement_id:this.state.fuelreimbursement_id,
         'employeeId' : this.state.employeeID,
         workImages : this.state.imagesArray, 
+        socialMediaArray : this.state.socialMediaArray,
         address: {
           addressLine1: this.state.addressLine1,
           addressLine2: this.state.addressLine2,
@@ -1078,6 +1101,8 @@ class PersonMaster extends Component {
           vehicle:this.state.vehicle,
           fuelreimbursement_id:this.state.fuelreimbursement_id,
           Documentarray : docarr,
+          workImages:this.state.workImages,
+          socialMediaArray:this.state.socialMediaArray,
           address: {
             addressLine1: this.state.addressLine1,
             addressLine2: this.state.addressLine2,
@@ -2233,10 +2258,40 @@ class PersonMaster extends Component {
         this.setState({
             imagesArray
         })
-    }  
+    } 
+    deleteSocialImage(event){
+      event.preventDefault();
+        const socialMediaArray = this.state.socialMediaArray;
+        const index = event.target.getAttribute("id");
+        if (index > -1) {
+          socialMediaArray.splice(index, 1);
+        }
+        this.setState({
+          socialMediaArray
+        })
+    } 
+    
+    addSocialMedia(){
+      if(this.state.socialMedia && this.state.socialMediaUrl){
+        var {socialMediaArray} = this.state;
+        socialMediaArray.push({
+            social_id   : this.state.socialMedia.split("^")[0],
+            name        : this.state.socialMedia.split("^")[1],
+            icon        : this.state.socialMedia.split("^")[2],
+            url         : this.state.socialMediaUrl
+        })
+        this.setState({
+          socialMediaArray,
+          socialMedia:"",
+          socialMediaUrl:""
+        })
+      }else{
+        swal("Please select option and add URL")
+      }
+    }
 
   render() {
-
+    console.log("socialMediaArray",this.state.socialMediaArray);
     var oldDate = new Date();
     oldDate.setFullYear(oldDate.getFullYear() - 18);
 
@@ -2663,8 +2718,48 @@ class PersonMaster extends Component {
                                     <div className = "col-lg-12 marginTop17">
                                       <MapContainer address={this.state.addressLine1} latLng={this.state.latLng} addMarker={this.addMarker.bind(this)} />
                                     </div>
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding mt20">
+                                      <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" > 
+                                        <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">Social Media <i className="astrick">*</i></label>
+                                        <select className="errorinputText form-control col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                          ref="socialMedia" name="socialMedia" id="socialMedia" value={this.state.socialMedia} onChange={this.handleChange}>
+                                          <option value="" disabled={true} selected>-- Select Social Media --</option>
+                                          {this.state.socialMediaOptions && this.state.socialMediaOptions.length > 0 ?
+                                                this.state.socialMediaOptions.map((socialMediaOptions, index) => {
+                                                return (
+                                                  <option key={index} value={socialMediaOptions._id+"^"+socialMediaOptions.socialMedia+"^"+socialMediaOptions.iconUrl}>{socialMediaOptions.socialMedia}</option>
+                                                );
+                                                }) : ''
+                                              }
+                                            </select>
+                                          </div>
+                                          <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                            <div id="socialMediaUrl">
+                                              <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">URL <i className="astrick">*</i></label>
+                                              <input type="text" id="socialMediaUrl" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" value={this.state.socialMediaUrl} ref="socialMediaUrl" name="socialMediaUrl" onChange={this.handleChange} />
+                                            </div>
+                                        </div>     
+                                        <div className="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt20">
+                                        <div className="btn btn-primary pull-right" onClick={this.addSocialMedia.bind(this)} >Add&nbsp;</div>
+                                        </div>          
+                                    </div> 
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding mt20">
+                                      {
+                                        this.state.socialMediaArray && this.state.socialMediaArray.length >0 ?
+                                          this.state.socialMediaArray.map((item,index)=>{
+                                            return(
+                                              <div className="col-lg-1" style={{"marginLeft":"15px"}}>
+                                                    <label className="labelform deleteImage col-lg-12 col-md-12 col-sm-12 col-xs-12"  style={{"background":"#fff"}} id={index} onClick={this.deleteSocialImage.bind(this)}><i className="fa fa-trash text-danger" /></label>
+                                                    <a href={item.url} target="_blank" title={item.url}><img src={item.icon} className="img-responsive"/></a>
+                                              </div>      
+                                            )
+                                          })
+                                        :
+                                        []
+                                      }
+                                    </div>  
                                     <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 NOpadding mt20">
-                                      <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12">Attach Work Images</label>
                                       </div>
                                       <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 nopadding">

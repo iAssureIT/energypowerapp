@@ -13,6 +13,7 @@ import EquipmentModel           from './EquipmentModel/EquipmentModel.js';
 import TaskTypes              from './TaskTypes/TaskTypes.js';
 import DocumentRequiredfor    from  './DocumentRequiredfor/DocumentListMaster.js';
 import Reimbursement           from  './Reimbursement/ReimbursementList.js';
+import SocialMedia           from  './SocialMedia/SocialMedia.js';
 import '../../coreadmin/companysetting/css/CompanySetting.css';
 
  class MasterData extends Component{
@@ -98,6 +99,7 @@ import '../../coreadmin/companysetting/css/CompanySetting.css';
                             <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#EquipmentModel" data-toggle="tab" onClick={this.tab.bind(this)}>  Equipment Model </a></li>
                             <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#ActualPerformance" data-toggle="tab" onClick={this.tab.bind(this)}>  Actual Performance </a></li>
                             <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#TaskTypes" data-toggle="tab" onClick={this.tab.bind(this)}>  Type of Issue </a></li>
+                            <li className=" col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#SocialMedia" data-toggle="tab" onClick={this.tab.bind(this)}>  Social Media </a></li>
                             {/*<li className="col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#DocumentList" data-toggle="tab" onClick={this.tab.bind(this)}> Document List Master  </a></li>*/}
                             {/* <li className="col-lg-12 col-md-12 col-xs-12 col-sm-12"><a className="tabLeft lettersp tablefthr" href="#Reimbursement" data-toggle="tab" onClick={this.tab.bind(this)}> Fuel Reimbursement  </a></li> */}
                           </ul>   
@@ -110,6 +112,7 @@ import '../../coreadmin/companysetting/css/CompanySetting.css';
                         <div className="tab-pane " id="EquipmentModel">       <EquipmentModel           editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
                         <div className="tab-pane " id="ActualPerformance"> <ActualPerformance     editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
                         <div className="tab-pane " id="TaskTypes">        <TaskTypes            editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
+                        <div className="tab-pane " id="SocialMedia">        <SocialMedia            editId={this.state.editId} editUrl='/project-master-data'/>  </div>                              
                         <div className="tab-pane" id="DocumentList">      
                           <DocumentRequiredfor  
                             editId={this.state.editId} 

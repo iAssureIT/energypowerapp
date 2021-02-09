@@ -547,6 +547,7 @@ class ContactDetails extends Component {
 			"emailSubject"	: "Email Verification",
 			"emailContent"	: "As part of our registration process, we screen every new profile to ensure its credibility by validating email provided by user. While screening the profile, we verify that details put in by user are correct and genuine.",
 		}
+		console.log("userDetails",userDetails);
 		return new Promise(function(resolve, reject){
 			axios.post('/api/auth/post/signup/user', userDetails)
 			.then((response)=>{
@@ -567,7 +568,7 @@ class ContactDetails extends Component {
 		var userDetails = {
 			type                    : "employee",
 			companyID				: this.state.companyID,
-			company_Id				: this.state.entityID,
+			company_id				: this.state.entityID,
 			companyName 		    : this.state.companyName,
 			workLocation            : this.state.workLocation,
 			workLocationId          : this.state.workLocationId,
@@ -761,6 +762,7 @@ class ContactDetails extends Component {
 			"emailSubject"		: "Email Verification",
 			"emailContent"		: "As part of our registration process, we screen every new profile to ensure its credibility by validating email provided by user. While screening the profile, we verify that details put in by user are correct and genuine.",
 		}
+		console.log("userDetails",userDetails);
 		var userid = this.state.userID;
 		axios.patch('/api/users/patch/' + userid, userDetails)
 		.then((response)=>{

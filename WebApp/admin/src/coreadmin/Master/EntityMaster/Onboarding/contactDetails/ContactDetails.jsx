@@ -544,6 +544,7 @@ class ContactDetails extends Component {
 			mobNumber				: this.state.phone,
 			email					: this.state.email,
 			companyID				: this.state.companyID,
+			company_id				: this.state.entityID,
 			companyName				: this.state.companyName,
 			pwd						: "welcome123",
 			role					: this.state.pathname === "appCompany"  ? ["admin"] : [ this.state.role ],

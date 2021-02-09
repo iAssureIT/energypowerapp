@@ -27,12 +27,15 @@ import {useNavigation}                from '../../config/useNavigation.js';
 import { colors, sizes }              from '../../config/styles.js';
 import {HeaderBar}                    from '../../layouts/Header/Header.js';
 import moment                           from 'moment';
-import Loading                      from '../../layouts/Loading/Loading.js';       
+import Loading                      from '../../layouts/Loading/Loading.js'; 
+import ImageView                  from 'react-native-image-view';      
 const window = Dimensions.get('window');
 
 const Profile = (props) => {
   const personDetails =props.personDetails;
   const navigation = useNavigation();
+  const [imageVisible, setImageVisible] = useState(false);
+  const [image, setImage] = useState([]);
 
   const toConvertAddress = (obj) =>{
      var adddress = Object.keys(obj).map(function (key) { 
@@ -141,8 +144,70 @@ const Profile = (props) => {
               <Text type={['bold']}>{personDetails.workLocation}</Text>
             </View>
           </View>}
+          {personDetails.workImages && personDetails.workImages.length > 0 && <View style={{marginBottom: '5%'}}>
+            <View style={{flex: 1}}>
+              <Text type={['bold']}>Work Images : </Text>
+            </View>
+            <View style={{flexDirection:"row",flexWrap:"wrap"}} >  
+                  {
+                    personDetails.workImages.map((item,index)=>{
+                      return(
+                        <TouchableOpacity key={index} style={{padding:15}} 
+                        onPress={() => {
+                            setImage([
+                              {
+                                source: {
+                                  uri: item,
+                                },
+                                title: 'Photos',
+                                // width: window.width,
+                                // height: window.height,
+                              },
+                            ]),
+                            setImageVisible(true);
+                          }}>
+                          <ImageBackground
+                            style={{height:100, width: (window.width-120)/2}}
+                            source={{uri:item}}
+                            resizeMode={'cover'}
+                          >
+                          </ImageBackground>
+                        </TouchableOpacity>
+                      );
+                    })
+                }
+              </View> 
+          </View>}
+          {personDetails.socialMediaArray && personDetails.socialMediaArray.length > 0 && <View style={{marginBottom: '5%'}}>
+            <View style={{flex: 1}}>
+              <Text type={['bold']}>Social Media : </Text>
+            </View>
+            <View style={{flex:1,flexDirection:"row",flexWrap:"wrap"}} >  
+              { 
+                personDetails.socialMediaArray.map((item,index)=>{
+                  return(
+                    <TouchableOpacity key={index} style={{padding:5}} 
+                    onPress={() => {Linking.openURL(item.url)}}>
+                      <ImageBackground
+                        style={{height:50, width:50}}
+                        source={{uri:item.icon}}
+                        resizeMode={'cover'}
+                      >
+                      </ImageBackground>
+                    </TouchableOpacity>
+                  );
+                })
+            }
+           </View> 
+          </View>}
         </View>
        </ScrollView>} 
+       <ImageView
+          images={image}
+          imageIndex={0}
+          isVisible={imageVisible}
+          onClose={() => setImageVisible(false)}
+        />
     </React.Fragment>
   );
 };

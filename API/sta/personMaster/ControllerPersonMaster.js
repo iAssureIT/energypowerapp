@@ -54,6 +54,7 @@ exports.insertPerson = (req, res, next) => {
             address: req.body.address,
             vehicle:req.body.vehicle,
             workImages:req.body.workImages,
+            socialMediaArray:req.body.socialMediaArray,
             fuelreimbursement_id:req.body.fuelreimbursement_id,
             home_office_distance: req.body.home_office_distance,
             // drivingLicense              : req.body.drivingLicense,
@@ -288,6 +289,7 @@ exports.updatePerson = (req, res, next) => {
                 "workLocationLatLng" : req.body.workLocationLatLng,
                 'address': req.body.address,
                 "Documentarray": req.body.Documentarray,
+                "socialMediaArray":req.body.socialMediaArray,
             }
         }
     )
@@ -1306,6 +1308,7 @@ exports.updateWorkImages = (req, res, next) => {
         {
             $set: {
                 'workImages': req.body.workImages,
+                "socialMediaArray" : req.body.socialMediaArray
             }
         }
     )

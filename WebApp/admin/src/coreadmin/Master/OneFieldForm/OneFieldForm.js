@@ -10,6 +10,14 @@ import BulkUpload from "../BulkUpload/BulkUpload.js";
 import 'bootstrap/js/tab.js';
 import './OneField.css'
 
+const formValid = formerrors=>{
+  let valid = true;
+  Object.values(formerrors).forEach(val=>{
+  val.length>0 && (valid = false);
+  })
+  return valid;
+  }
+
 class OneFieldForm extends React.Component {
     constructor(props) {
         super(props);
@@ -19,15 +27,20 @@ class OneFieldForm extends React.Component {
             "limitRange": 10000,
             "editId": '',
             "fieldValue": "",
-            "categoryImage": "",
+            "image": "",
             "pageUrl": "",
             "apiLink": "",
+            formerrors :{
+          fieldValue   : "" ,
+        
+      },
         };
     }
     componentWillUnmount(){
 
     }
     componentDidMount() {
+        //console.log("this.props.fields.attributeName",this.props.fields.attributeName);
         const user_ID = localStorage.getItem("user_ID")
         const companyID = localStorage.getItem("companyID")
 
@@ -37,10 +50,13 @@ class OneFieldForm extends React.Component {
             companyID: companyID,
             editId: this.props.editId
         }, () => {
-            console.log("this.state.editId = ", this.state.editId);
+           // console.log("this.state.editId = ", this.state.editId);
         })
 
         //========  Validation  ===========
+        
+
+
         $.validator.addMethod("regxonefield", function (value, element, regexpr) {
             return regexpr.test(value.trim());
         }, "Please enter valid field value");
@@ -49,18 +65,15 @@ class OneFieldForm extends React.Component {
             success: "valid"
         });
 
-        $("#masterform").validate({
+        // $("#" + this.props.fields.attributeName).validate({
+        $("#" + (this.props.fields.validationIdFor ? (this.props.fields.attributeName + "-" + this.props.fields.validationIdFor) : this.props.fields.attributeName)).validate({
             rules: {
                 fieldName: {
                     required: true,
                     regxonefield: /^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/,
                 },
             },
-            errorPlacement: function (error, element) {
-                if (element.attr("name") === "fieldName") {
-                    error.insertAfter("#fieldName");
-                }
-            }
+           
         });
 
     }
@@ -70,7 +83,7 @@ class OneFieldForm extends React.Component {
         if(this.props.editId !== this.state.editId) {
             this.setState({ editId: this.props.editId },
                 () => {
-                    console.log("onefieldform 31 componentDidUpdate editId = ",this.state.editId);                            
+                    //console.log("onefieldform 31 componentDidUpdate editId = ",this.state.editId);                            
                 });
             this.edit(this.props.editId);
         }
@@ -86,27 +99,23 @@ class OneFieldForm extends React.Component {
             success: "valid"
         });
 
-        $("#" + this.props.fields.attributeName).validate({
+        $("#" + (this.props.fields.validationIdFor ? (this.props.fields.attributeName + "-" + this.props.fields.validationIdFor) : this.props.fields.attributeName)).validate({
             rules: {
                 fieldName: {
                     required: true,
                     regxonefield: /^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/,
                 },
             },
-            errorPlacement: function (error, element) {
-                if (element.attr("name") === "fieldName") {
-                    error.insertAfter("#fieldName");
-                }
-            }
+           
         });
     }
 
     compontWillReceiveProps(nextProps){
-
+       this.Validation();
        if (nextProps.editId !== this.state.editId) {
             this.setState({ editId: nextProps.editId },
                 () => {
-                    console.log("onefieldform 31 componentDidUpdate editId = ",this.state.editId);                            
+                   // console.log("onefieldform 31 componentDidUpdate editId = ",this.state.editId);                            
                 });
             this.edit(nextProps.editId);
         }
@@ -132,19 +141,36 @@ class OneFieldForm extends React.Component {
             var formValues = {
                 "companyID": this.state.companyID,
                 "fieldID": this.props.editId,
-                "fieldValue": this.state.fieldName ? this.state.fieldName.trim() : this.state.fieldName,
-                "iconUrl": this.state.categoryImage,
+                "fieldValue": this.state.fieldName.toUpperCase() ? this.state.fieldName.trim() : this.state.fieldName,
+                "iconUrl": this.state.image,
                 "updatedBy": this.state.user_ID
             }
             console.log("formValues with image = ",formValues);
-            if ($('#' + this.props.fields.attributeName).valid()) {
+
+            // if ($('#' + this.props.fields.attributeName).valid()) {
+            if ($('#' + (this.props.fields.validationIdFor ? (this.props.fields.attributeName + "-" + this.props.fields.validationIdFor) : this.props.fields.attributeName)).valid()) {
 
                 axios.patch(this.state.apiLink + '/patch', formValues)
                     .then((response) => {
+                        console.log("Onefield update response => ",response.data);
                         if(response.data.updated){
+                            swal(" ", this.props.fields.title + " updated Successfully");
                             this.setState({
                                 fieldName: "",
-                                categoryImage: "",
+                                image: "",
+                                iconUrl: ""
+                            }, () => {
+                                if (this.props.tableObjects.editUrl1) {
+                                    this.props.history.push(this.props.tableObjects.editUrl1);
+                                } else {
+                                    this.props.history.push(this.props.tableObjects.editUrl);
+                                }
+                            })
+                        }else{
+                            swal(" ", "Failed to Update");
+                            this.setState({
+                                fieldName: "",
+                                image: "",
                                 iconUrl: ""
                             }, () => {
                                 if (this.props.tableObjects.editUrl1) {
@@ -158,28 +184,33 @@ class OneFieldForm extends React.Component {
                             this.props.getSecondFieldData(this.state.startRange, this.state.limitRange);
                         }
                         this.getData(this.state.startRange, this.state.limitRange);
-                        swal(" ", this.capitalize(this.props.fields.title) + " updated Successfully");
+                        
                     })
                     .catch((error) => {
+                        console.log("submitType() error => ",error);
                     })
             }
         } else {
             var formValues = {
                 "companyID": this.state.companyID,
-                "fieldValue": this.state.fieldName ? this.state.fieldName.trim() : this.state.fieldName,
-                "iconUrl": this.state.categoryImage,
+                "fieldValue": this.state.fieldName? this.state.fieldName.trim() : this.state.fieldName,
+                "iconUrl": this.state.image,
                 "createdBy": this.state.user_ID
             }
-            console.log("formValues one = ",  formValues);
-            console.log("attributeName = ",  ("#"+this.props.fields.attributeName));
-            console.log("attributeName = ",  ($("#"+this.props.fields.attributeName).valid()));
-            if ($('#' + this.props.fields.attributeName).valid()) {
+            console.log("formValues with image submit = ",formValues);
+            console.log("condition = ",($('#' + this.props.fields.attributeName).valid()));
+            console.log("target = ",($(event.target)));
+            console.log("parent = ",($(event.target).parent()));
+            console.log("input = ",($(event.target).parent().find('.errorinputText .error:first')));
+           $(event.target).parent().find('.errorinputText .error:first').focus();
+            if ($('#' + (this.props.fields.validationIdFor ? (this.props.fields.attributeName + "-" + this.props.fields.validationIdFor) : this.props.fields.attributeName)).valid()) {
                 axios.post(this.state.apiLink + 'post', formValues)
-                    .then((response) => {                        
+                    .then((response) => { 
+                    console.log("response => ",response.data);                       
                         if (response.data.created) {
-                            swal(" ", this.capitalize(this.state.fieldName) + " " + this.props.fields.title + " Submitted Successfully");
+                            swal(" ", this.state.fieldName.charAt(0).toUpperCase() + this.state.fieldName.slice(1) + " " + this.props.fields.title + " Submitted Successfully");
                         } else {
-                            swal(" ", this.capitalize(this.state.fieldName) + " " + this.props.fields.title + " Already Exists");
+                            swal(" ", this.state.fieldName.toUpperCase() + " " + this.props.fields.title + " already exists");
                         }
                         this.getData(this.state.startRange, this.state.limitRange);
                         if (this.props.getSecondFieldData) {
@@ -187,23 +218,18 @@ class OneFieldForm extends React.Component {
                         }
                         this.setState({
                             fieldName: "",
-                            categoryImage: "",
+                            image: "",
                             iconUrl: ""
                         })
                     })
                     .catch((error) => {
-                        swal(" ", this.capitalize(this.state.fieldName) + " Failed to Submit...");
+                        swal(" ", this.state.fieldName + " Failed to Submit...");
                     })
             }else{
                 $(event.target).parent().find('.errorinputText .error:first').focus();
             }
 
         }
-    }
-
-    capitalize(s)
-    {
-        return s && s[0].toUpperCase() + s.slice(1);
     }
     updateType(event) {
         event.preventDefault();
@@ -212,35 +238,49 @@ class OneFieldForm extends React.Component {
             "companyID": this.state.companyID,
             "fieldID": this.props.editId,
             "fieldValue": this.state.fieldName.trim(),
-            "iconUrl": this.state.categoryImage,
+            "iconUrl": this.state.image,
             "updatedBy": this.state.user_ID
         }
         console.log("Update Onefield formValues = ", formValues);
-        if ($('#' + this.props.fields.attributeName).valid()) {
+        console.log("Condition = ", ($('#' + this.props.fields.attributeName).valid()));
+        if ($('#' + (this.props.fields.validationIdFor ? (this.props.fields.attributeName + "-" + this.props.fields.validationIdFor) : this.props.fields.attributeName)).valid()) {
             axios.patch(this.state.apiLink + '/patch', formValues)
-                .then((response) => {    
+                .then((response) => {   
+                console.log("Update response = ", response.data);                 
                     if(response.data.updated){
-                        swal(" ", this.capitalize(this.state.fieldName) + " " + this.props.fields.title + " Updated Successfully");
                         this.setState({
                             fieldName       : "",
-                            categoryImage   : "",
+                            image   : "",
                             iconUrl         : "",
+
                         }, () => {
                             this.getData(this.state.startRange, this.state.limitRange);
                             if (this.props.tableObjects.editUrl1) {
                                 this.props.history.push(this.props.tableObjects.editUrl1);
                             } else {
-                                this.props.history.goBack();
+                                this.props.history.push(this.props.tableObjects.editUrl);
                             }
                             // this.props.history.push(this.props.tableObjects.editUrl);
+                            swal(" ", this.props.fields.title + " updated Successfully");
                         })
-                    }else if(response.data.duplicated){
-                        swal(" ", this.capitalize(this.state.fieldName) + " " + this.props.fields.title + " Already Exists");
+                    }else{
+                        swal(" ", this.props.fields.title + " Failed to Update");
+                        this.setState({
+                            fieldName       : "",
+                            image   : "",
+                            iconUrl         : "",
+
+                        }, () => {this.getData(this.state.startRange, this.state.limitRange);
+                            if (this.props.tableObjects.editUrl1) {
+                                this.props.history.push(this.props.tableObjects.editUrl1);
+                            } else {
+                                this.props.history.push(this.props.tableObjects.editUrl);
+                            }
+                        });                        
                     }
                 })
                 .catch((error) => {
-                    console.log("error",error);
-                    swal(" ", this.capitalize(this.props.fields.title) + " Failed to Update");
+                    swal(" ", this.props.fields.title + " Failed to Update");
                 })
         }
     }
@@ -264,7 +304,7 @@ class OneFieldForm extends React.Component {
         }
         axios.post(this.state.apiLink + 'get/list', data)
             .then((response) => {
-
+                console.log("response",response);
                 var tableData = response.data.map((a, i) => {
                     return ({
                         _id: a._id,
@@ -276,33 +316,36 @@ class OneFieldForm extends React.Component {
                 var filterByCompanyID = tableData.filter(field => field.companyID == this.state.companyID);
 
                 this.setState({
-                    ["tableData" + this.props.fields.attributeName]: filterByCompanyID,
-                    fieldName : '',
-                    categoryImage: "",
-                    iconUrl: ""
+                    ["tableData" + this.props.fields.attributeName]: filterByCompanyID
+                }, () => {
+                    // console.log("line 219 this.state = ", this.state);
                 })
 
             })
             .catch((error) => { });
     }
     edit(editId) {
+        // console.log("hiii");
         $('label.error').html('')
         var fieldName = this.props.fields.attributeName;
         if (editId) {
 
             axios.get(this.state.apiLink + 'get/one/' + editId)
                 .then((response) => {
-                    // console.log('line 247 response',response.data);
+                    //console.log('line 247 response',response);
                     if (response.data) {
+
                         this.setState({
                             "fieldName": response.data[fieldName],
-                            "categoryImage": response.data.iconUrl,
-                        }, () => {
+                            "image": response.data.iconUrl,
                         });
                     }
+                    /*if(response.data.length== 0){
+                        swal("Please Update");
+                    }*/
                 })
                 .catch((error) => {
-                    console.log("onefieldform edit function Error = ", error);
+                    //console.log("onefieldform edit function Error = ", error);
                 });
 
         }
@@ -311,12 +354,13 @@ class OneFieldForm extends React.Component {
         event.preventDefault();
         var name = event.target.name
         var docBrowse = [];
-        if (event.currentTarget.files && event.currentTarget.files[0]) {
+
+        if (event.currentTarget.files && event.currentTarget.files.length > 0) {
             for (var i = 0; i < event.currentTarget.files.length; i++) {
                 var file = event.currentTarget.files[i];
                 if (file) {
                     var fileName = file.name;
-                    // console.log('fileName',fileName);
+
                     var ext = fileName.split('.').pop();
                     if (ext === "jpg" || ext === "png" || ext === "jpeg" || ext === "JPG" || ext === "PNG" || ext === "JPEG") {
                         if (file) {
@@ -332,27 +376,36 @@ class OneFieldForm extends React.Component {
                 }//file
             }//for 
 
-            if (event.currentTarget.files) {
+
+            if (event.currentTarget.files && event.currentTarget.files.length > 0) {
                 this.setState({
                     ["gotImage" + name]: true
 
-                })
+                }, ()=>{})
                 main().then(formValues => {
-                    this.setState({
-                        [name]: formValues[0].docBrowse,
-                    }, () => {
-                        // console.log("categoryImage0",this.state.categoryImage)
+                    if (formValues && formValues.length > 0) {
+                        this.setState({
+                            [name]: formValues[0].docBrowse,
+                        }, () => {                            
+                            this.setState({
+                                ["gotImage" + name]: false
+                            },()=>{})
+                        })
+                    } else {
                         this.setState({
                             ["gotImage" + name]: false
-                        })
-                    })
+                        },()=>{})
+                    }
                 });
 
                 async function main() {
                     var formValues = [];
                     for (var j = 0; j < docBrowse.length; j++) {
                         var config = await getConfig();
+                        console.log("config => ",config);
+
                         var s3url = await s3upload(docBrowse[j].fileInfo, config, this);
+                        
                         const formValue = {
                             "docBrowse": s3url,
                             "status": "New"
@@ -399,13 +452,14 @@ class OneFieldForm extends React.Component {
     deleteDoc(event) {
         event.preventDefault();
         var name = event.target.getAttribute("name");
+        var file = document.getElementById("LogoImageUp");
+        if (file) {
+            file.value = null;
+        }
         this.setState({
             [name]: "",
             ["gotImage" + name]: false
-
-        }, () => {
-            // console.log('name',this.state.categoryImage);
-        })
+        }, () => {})
     }
 
     render() {
@@ -413,8 +467,6 @@ class OneFieldForm extends React.Component {
         // console.log("typeof this.props.editId = ",typeof this.props.editId);
 
         return (
-            <div className="">
-                <div className="pageContent">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOPadding">
                         <section className="content">
                             <div className={this.props.masterFieldForm ? "OneFieldModal" : "col-lg-12 col-md-12 col-sm-12 col-xs-12 pageContent"}>
@@ -425,7 +477,7 @@ class OneFieldForm extends React.Component {
                                             this.props.bulkRequired ?
                                                 <ul className="nav tabNav nav-pills col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                                     <li className="active col-lg-5 col-md-5 col-xs-5 col-sm-5 NOpadding text-center"><a className="fieldTab" data-toggle="pill" href={"#manual-"+this.props.fields.attributeName}>Manual</a></li>
-                                                    <li className="col-lg-6 col-md-6 col-xs-6 col-sm-6 NOpadding  text-center"><a className="fieldTab" data-toggle="pill" href={"#bulk-"+this.props.fields.attributeName}>Bulk Upload</a></li>
+                                                    <li className="col-lg-6 col-md-6 col-xs-6 col-sm-6 NOpadding  text-center"><a className="fieldTab tabSty" data-toggle="pill" href={"#bulk-"+this.props.fields.attributeName}>Bulk Upload</a></li>
                                                 </ul>
                                                 : null
                                         }
@@ -438,41 +490,42 @@ class OneFieldForm extends React.Component {
                                                 {
                                                     this.props.fields.hasImage === true
                                                         ?
-                                                        <form className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="masterform" >
+                                                        <form className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id={this.props.fields.validationIdFor ? (this.props.fields.attributeName + "-" + this.props.fields.validationIdFor) : this.props.fields.attributeName} >
                                                             <div className="form-margin col-lg-6 col-lg-offset-1 col-md-6 col-sm-12 col-xs-12 pdcls">
                                                                 <div id="OneFieldInput">
                                                                     <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">{this.props.fields.title} <i className="astrick">*</i></label>
-                                                                    <input type={this.props.input_type === "number" ? this.props.input_type: "text"} className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 errorinputText" value={this.state.fieldName} ref="fieldName" id="fieldName"  name="fieldName" onChange={this.handleChange.bind(this)} placeholder={this.props.fields.placeholder} required />
+                                                                    <input type="text" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 errorinputText" value={this.state.fieldName} ref="fieldName" id="OneFieldInput"  name="fieldName" onChange={this.handleChange.bind(this)} placeholder={this.props.fields.placeholder} required />
                                                                 </div>
                                                             </div>
                                                             <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 NOpadding marginsBottom" id="hide">
                                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 OFFImageDiv " id="LogoImageUpOne" >
                                                                     <div><i className="fa fa-camera"></i> <br /><p>UPLOAD IMAGE</p></div>
-                                                                    <input onChange={this.docBrowse.bind(this)} id="LogoImageUp" type="file" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" title="" name="categoryImage" />
+                                                                    <input onChange={this.docBrowse.bind(this)} id="LogoImageUp" type="file" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" title="" name="image" />
                                                                 </div>
                                                                 {
-                                                                    this.state.categoryImage ?
+                                                                    this.state.image ?
                                                                         <div className="col-lg-12 col-md-2 col-sm-12 col-xs-12 nopadding CustomImageUploadOF">
                                                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding marginsBottom" id="hide">
-                                                                                <label className="labelform deletelogo col-lg-12 col-md-12 col-sm-12 col-xs-12" id={this.state.categoryImage} name="categoryImage" title="Delete Image" onClick={this.deleteDoc.bind(this)}>x</label>
-                                                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 brdlogosOF" id="categoryImage">
+                                                                                <label className="labelform deletelogo col-lg-12 col-md-12 col-sm-12 col-xs-12" id={this.state.image} name="image" title="Delete Image" onClick={this.deleteDoc.bind(this)}>x</label>
+                                                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 brdlogosOF" id="image">
                                                                                     {
-                                                                                        this.state.categoryImage.split('.').pop() === "pdf" || this.state.categoryImage.split('.').pop() === "PDF" ?
+                                                                                        this.state.image.split('.').pop() === "pdf" || this.state.image.split('.').pop() === "PDF" ?
                                                                                             <img src="/images/pdfImg.png" className="img-responsive profileImageDivlogoStyleOF" />
 
                                                                                             :
-                                                                                            <img src={this.state.categoryImage} className="img-responsive profileImageDivlogoStyleOF" />
+                                                                                            <img src={this.state.image} className="img-responsive profileImageDivlogoStyleOF" />
                                                                                     }
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                         :
-                                                                        (this.state.gotImagecategoryImage ?
+                                                                        (this.state.gotImageimage ?
                                                                             <div className="col-lg-12 col-md-2 col-sm-12 col-xs-12 nopadding CustomImageUploadOF">
                                                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding marginsBottom" id="hide">
-                                                                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 brdlogosOF" id="categoryImage">
+                                                                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 brdlogosOF" id="image">
                                                                                         <img src="/images/loading.gif" className="img-responsive profileImageDivlogoStyleOF" />
                                                                                     </div>
+                                                                                    <span>{this.state.gotImageimage}</span>
                                                                                 </div>
                                                                             </div>
                                                                             :
@@ -492,11 +545,11 @@ class OneFieldForm extends React.Component {
                                                             <br />
                                                         </form>
                                                         :
-                                                        <form className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id={this.props.fields.attributeName}>
+                                                        <form className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id={this.props.fields.validationIdFor ? (this.props.fields.attributeName + "-" + this.props.fields.validationIdFor) : this.props.fields.attributeName}>
                                                             <div className="form-margin col-lg-8 col-lg-offset-2 col-md-6 col-sm-12 col-xs-12 pdcls">
                                                                 <div id="OneFieldInput">
                                                                     <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">{this.props.fields.title} <i className="astrick">*</i></label>
-                                                                    <input type={this.props.input_type === "number" ? this.props.input_type: "text"} className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" value={this.state.fieldName} ref="fieldName" id="fieldName" name="fieldName" onChange={this.handleChange.bind(this)} placeholder={this.props.fields.placeholder} required />
+                                                                    <input type20="text" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 errorinputText" value={this.state.fieldName} ref="fieldName" id="fieldName" name="fieldName" onChange={this.handleChange.bind(this)} placeholder={this.props.fields.placeholder} required />
                                                                 </div>
                                                             </div>
                                                             <br />
@@ -518,6 +571,7 @@ class OneFieldForm extends React.Component {
                                                         tableData={this.state["tableData" + this.props.fields.attributeName]}
                                                         getData={this.getData.bind(this)}
                                                         tableObjects={this.props.tableObjects}
+                                                        field="single"
                                                     />
                                                 </div>
                                             </div>
@@ -546,9 +600,9 @@ class OneFieldForm extends React.Component {
                             </div>
                         </section>
                     </div>
-                </div>
-            </div>
         );
     }
 }
 export default withRouter(OneFieldForm)
+
+

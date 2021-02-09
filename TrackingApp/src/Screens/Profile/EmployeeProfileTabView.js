@@ -27,7 +27,7 @@ export const EmployeeProfileTabView=(props)=>{
   const [routes] = React.useState([
     { key: 'first', title: 'Basic Info'},
     { key: 'second', title: 'Address' },
-    { key: 'third', title: 'Work Images' },
+    { key: 'third', title: 'Work Info' },
   ]);
  
   const renderScene = SceneMap({

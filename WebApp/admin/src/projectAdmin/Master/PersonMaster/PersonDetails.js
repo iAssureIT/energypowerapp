@@ -390,9 +390,26 @@ class PersonDetails extends Component {
 								{this.state.personInfo.whatsappNo ? <li><i className="fa fa-whatsapp changeColor " aria-hidden="true"></i>&nbsp;&nbsp;{this.state.personInfo.whatsappNo}</li>:""}
 							</ul>
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadding seperaterBorder">
+						</div>
+						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+						{this.state.personInfo.socialMediaArray && this.state.personInfo.socialMediaArray.length > 0 &&<label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">Social Media</label>}						
+							{
+							this.state.personInfo.socialMediaArray && this.state.personInfo.socialMediaArray.length > 0 ?
+								this.state.personInfo.socialMediaArray.map((item, i) => {
+								return (
+									<div  key={i} className="col-lg-2 col-md-2 col-sm-12 col-xs-12 nopadding">
+										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  marginsBottom" id="hide">
+											<a href={item.url} target="_blank" title={item.url}><img src={item.icon} className="img-responsive"/></a>
+										</div>
+									</div>
+								);
+								})
+								:
+								null
+							}
 						</div>		
 						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
-							<label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">Work Images</label>						
+										{this.state.personInfo.workImages && this.state.personInfo.workImages.length > 0 &&<label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">Work Images</label>}						
 							{
 							this.state.personInfo.workImages && this.state.personInfo.workImages.length > 0 ?
 								this.state.personInfo.workImages.map((image, i) => {

@@ -51,6 +51,7 @@ export const SideMenu = (props) => {
   const logout = () => {
     AsyncStorage.getItem('user_id')
     .then(user_id=>{
+      console.log("user_id",user_id);
         axios.patch('/api/auth/patch/logout/'+user_id)
         .then(res=>{
           AsyncStorage.removeItem('user_id');

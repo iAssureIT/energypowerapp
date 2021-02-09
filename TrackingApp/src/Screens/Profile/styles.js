@@ -279,5 +279,14 @@ export default StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
+  },
+  deleteIcon:{
+    height:20,
+    width:20,
+    backgroundColor:"#eee",
+    justifyContent:'center',
+    borderRadius:20,
+    marginRight:-9,
+    marginTop:-7
   }
 });

@@ -54,6 +54,7 @@ export const Login = withCustomerToaster((props) => {
           axios
             .post('/api/auth/post/login', payload)
             .then((res) => {
+              console.log("login===>",res);
               setLoading(false);
               if(res.data.message === "Login Auth Successful"){
                 if(res.data.passwordreset === false  ){
@@ -61,6 +62,7 @@ export const Login = withCustomerToaster((props) => {
                 }else{  
                   axios.get('/api/personmaster/get/details/'+res.data.ID)
                   .then(personInfo => {
+                    console.log("personInfo",personInfo);
                     dispatch(
                       setUserDetails({
                         user_id     : res.data.ID,
