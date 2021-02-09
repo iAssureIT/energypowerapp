@@ -568,7 +568,7 @@ class ContactDetails extends Component {
 		var userDetails = {
 			type                    : "employee",
 			companyID				: this.state.companyID,
-			company_id				: this.state.entityID,
+			company_Id				: this.state.entityID,
 			companyName 		    : this.state.companyName,
 			workLocation            : this.state.workLocation,
 			workLocationId          : this.state.workLocationId,
