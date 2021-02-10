@@ -651,6 +651,7 @@ class ContactDetails extends Component {
 		if(entityID && entityID !== ''){
 			axios.get('/api/entitymaster/get/one/' + entityID)
 			.then((response) => {
+				console.log("response for getbranchc",response);
 				this.setState({
 					companyID: response.data[0].companyID,
 					companyName: response.data[0].companyName,
@@ -1196,11 +1197,11 @@ class ContactDetails extends Component {
 																			{
 																				this.state.branchCodeArry && this.state.branchCodeArry.length > 0 ?
 																					this.state.branchCodeArry.map((data, index) => {
-																						if(data.branchCode){
+																						// if(data.branchCode){
 																							return (
 																								<option key={index} branch_location_id={data._id} branch_location={(data.addressLine2 ? data.addressLine2 : "") +" "+(data.addressLine1)} value={data.branchCode}>{((data.locationType).match(/\b(\w)/g)).join('')} - {data.area} {data.city}, {data.stateCode} - {data.countryCode}</option>
 																							);
-																						}
+																						// }
 																					}
 																					)
 																					:
