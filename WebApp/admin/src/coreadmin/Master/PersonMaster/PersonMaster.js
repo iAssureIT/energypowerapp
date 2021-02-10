@@ -156,11 +156,6 @@ class PersonMaster extends Component {
     }, () => {
       this.edit();
     })
-
-    window.initMap = this.initMap
-    const gmapScriptEl = document.createElement(`script`)
-    gmapScriptEl.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCrzFPcpBm_YD5DfBl9zJ2KwOjiRpOQ1lE&libraries=places&callback=initMap`
-    document.querySelector(`body`).insertAdjacentElement(`beforeend`, gmapScriptEl)
   }
   getElementByIds()
   {

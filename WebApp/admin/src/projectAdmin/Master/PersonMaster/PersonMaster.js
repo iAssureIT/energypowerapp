@@ -818,7 +818,7 @@ class PersonMaster extends Component {
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='+origin+'&destinations='+destination+'&key='+res.data.googleapikey;
             console.log("url",url);
-            axios.get(proxyurl+url)
+            axios.get(url)
             .then(result=>{
                 console.log("ggogleapi=>",result.data.rows[0])
                 if(result.data.rows.length > 0){

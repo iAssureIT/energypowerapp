@@ -53,10 +53,9 @@ export const EditWorkImages = withCustomerToaster((props) => {
   return (
     <React.Fragment>
       <Formik
-        onSubmit={(data) => {
-          console.log("DAta",data);
+        onSubmit={(values,fun) => {
           setLoading(true);
-          let {gallery,socialMediaArray} = data;
+          let {gallery,socialMediaArray} = values;
           var formValues ={
             person_id : store.personDetails._id,
             workImages : gallery,
@@ -281,11 +280,13 @@ console.log("gallery",gallery);
           url         : values.socialMediaUrl
       })
       setFieldValue("socialMediaArray",socialMediaArray)
+      setFieldValue("socialMedia",'')
+      setFieldValue("socialMediaUrl",'')
     }else{
       Alert.alert('Please select option and add URL')
     }
   }
-  
+  console.log("values",values);
   return (
     <React.Fragment>
       <ScrollView style={commonStyle.modalView}>
@@ -322,7 +323,7 @@ console.log("gallery",gallery);
               style={{zIndex:1,}}
           />
 
-          <View style={{flexDirection:"row",flexWrap:"wrap"}} >  
+          <View style={{flexDirection:"row",flexWrap:"wrap",paddingHorizontal:15}} >  
               {values.socialMediaArray && values.socialMediaArray.length > 0 ?
                 values.socialMediaArray.map((item,index)=>{
                   return(
@@ -346,8 +347,8 @@ console.log("gallery",gallery);
              []
             }
            </View> 
-            <Text style={[styles.label,{marginTop:15}]}>Work Images</Text>
-             <View style={{paddingVertical:25}}>
+            <Text style={[styles.label,{marginTop:25,paddingHorizontal:15}]}>Work Images</Text>
+             <View style={{pmarginTop:15}}>
              {imageLoading ?
                 <TouchableOpacity style={{height:60,width:80,backgroundColor:"#999",justifyContent:"center",borderRadius:10,margin:15}}>
 					    		<Loading />
