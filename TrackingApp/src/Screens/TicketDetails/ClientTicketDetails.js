@@ -198,7 +198,7 @@ const FormBody = props => {
   const [ClosedBtn, ClosedSelected]   = useState(false);
   const [reopenBtn, reopenSelected] = useState(false);
   const [imageVisible, setImageVisible]   = useState(false);
-  const [image, setImage]         = useState('');
+  const [image, setImage]         = useState([]);
   const [openModal, setModal]       = useState(false);
   const [gallery, setGallery]       = useState([]);
   const [imageLoading, setImageLoading]   = useState(false);
@@ -414,10 +414,10 @@ const FormBody = props => {
                                 uri: item,
                               },
                               title: 'Photos',
-                              width: window.width,
-                              height: window.height,
+                              // width: window.width,
+                              // height: window.height,
                             },
-                          ]);
+                          ]),
                           setImageVisible(true);
                         }}>
                         <ImageBackground
@@ -495,14 +495,12 @@ const FormBody = props => {
             <Dialog.Button label="Cancel" onPress={()=>setDeleteDialogImg(false)} />
             <Dialog.Button label="Delete" onPress={()=>{setDeleteDialogImg(false),gallery.splice(deleteIndex, 1)}}/>
           </Dialog.Container>
-        {imageVisible ? (
           <ImageView
             images={image}
             imageIndex={0}
             isVisible={imageVisible}
             onClosed={() => setImageVisible(false)}
           />
-        ) : null} 
       </KeyboardAwareScrollView>  
     </React.Fragment>
   );

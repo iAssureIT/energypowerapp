@@ -806,54 +806,27 @@ class PersonMaster extends Component {
                 console.log("res",res);
               })
               .catch((error) => { console.log('notification error: ', error) })
+          }
+         userDetails.workLocationLatLng = this.state.workLocationLatLng;
+         this.savePerson(userDetails);
 
-        }
-        var origin       = this.state.latLng.lat+","+this.state.latLng.lng;
-        var destination  = this.state.workLocationLatLng;
-        console.log("origin",origin)
-        console.log("destination",destination)
-        // var destination  = {};
-        axios.get("/api/projectSettings/get/GOOGLE")
-        .then(res => {
-            const proxyurl = "https://cors-anywhere.herokuapp.com/";
-            var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='+origin+'&destinations='+destination+'&key='+res.data.googleapikey;
-            console.log("url",url);
-            axios.get(url)
-            .then(result=>{
-                console.log("ggogleapi=>",result.data.rows[0])
-                if(result.data.rows.length > 0){
-                    userDetails.home_office_distance = result.data.rows[0].elements[0];
-                    userDetails.workLocationLatLng = this.state.workLocationLatLng;
-                    console.log("userDetails=>>>>>>",userDetails)
-                    
-
-                    var sendData = {
-                      "event": "Event4", //Event Name
-                      "toUser_id": userDetails.userId, //To user_id(ref:users)
-                      "toUserRole":"employee",
-                      "variables": {
-                        'EmployeeName': this.state.firstName + ' ' + this.state.lastName,
-                        'CompanyName': this.state.corporate,
-                        'Password': "welcome123",
-                        'mobileNo': this.state.contactNumber,
-                        'email': this.state.email,
-                        'sendUrl': this.state.url+"/login",
-                      }
-                    }
-                    axios.post('/api/masternotifications/post/sendNotification', sendData)
-                    .then((res) => {
-                    })
-                    .catch((error) => { console.log('notification error: ',error)})
-                    this.savePerson(userDetails);
-                }
-            })
-            .catch(error=>{
-              console.log("error",error)
-            })
-        })
-        .catch(error=>{
-          console.log("error",error)
-        })
+          var sendData = {
+            "event": "Event4", //Event Name
+            "toUser_id": userDetails.userId, //To user_id(ref:users)
+            "toUserRole":"employee",
+            "variables": {
+              'EmployeeName': this.state.firstName + ' ' + this.state.lastName,
+              'CompanyName': this.state.corporate,
+              'Password': "welcome123",
+              'mobileNo': this.state.contactNumber,
+              'email': this.state.email,
+              'sendUrl': this.state.url+"/login",
+            }
+          }
+          axios.post('/api/masternotifications/post/sendNotification', sendData)
+          .then((res) => {
+          })
+          .catch((error) => { console.log('notification error: ',error)})
       } else {
         if(this.state.listOfEmpEmail.indexOf(this.state.email) > -1)
         {
@@ -1128,32 +1101,9 @@ class PersonMaster extends Component {
       }
 
       if ($('#BasicInfo').valid() && this.state.pincodeExists) {
-        var origin       = this.state.latLng.lat+","+this.state.latLng.lng;
-        var destination  = this.state.workLocationLatLng;
-        console.log("origin",origin)
-        console.log("destination",destination)
-        axios.get("/api/projectSettings/get/GOOGLE")
-        .then(res => {
-            const proxyurl = "https://cors-anywhere.herokuapp.com/";
-            var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='+origin+'&destinations='+destination+'&key='+res.data.googleapikey;
-            console.log("url",url);
-            axios.get(proxyurl+url)
-            .then(result=>{
-                console.log("ggogleapi=>",result.data.rows[0])
-                if(result.data.rows.length > 0){
-                    userDetails.home_office_distance = result.data.rows[0].elements[0];
-                    userDetails.workLocationLatLng = this.state.workLocationLatLng;
-                    console.log("userDetails=>>>>>>",userDetails)
-                    this.update(userDetails);
-                }
-            })
-            .catch(error=>{
-              console.log("error",error)
-            })
-        })
-        .catch(error=>{
-          console.log("error",error)
-        })
+            userDetails.workLocationLatLng = this.state.workLocationLatLng;
+            console.log("userDetails=>>>>>>",userDetails)
+            this.update(userDetails);
       } else {
         $('select.error:first').focus();
         $('input.error:first').focus();

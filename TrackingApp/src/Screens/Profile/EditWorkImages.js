@@ -123,6 +123,8 @@ const FormBody = (props) => {
   const [deleteDialogImg,setDeleteDialogImg]  = useState(false);
   const [deleteIndex,setDeleteIndex]          = useState(-1);
   const [deleteDialogIcon,setDeleteDialogIcon]  = useState(false);
+  const [btnLoading1, setLoading1] = useState(false);
+
   const [socialMediaOptions, setSocialMediaOptions]       = useState([]);
 
 console.log("gallery",gallery);
@@ -272,6 +274,7 @@ console.log("gallery",gallery);
 
   addSocialMedia=()=>{
     if(values.socialMedia && values.socialMediaUrl){
+      setLoading1(true);
       var socialMediaArray = values.socialMediaArray;
      socialMediaArray.push({
           social_id   : values.socialMedia.split("^")[0],
@@ -282,7 +285,9 @@ console.log("gallery",gallery);
       setFieldValue("socialMediaArray",socialMediaArray)
       setFieldValue("socialMedia",'')
       setFieldValue("socialMediaUrl",'')
+      setLoading1(false);
     }else{
+      setLoading1(false);
       Alert.alert('Please select option and add URL')
     }
   }
@@ -319,7 +324,7 @@ console.log("gallery",gallery);
               title={'Add'}
               onPress={()=>addSocialMedia()}
               background={true}
-              loading={btnLoading}
+              loading={btnLoading1}
               style={{zIndex:1,}}
           />
 
@@ -371,8 +376,8 @@ console.log("gallery",gallery);
                                   uri: item,
                                 },
                                 title: 'Photos',
-                                width: window.width,
-                                height: window.height,
+                                // width: window.width,
+                                // height: window.height,
                               },
                             ]),
                             setImageVisible(true);

@@ -16,6 +16,7 @@ import StepIndicator            from 'react-native-step-indicator';
 import ImagePicker              from 'react-native-image-crop-picker';
 import Video              from 'react-native-video';
 import { robotoWeights } from 'react-native-typography';
+import ImageView                from 'react-native-image-view';
 import axios                  from 'axios';
 import moment from 'moment';
 
@@ -25,6 +26,9 @@ const window = Dimensions.get('window');
 const StatusTracking = (props) => {
     const AllStatus = props.AllStatus;
     const {collapse,setCollapse} = useState(false);
+    const [image, setImage]         = useState([]);
+    const [imageVisible, setImageVisible]   = useState(false);
+    console.log("imageVisible",imageVisible);
     return (
       <React.Fragment>
         {AllStatus && AllStatus.length > 0 &&
@@ -177,18 +181,18 @@ const StatusTracking = (props) => {
                               return(
                                 <TouchableOpacity key={index} style={commonStyle.image} 
                                 onPress={() => {
-                                    setImage([
-                                      {
-                                        source: {
-                                          uri: item,
-                                        },
-                                        title: 'Photos',
-                                        width: window.width,
-                                        height: window.height,
+                                  setImage([
+                                    {
+                                      source: {
+                                        uri: item,
                                       },
-                                    ]);
-                                    setImageVisible(true);
-                                  }}>
+                                      title: 'Photos',
+                                      // width: window.width,
+                                      // height: window.height,
+                                    },
+                                  ]),
+                                  setImageVisible(true);
+                                }}>
                                   <Image
                                     style={{height: 60, width: 60}}
                                     source={{uri:item}}
@@ -253,6 +257,12 @@ const StatusTracking = (props) => {
               );
           })
         }
+       <ImageView
+            images={image}
+            imageIndex={0}
+            isVisible={imageVisible}
+            onClose={() => setImageVisible(false)}
+          />
       </React.Fragment>
     );
 };

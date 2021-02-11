@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, ImageBackground,Image,Dimensions,Text,StyleSheet,TouchableOpacity,ScrollView}   from 'react-native';
+import {View, ImageBackground,Image,Dimensions,Text,StyleSheet,TouchableOpacity,ScrollView,Linking}   from 'react-native';
 import {Button, Icon, AirbnbRating}         from 'react-native-elements';
 import { colors, sizes }                    from '../../config/styles.js';
 import commonStyle                          from '../../config/commonStyle.js';
@@ -22,7 +22,7 @@ import axios                                from 'axios';
 import { getTechnicianTicketsList }         from '../../redux/ticketList/actions';
 import {getDasboardCount}                   from '../../redux/technicianDashboardCount/actions';
 import { KeyboardAwareScrollView }          from 'react-native-keyboard-aware-scroll-view';
-import {withCustomerToaster}                from '../../redux/AppState.js';
+import {setToast, withCustomerToaster}                from '../../redux/AppState.js';
 import Geolocation                          from 'react-native-geolocation-service';
 import Dialog                               from 'react-native-dialog';
 import {PERMISSIONS, request, RESULTS}      from 'react-native-permissions';
@@ -30,6 +30,8 @@ import { RNS3 }                             from 'react-native-aws3';
 import Loading                              from '../../layouts/Loading/Loading.js';
 import Video                                from 'react-native-video';
 import ImageView        from 'react-native-image-view';
+import DocumentPicker from 'react-native-document-picker';
+import Pdf from 'react-native-pdf';
 const window = Dimensions.get('window');
 
 
@@ -205,6 +207,7 @@ export const TechnicianTicketDetails = withCustomerToaster((props) => {
             initialValues={{
               reason : '',
               images : [],
+              setToast:setToast,
             }}>
             {formProps => <FormBody 
                 btnLoading      = {btnLoading} 
@@ -249,8 +252,10 @@ const FormBody = props => {
     videoLib,
     setVideoLib,
     attendance,
-    loading
+    loading,
   } = props;
+
+  const {setToast}=values;
 
 
   const [acceptBtn, acceptSelected]           = useState(false);
@@ -259,7 +264,7 @@ const FormBody = props => {
   const [completedBtn, completedSelected]     = useState(false);
   const [currentPosition, setCurrentPosition] = useState(5);
   const [imageVisible, setImageVisible]       = useState(false);
-  const [image, setImage]                     = useState();
+  const [image, setImage]                     = useState([]);
   const [openModal, setModal]                 = useState(false);
   const [openModalVideo, setModalVideo]       = useState(false);
   const [imageLoading, setImageLoading]       = useState(false);
@@ -371,6 +376,63 @@ const FormBody = props => {
           setImageLoading(false);
           setToast({text: 'Something went wrong.', color: 'red'});
         });
+    };
+    const chooseFromDocument = async(props) => {
+      setImageLoading(true);
+      
+          try {
+            const response = await DocumentPicker.pickMultiple({
+              type: [DocumentPicker.types.pdf,DocumentPicker.types.xls],
+            });
+            setModal(false);
+           for (var i = 0; i<response.length; i++) {
+             if(response[i].uri){
+              const file = {
+                uri  : response[i].uri,
+                name : response[i].name,
+                type : response[i].type,
+              }
+              console.log("file",file);
+              if(file) {
+                    var fileName = file.name; 
+                    var ext = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2); 
+                    if(ext=="pdf" || ext=="xls" || ext=="PDF" || ext=="XLS"){  
+                      if(file){
+                          RNS3
+                          .put(file,s3Details)
+                          .then((Data)=>{
+                            console.log("Data",Data);
+                    //          setGallery([
+                        //   ...gallery,
+                        //   Data.body.postResponse.location,
+                        // ]);
+                        gallery.push(Data.body.postResponse.location) ; 
+                        setFieldValue('images', gallery);
+                        setImageLoading(false);
+                          })
+                          .catch((error)=>{
+                            console.log("error",error)
+                            setToast({text: 'Something went wrong.', color: 'red'});
+                            setImageLoading(false);
+                          });
+                      }else{       
+                          setToast({text: 'File not uploaded.', color: 'red'});
+                          setImageLoading(false);
+                      }
+                    }else{
+                        setToast({text: 'Only Upload  images format (jpg,png,jpeg).', color: 'red'});
+                        setImageLoading(false);
+                    }
+                  }
+               }    
+             }   
+          } catch (err) {
+            if (DocumentPicker.isCancel(err)) {
+              // User cancelled the picker, exit any dialogs or menus and move on
+            } else {
+              throw err;
+            }
+          }
     };
 
     const chooseFromLibraryVideo = (openType) => {
@@ -528,10 +590,43 @@ const FormBody = props => {
                 />
                 <ScrollView contentContainerStyle={{flexDirection:"row",paddingVertical:25}} horizontal={true}>
                   <TouchableOpacity style={{height:60,width:80,backgroundColor:"#999",justifyContent:"center",borderRadius:10,margin:15}} onPress={() => setModal(true)}>
-                    <Icon name="camera" size={30} color="white" type="font-awesome"/>
+                    <Icon name="upload" size={30} color="white" type="font-awesome"/>
                   </TouchableOpacity>
                   {gallery && gallery.length > 0 ?
                     gallery.map((item,index)=>{
+                      var ext = item.slice((item.lastIndexOf(".") - 1 >>> 0) + 2);
+                      console.log("ext",ext);
+                      if(ext === "pdf"){
+                        return(
+                          <TouchableOpacity key={index} style={commonStyle.image} 
+                          onPress={() => {navigation.navigate('PDFViewer',{"path":item})}}>
+                            <ImageBackground
+                              style={{height: 60, width: 60}}
+                              source={require('../../images/pdf.png')}
+                              resizeMode={'contain'}
+                            >
+                            <View style={{alignItems:'flex-end'}}>
+                                <Icon size={15} name='close' type='font-awesome' color='#f00'  onPress = {()=>{setDeleteDialogImg(true),setDeleteIndex(index)}} />
+                            </View>
+                            </ImageBackground>
+                          </TouchableOpacity>
+                        );
+                      }else if(ext === "xls"){
+                        return(
+                          <TouchableOpacity key={index} style={commonStyle.image} 
+                          onPress={() => {Linking.openURL(item)}}>
+                            <ImageBackground
+                              style={{height: 60, width: 60}}
+                              source={require('../../images/xls.png')}
+                              resizeMode={'contain'}
+                            >
+                            <View style={{alignItems:'flex-end'}}>
+                                <Icon size={15} name='close' type='font-awesome' color='#f00'  onPress = {()=>{setDeleteDialogImg(true),setDeleteIndex(index)}} />
+                            </View>
+                            </ImageBackground>
+                          </TouchableOpacity>
+                        );
+                      }else{
                       return(
                         <TouchableOpacity key={index} style={commonStyle.image} 
                         onPress={() => {
@@ -541,10 +636,10 @@ const FormBody = props => {
                                   uri: item,
                                 },
                                 title: 'Photos',
-                                width: window.width,
-                                height: window.height,
+                                // width: window.width,
+                                // height: window.height,
                               },
-                            ]);
+                            ]),
                             setImageVisible(true);
                           }}>
                           <ImageBackground
@@ -558,6 +653,7 @@ const FormBody = props => {
                           </ImageBackground>
                         </TouchableOpacity>
                       );
+                       }
                     })
                   :
                   []
@@ -641,7 +737,7 @@ const FormBody = props => {
             container={{borderRadius: 30}}
             onDismiss={() => setModal(!openModal)}>
             <Dialog.Title style={{alignSelf: 'center'}}>
-              Select an image
+              Select an option
             </Dialog.Title>
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
@@ -660,13 +756,25 @@ const FormBody = props => {
                 style={commonStyle.block1}
                 onPress={() => chooseFromLibrary('openPicker')}>
                 <Icon
-                  name="upload"
+                  name="image"
                   type="font-awesome"
                   size={50}
                   color="#aaa"
                   style={{}}
                 />
                 <Text>Gallery</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={commonStyle.block1}
+                onPress={() => chooseFromDocument('openPicker')}>
+                <Icon
+                  name="file"
+                  type="font-awesome"
+                  size={50}
+                  color="#aaa"
+                  style={{}}
+                />
+                <Text>Document</Text>
               </TouchableOpacity>
             </View>
             <Dialog.Button label="Cancel" onPress={() => setModal(false)} />
@@ -725,14 +833,12 @@ const FormBody = props => {
             <Dialog.Button label="Delete" onPress={()=>{setDeleteDialogVideo(false),videoLib.splice(deleteIndex, 1)}}/>
           </Dialog.Container>
 
-        {imageVisible ? (
           <ImageView
             images={image}
             imageIndex={0}
             isVisible={imageVisible}
             onClose={() => setImageVisible(false)}
           />
-        ) : null} 
     </React.Fragment>
   );
 };

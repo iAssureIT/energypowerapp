@@ -35,6 +35,7 @@ import {Login}                    from '../Screens/SystemSecurity/Login.js';
 import ChangePassword             from '../Screens/SystemSecurity/ChangePassword.js';
 import {ForgotPassword}             from '../Screens/SystemSecurity/ForgotPassword.js';
 import {OTPVerification}            from '../Screens/SystemSecurity/OTPVerification.js';
+import {PDFViewer}            from '../Screens/PDFViewer/PDFViewer.js';
 const ClientStack = createStackNavigator({
   ClientDashboard:{
     screen:ClientDashboard,
@@ -98,6 +99,12 @@ const ClientStack = createStackNavigator({
   },
   InAppNotificationClient: {
     screen: InAppNotification,
+    navigationOptions: {
+      header: null
+    }
+  },
+  PDFViewer: {
+    screen: PDFViewer,
     navigationOptions: {
       header: null
     }
@@ -203,6 +210,12 @@ const TechnicianStack = createStackNavigator({
   },
   InAppNotification: {
     screen: InAppNotification,
+    navigationOptions: {
+      header: null
+    }
+  },
+  PDFViewer: {
+    screen: PDFViewer,
     navigationOptions: {
       header: null
     }

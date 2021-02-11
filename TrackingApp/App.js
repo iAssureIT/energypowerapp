@@ -12,8 +12,8 @@ import { request,check,PERMISSIONS,RESULTS }  from 'react-native-permissions';
 import codePush from "react-native-code-push";
 
 console.disableYellowBox = true;
-// const BASE_URL = 'http://192.168.0.143:5026';
-const BASE_URL = 'http://qaapi.energypowerworld.com';
+const BASE_URL = 'http://192.168.0.143:5026';
+// const BASE_URL = 'http://qaapi.energypowerworld.com';
 // const BASE_URL = 'http://staapi.iassureit.com/';
 // const BASE_URL = 'http://uatapi.isecuretechnology.com/';
 axios.defaults.baseURL = BASE_URL;
@@ -86,8 +86,8 @@ const ToastProvider = connect(
   }),
 )(ToastProviderComponent);
 
-// const codePushOptions = {
-//  checkFrequency: codePush.CheckFrequency.ON_APP_START 
-// };
+const codePushOptions = {
+ checkFrequency: codePush.CheckFrequency.ON_APP_START 
+};
 
-export default App;
+export default codePush(codePushOptions)(App);

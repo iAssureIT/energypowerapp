@@ -12,14 +12,15 @@ const moment = require('moment');
 const BookingMaster = require('../../coreAdmin/bookingMaster/ModelBookingMaster.js');
 const EntityMaster = require('../entityMaster/ModelEntityMaster.js');
 const Users = require('../../coreAdmin/userManagement/ModelUsers.js');
+const ProjectSetting    = require('../../coreAdmin/projectSettings/ModelProjectSettings.js');
 const bcrypt = require("bcrypt");
-
+const axios = require('axios');
 exports.insertPerson = (req, res, next) => {
     console.log("req.body",req.body);
     PersonMaster.find(
         {"firstName":req.body.firstName, "lastName": req.body.lastName,"email":req.body.email,"dob":req.body.dob})
         .exec()
-        .then(data=>{
+        .then(async(data)=>{
             if(data.length > 0)
             {
             res.status(200).json({ duplicated : true });
@@ -56,7 +57,7 @@ exports.insertPerson = (req, res, next) => {
             workImages:req.body.workImages,
             socialMediaArray:req.body.socialMediaArray,
             fuelreimbursement_id:req.body.fuelreimbursement_id,
-            home_office_distance: req.body.home_office_distance,
+            home_office_distance: await getDistance(req.body.address,req.body.workLocationLatLng),
             // drivingLicense              : req.body.drivingLicense,
             // aadhar                      : req.body.aadhar,
             // identityProof               : req.body.identityProof,
@@ -87,6 +88,34 @@ exports.insertPerson = (req, res, next) => {
         });
     
 };
+
+
+function getDistance(home_address,workLocationLatLng){
+    console.log("home_address",home_address);
+    return new Promise((resolve,reject)=>{
+        var origin       = home_address.latitude+","+home_address.longitude;
+        var destination  = workLocationLatLng;
+        ProjectSetting.findOne({type:'GOOGLE'},{googleapikey:1,_id:0})
+        .then(res => {
+            var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='+origin+'&destinations='+destination+'&key='+res.googleapikey;
+            axios.get(url)
+            .then(result=>{
+                console.log("ggogleapi=>",result.data.rows[0])
+                if(result.data.rows.length > 0){
+                    resolve(result.data.rows[0].elements[0]);
+                }else{
+                    resolve([]);
+                }
+            })
+            .catch(error=>{
+              console.log("error",error)
+            })
+        })
+        .catch((error) =>{
+            console.log("err",error)
+        })
+    })
+}
 function fetchPersonData(firstName,lastName,email,dob){
     return new Promise((resolve,reject)=>{
         PersonMaster.find(
@@ -257,7 +286,7 @@ exports.updatePersonStatus = (req, res, next) => {
         });
 };
 
-exports.updatePerson = (req, res, next) => {
+exports.updatePerson = async(req, res, next) => {
     PersonMaster.updateOne(
         { _id: req.body.personID },
         {
@@ -280,7 +309,7 @@ exports.updatePerson = (req, res, next) => {
                 'whatsappNo': req.body.whatsappNo,
                 'designationId': req.body.designationId,
                 'departmentId': req.body.departmentId,
-                'home_office_distance':req.body.home_office_distance,
+                'home_office_distance':await getDistance(req.body.address,req.body.workLocationLatLng),
                 'employeeId': req.body.employeeId,
                 'vehicle':req.body.vehicle,
                 'fuelreimbursement_id':req.body.fuelreimbursement_id,
