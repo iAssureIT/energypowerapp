@@ -74,20 +74,17 @@ exports.insertEntity = (req,res,next)=>{
     
 };
 function getNextSequence(entityType) {
-    console.log("entityType---",entityType);
-    // console.log("companyName---",companyName);
-
+    console.log("inside getNextSequence");
     return new Promise((resolve,reject)=>{
     EntityMaster.findOne({entityType:entityType})    
         .sort({companyNo : -1})   
         .exec()
         .then(data=>{
-            console.log("data for sequence",data);
+            console.log("data in sequence",data)
             if (data) { 
                 var seq = data.companyNo;
                 seq = seq+1;
-                resolve(seq)
-                 
+                resolve(seq) 
             }else{
                resolve(1)
             }
@@ -98,7 +95,6 @@ function getNextSequence(entityType) {
         });
     });
 }
-
 
 exports.listEntity = (req,res,next)=>{
     EntityMaster.find({entityType:req.params.entityType}).sort({createdAt : -1})    

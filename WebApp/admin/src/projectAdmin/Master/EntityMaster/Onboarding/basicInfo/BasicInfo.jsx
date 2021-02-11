@@ -26,7 +26,7 @@ class BasicInfo extends Component {
 
                 goodRecordsHeading: 
               {
-                entityType: "Entity Type",
+                // entityType: "Entity Type",
                 companyName: "Company Name",
                 groupName: "Group Name",
                 companyPhone: "Contact No",
@@ -36,7 +36,7 @@ class BasicInfo extends Component {
              failedtableHeading: 
               {
                
-                entityType: "Entity Type",
+                // entityType: "Entity Type",
                 companyName: "Company Name",
                 groupName: "Group Name",
                 companyPhone: "Contact No",
