@@ -12,15 +12,16 @@ const moment = require('moment');
 const BookingMaster = require('../../coreAdmin/bookingMaster/ModelBookingMaster.js');
 const EntityMaster = require('../entityMaster/ModelEntityMaster.js');
 const Users = require('../../coreAdmin/userManagement/ModelUsers.js');
-const ProjectSetting    = require('../../coreAdmin/projectSettings/ModelProjectSettings.js');
-const bcrypt = require("bcrypt");
 const axios = require('axios');
+const globalVariable= require("../../nodemon.js");
+const bcrypt = require("bcrypt");
+
 exports.insertPerson = (req, res, next) => {
     console.log("req.body",req.body);
     PersonMaster.find(
         {"firstName":req.body.firstName, "lastName": req.body.lastName,"email":req.body.email,"dob":req.body.dob})
         .exec()
-        .then(async(data)=>{
+        .then(data=>{
             if(data.length > 0)
             {
             res.status(200).json({ duplicated : true });
@@ -57,7 +58,7 @@ exports.insertPerson = (req, res, next) => {
             workImages:req.body.workImages,
             socialMediaArray:req.body.socialMediaArray,
             fuelreimbursement_id:req.body.fuelreimbursement_id,
-            home_office_distance: await getDistance(req.body.address,req.body.workLocationLatLng),
+            home_office_distance: req.body.home_office_distance,
             // drivingLicense              : req.body.drivingLicense,
             // aadhar                      : req.body.aadhar,
             // identityProof               : req.body.identityProof,
@@ -88,34 +89,6 @@ exports.insertPerson = (req, res, next) => {
         });
     
 };
-
-
-function getDistance(home_address,workLocationLatLng){
-    console.log("home_address",home_address);
-    return new Promise((resolve,reject)=>{
-        var origin       = home_address.latitude+","+home_address.longitude;
-        var destination  = workLocationLatLng;
-        ProjectSetting.findOne({type:'GOOGLE'},{googleapikey:1,_id:0})
-        .then(res => {
-            var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='+origin+'&destinations='+destination+'&key='+res.googleapikey;
-            axios.get(url)
-            .then(result=>{
-                console.log("ggogleapi=>",result.data.rows[0])
-                if(result.data.rows.length > 0){
-                    resolve(result.data.rows[0].elements[0]);
-                }else{
-                    resolve([]);
-                }
-            })
-            .catch(error=>{
-              console.log("error",error)
-            })
-        })
-        .catch((error) =>{
-            console.log("err",error)
-        })
-    })
-}
 function fetchPersonData(firstName,lastName,email,dob){
     return new Promise((resolve,reject)=>{
         PersonMaster.find(
@@ -286,7 +259,7 @@ exports.updatePersonStatus = (req, res, next) => {
         });
 };
 
-exports.updatePerson = async(req, res, next) => {
+exports.updatePerson = (req, res, next) => {
     PersonMaster.updateOne(
         { _id: req.body.personID },
         {
@@ -309,7 +282,7 @@ exports.updatePerson = async(req, res, next) => {
                 'whatsappNo': req.body.whatsappNo,
                 'designationId': req.body.designationId,
                 'departmentId': req.body.departmentId,
-                'home_office_distance':await getDistance(req.body.address,req.body.workLocationLatLng),
+                'home_office_distance':req.body.home_office_distance,
                 'employeeId': req.body.employeeId,
                 'vehicle':req.body.vehicle,
                 'fuelreimbursement_id':req.body.fuelreimbursement_id,
@@ -586,6 +559,7 @@ var fetchEntities = async (companyID) => {
         EntityMaster.find({ companyID: companyID })
             .exec()
             .then(data => {
+                console.log("data in person entity---",data);
                 resolve(data);
             })
             .catch(err => {
@@ -760,6 +734,30 @@ function getNextSequence() {
     });
 }
 
+function getLatLong(address){
+    return new Promise(function(resolve, reject){
+    var type='GOOGLE';         
+    axios.get('http://localhost:'+globalVariable.port+'/api/projectsettings/get/'+type)
+    .then((response)=>{        
+     const options = {
+            provider: 'google',
+            httpAdapter: 'https', // Default
+            apiKey:response.data.googleapikey, // for Mapquest, OpenCage, Google Premier
+            formatter: null     
+        };
+        const geocoder = NodeGeocoder(options);
+        console.log("geocoder",geocoder);
+
+        geocoder.geocode('address', function(err, res) {
+          resolve(res)
+        });
+
+    })
+    .catch((error)=>{})
+    })
+                // const res = await geocoder.geocode('29 champs elysée paris');
+}
+
 exports.bulkUploadEmployee = (req, res, next) => {
     var employees = req.body.data;
     var validData = [];
@@ -832,11 +830,14 @@ exports.bulkUploadEmployee = (req, res, next) => {
             }
             companyData  = await fetchEntities(getcompanyID);
             console.log("companyData---",companyData);
+            console.log("companyData[0].locations",companyData[0].locations);
+            console.log("employees[k].workLocationPincode",employees[k].workLocationPincode);
             if(companyData[0]){
                 if(companyData[0].locations){
                     for(j=0;j<companyData[0].locations.length;j++)
+                         // console.log("companyData[0].locations[j].pincode",companyData[0].locations[j].pincode);
                     {
-                        if(companyData[0].locations[j].pincode === employees[k].workLocationPincode )
+                        if(companyData[0].locations[j].pincode == employees[k].workLocationPincode )
                         {
                             workLocationValue = employees[k].workLocation; 
                             workLocationIdFile = companyData[0].locations[j]._id;
@@ -909,7 +910,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
 
 
                 if (remark == '') {
-                    if(req.body.reqdata.entityType ==="corporate"){
+                   /* if(req.body.reqdata.entityType ==="employee"){*/
                         var departmentId, designationId;
                         // check if department exists
                         var departmentExists = departments.filter((data) => {
@@ -944,7 +945,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
 
                        
                         
-                    }
+                    // }
                     // check if employee exists
                    
                     var allEmployees = await fetchAllEmployees(req.body.reqdata.type,req.body.reqdata.entityType);
@@ -964,22 +965,30 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         } else {
                             DOB = moment(new Date(employees[k].DOB)).format("YYYY-MM-DD")
                         }
-                        if(req.body.reqdata.type === "driver")
-                        {
-                            var latlong = await getLatLong(employees[k].addressLine1); 
-                            var lat=latlong[0].latitude;
-                            var lng=latlong[0].longitude;
-                            var address = {
-                                 addressLine1 : employees[k].addressLine1,
-                                 addressLine2 : "",
-                                 landmark     : "",
-                                 pincode      : employees[k].pincode,
-                                 city         : employees[k].city,
-                                 state        : employees[k].state,
-                                 district     : employees[k].district,
-                                 latitude     : lat,
-                                 longitude    : lng
-                            }
+                       /* if(req.body.reqdata.type === "driver")
+                        {*/
+                            // var latlong = await getLatLong(employees[k].addressLine1); 
+                            var lat="";
+                            var lng="";
+                            var address = [
+
+                               {
+                                     addressLine1 : '',
+                                     addressLine2 : "",
+                                     landmark     : "",
+                                     pincode      : employees[k].pincode,
+                                     city         : employees[k].city,
+                                     state        : employees[k].state,
+                                     district     : employees[k].district,
+                                     latitude     : lat,
+                                     longitude    : lng
+                                }
+                            ]
+                     /*   }*/
+
+                        var socialMediaArray={
+                            name:employees[k].socialMediaName,
+                            url :employees[k].SocialMediaURL,
                         }
 
 
@@ -998,7 +1007,8 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         validObjects.status = "Active";
                         if(UMuserID){validObjects.userId = UMuserID};
                         validObjects.loginCredential = createLogin;
-                        // if(req.body.reqdata.type === "driver") {validObjects.address = address};
+                        validObjects.address = address;
+                        validObjects.socialMediaArray = socialMediaArray;
                         validObjects.fileName = req.body.fileName;
                         validObjects.createdBy = req.body.reqdata.createdBy;
                         validObjects.createdAt = new Date();
