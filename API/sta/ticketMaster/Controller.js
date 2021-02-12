@@ -130,6 +130,7 @@ exports.list_Tickets = (req,res,next)=>{
                             }
                         }    
                     }
+                    console.log("client_id",data[i]._id);;
                     console.log("client_id",data[i].client_id);;
                     await returnData.push({
                         "_id"                     : data[i]._id,
