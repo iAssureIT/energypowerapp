@@ -10,7 +10,7 @@ const filterData = {
   search : 'All'
 }
 
-export default class ListOfCameraLocations extends Component{
+export default class ListOfequipmentlocations extends Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -27,11 +27,11 @@ export default class ListOfCameraLocations extends Component{
        "tableObjects"  : 
       {
           deleteMethod   : 'delete',
-          apiLink        : '/api/cameralocation/',
+          apiLink        : '/api/equipmentlocation/',
           paginationApply: false,
           searchApply    : false,
-          editUrl        : '/cameralocation',
-          listUrl        : '/listofcameraloc'
+          editUrl        : '/equipmentlocation',
+          listUrl        : '/listofequipmentloc'
       },
 
         clientArray               :[],
@@ -96,7 +96,7 @@ export default class ListOfCameraLocations extends Component{
   }
 
   getCameraLocCount(){
-     axios.get("/api/cameralocation/get/count")
+     axios.get("/api/equipmentlocation/get/count")
       .then(res => {
           this.setState({locationCount:res.data.count})
       })  
@@ -155,7 +155,7 @@ export default class ListOfCameraLocations extends Component{
                             <div className="row">
                                 <div className="box-header with-border col-lg-12 col-md-12 col-xs-12 col-sm-12 NOpadding-right">
                                   <h4 className="weighttitle col-lg-5 col-md-11 col-xs-11 col-sm-11">Equipment Location List</h4>
-                                   <a href="/cameralocation">
+                                   <a href="/equipmentlocation">
                                     <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 pull-right">
                                       <span className="col-lg-6 col-lg-offset-5 sentanceCase addButtonList"><i  className="fa fa-plus-circle"></i>&nbsp;&nbsp;Add New Equipment Location
                                       </span>
