@@ -129,10 +129,10 @@ componentDidMount(){
                                                         <Route path="/listprojectloc"             exact strict component={ ListOfProjectLocations } />
                                                         <Route path="/listprojectloc/:id"         exact strict component={ ListOfProjectLocations } />
 
-                                                        <Route path="/cameralocation"               exact strict component={ AddEditEquipmentLocation } />
-                                                        <Route path="/cameralocation/:id"           exact strict component={ AddEditEquipmentLocation } />
-                                                        <Route path="/cameralocationmodal/:fieldID"     exact strict component={ AddEditEquipmentLocation } />
-                                                        <Route path="/cameralocationmodal/:id/:fieldID"     exact strict component={ AddEditEquipmentLocation } />
+                                                        <Route path="/equipmentlocation"               exact strict component={ AddEditEquipmentLocation } />
+                                                        <Route path="/equipmentlocation/:id"           exact strict component={ AddEditEquipmentLocation } />
+                                                        <Route path="/equipmentlocationmodal/:fieldID"     exact strict component={ AddEditEquipmentLocation } />
+                                                        <Route path="/equipmentlocationmodal/:id/:fieldID"     exact strict component={ AddEditEquipmentLocation } />
 
                                                         <Route path="/listofequipmentloc"              exact strict component={ ListOfEquipmentLocations } />
                                                         <Route path="/listofequipmentloc/:id"             exact strict component={ ListOfEquipmentLocations } />
