@@ -1009,7 +1009,7 @@ componentWillUnmount() {
                             <BulkUpload url="/api/entitymaster/bulkUploadEntity"
                                 data={{ "type": "client", "createdBy": localStorage.getItem("user_ID") }}
                                 uploadedData={this.uploadedData}
-                                fileurl="https://prodsta.s3.ap-south-1.amazonaws.com/EntityBulk.xlsx"
+                                fileurl="https://energypoweruat.s3.ap-south-1.amazonaws.com/EntityBulkUploadEnergyP.xlsx"
                                 getFileDetails={this.getFileDetails.bind(this)}
                                 fileDetails={this.state.fileDetails}
                                 goodRecordsHeading={this.state.goodRecordsHeading}

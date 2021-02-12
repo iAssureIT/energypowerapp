@@ -1441,7 +1441,7 @@ exports.bulkUploadEntity = (req, res, next) => {
             if (data.department == entity[k].department) {
                 return data;
             }
-            console.log("departmentExists",departmentExists);
+            // console.log("departmentExists",departmentExists);
            
         })
         if (departmentExists.length > 0) {
@@ -1450,7 +1450,7 @@ exports.bulkUploadEntity = (req, res, next) => {
         } else {
             if(entity[k].department != '-'){
             departmentId = await insertDepartment(entity[k].department,req.body.reqdata.createdBy);
-            console.log("departmentId--",departmentId);
+            // console.log("departmentId--",departmentId);
            }
           }
         
@@ -1471,7 +1471,7 @@ exports.bulkUploadEntity = (req, res, next) => {
         } else {
             if(entity[k].designation != '-'){
             designationId = await insertDesignation(entity[k].designation,req.body.reqdata.createdBy);
-             console.log("designationId--",designationId);
+             // console.log("designationId--",designationId);
            }
           }
         
@@ -1738,28 +1738,27 @@ exports.bulkUploadEntity = (req, res, next) => {
                                     .catch(err => {
                                         console.log(err);
                                     });
-                  console.log("validData.companyID",validData.companyID);
-                  console.log("validData",validData);
+                 
 
 
-            } else {
+                        } else {
 
-                    remark += "data already exists.";
+                                remark += "data already exists.";
 
-                    invalidObjects = entity[k];
-                    invalidObjects.failedRemark = remark;
-                    invalidData.push(invalidObjects);
-                }
+                                invalidObjects = entity[k];
+                                invalidObjects.failedRemark = remark;
+                                invalidData.push(invalidObjects);
+                            }
 
-            } else {
+                        } else {
 
-              
-                invalidObjects = entity[k];
-                invalidObjects.failedRemark = remark;
-                invalidData.push(invalidObjects);
-            }
-            remark = '';
-        }
+                          
+                            invalidObjects = entity[k];
+                            invalidObjects.failedRemark = remark;
+                            invalidData.push(invalidObjects);
+                        }
+                        remark = '';
+                    }
 
 
         /* EntityMaster.insertMany(validData)

@@ -829,9 +829,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                 getcompanyID = req.body.reqdata.companyID;
             }
             companyData  = await fetchEntities(getcompanyID);
-            console.log("companyData---",companyData);
-            console.log("companyData[0].locations",companyData[0].locations);
-            console.log("employees[k].workLocationPincode",employees[k].workLocationPincode);
+            console.log("companyData--------------",companyData);
             if(companyData[0]){
                 if(companyData[0].locations){
                     for(j=0;j<companyData[0].locations.length;j++)
@@ -911,38 +909,45 @@ exports.bulkUploadEmployee = (req, res, next) => {
 
                 if (remark == '') {
                    /* if(req.body.reqdata.entityType ==="employee"){*/
-                        var departmentId, designationId;
-                        // check if department exists
-                        var departmentExists = departments.filter((data) => {
+                       var departmentId,designationId;
+                         var departmentExists = departments.filter((data) => {
+                             // console.log("data.department====",data.department);
                             if (data.department == employees[k].department) {
                                 return data;
                             }
+                            // console.log("departmentExists",departmentExists);
+                           
                         })
-                        // console.log("departmentExists.length",departmentExists.length);
-                       
-
                         if (departmentExists.length > 0) {
                             departmentId = departmentExists[0]._id;
+                            
                         } else {
-                             if(employees[k].department != '-'){
-                            departmentId = await insertDepartment(employees[k].department, req.body.reqdata.createdBy);
+                            if(employees[k].department != '-'){
+                            departmentId = await insertDepartment(employees[k].department,req.body.reqdata.createdBy);
+                            // console.log("departmentId--",departmentId);
                            }
-                        }
+                          }
+                        
+
+                       
+
                         // check if designation exists
                         var designationExists = designations.filter((data) => {
+                            // console.log("data.designation",data.designation);
                             if (data.designation == employees[k].designation) {
                                 return data;
                             }
+                           
                         })
-
                         if (designationExists.length > 0) {
                             designationId = designationExists[0]._id;
+                            
                         } else {
-                             if(employees[k].designation != '-'){
-                            designationId = await insertDesignation(employees[k].designation);
+                            if(employees[k].designation != '-'){
+                            designationId = await insertDesignation(employees[k].designation,req.body.reqdata.createdBy);
+                             // console.log("designationId--",designationId);
                            }
-                        }
-
+                          }
                        
                         
                     // }
@@ -1014,6 +1019,48 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         validObjects.createdAt = new Date();
 
                         validData.push(validObjects);
+                        
+                        const person = new PersonMaster({
+
+                            _id            :  new mongoose.Types.ObjectId(),
+                            type           : req.body.reqdata.type,
+                            entityType     : req.body.reqdata.entityType,
+                            DOB            : DOB,
+                            company_Id     : companyData[0]._id,
+                            companyName    : companyData[0].companyName,
+                            departmentId   : departmentId,
+                            designationId  : designationId,
+                            workLocationId : workLocationIdFile,
+                            profileStatus  : "New",
+                            status         : "Active",
+                            userId         : UMuserID,
+                            loginCredential: createLogin,
+                            companyID      : companyData[0].companyID,
+                            address        : address,
+                            contactNo      : employees[k].contactNo,
+                            email          : employees[k].email,
+                            firstName      : employees[k].firstName,
+                            lastName       : employees[k].lastName,
+                            socialMediaArray:socialMediaArray,
+                            fileName        :req.body.fileName,
+                            whatsappNo      :employees[k].whatsappNo,
+                            // employeeId      :employees[k].employeeId,
+                            createdBy       :req.body.reqdata.createdBy,
+                            createdAt       :new Date(),
+                            
+                                    
+                            })
+
+                         person.save()
+                            .then(data => {
+                                console.log("person data",data);
+                                // res.status(200).json({ created: true, PersonId: data._id });
+                            })
+
+                            .catch(err => {
+                                console.log(err)
+                                res.status(500).json({ error: err });
+                            });
 
                     } else {
 
@@ -1021,12 +1068,13 @@ exports.bulkUploadEmployee = (req, res, next) => {
                        // console.log("remark-->",remark);
                         invalidObjects = employees[k];
                         invalidObjects.failedRemark = remark;
+                        console.log("line 1070>>>>>>>>>>>>>>>>>",invalidObjects)
                         invalidData.push(invalidObjects);
                     }
 
                 } else {
 
-                    var DOB;
+                   /* var DOB;
                     if (employees[k].DOB == '-') {
                         employees[k].DOB = '-';
                     } else {
@@ -1040,7 +1088,11 @@ exports.bulkUploadEmployee = (req, res, next) => {
                     }
                     invalidObjects = employees[k];
                     invalidObjects.failedRemark = remark;
+                      console.log("line 1091>>>>>>>>>>>>>>>>>",invalidObjects);
+                      console.log("invalidData before>>>>>>>>>>>>>>>>",invalidData);
                     invalidData.push(invalidObjects);
+                    console.log("invalidData after>>>>>>>>>>>>>>>>",invalidData);*/
+
                 }
                 remark = '';
             }else{
@@ -1048,18 +1100,9 @@ exports.bulkUploadEmployee = (req, res, next) => {
                 invalidObjects = employees[k];
                 invalidObjects.failedRemark = remark;
                 invalidData.push(invalidObjects);
-                console.log("invalidData",invalidData);
             }
         }
-        console.log("validData--->",validData);
-        PersonMaster.insertMany(validData)
-            .then(data => {
-
-            })
-            .catch(err => {
-                console.log(err);
-            });
-
+       
         failedRecords.FailedRecords = invalidData;
         failedRecords.fileName = req.body.fileName;
         failedRecords.totalRecords = req.body.totalRecords;
@@ -1147,8 +1190,10 @@ function insertDesignation(designation, createdBy) {
             });
     });
 }
+
+
 var insertFailedRecords = async (invalidData, updateBadData) => {
-    //console.log('invalidData',invalidData);
+    console.log('invalidData  person',invalidData);
     return new Promise(function (resolve, reject) {
         FailedRecords.find({ fileName: invalidData.fileName })
             .exec()
@@ -1180,6 +1225,7 @@ var insertFailedRecords = async (invalidData, updateBadData) => {
                                 })
                                 .catch(err => { reject(err); });
                         } else {
+                             console.log("inside line 1232");
                             FailedRecords.updateOne({ fileName: invalidData.fileName },
                                 {
                                     $set: { 'totalRecords': invalidData.totalRecords },
@@ -1196,6 +1242,7 @@ var insertFailedRecords = async (invalidData, updateBadData) => {
                         }
 
                     } else {
+                         console.log("inside line 1248");
                         FailedRecords.updateOne({ fileName: invalidData.fileName },
                             {
                                 $set: { 'totalRecords': invalidData.totalRecords },
@@ -1233,8 +1280,6 @@ var insertFailedRecords = async (invalidData, updateBadData) => {
 
     })
 }
-
-
 //Mobile Driver API
 
 //For Driver Basic Info

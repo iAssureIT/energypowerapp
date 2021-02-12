@@ -75,33 +75,37 @@ class PersonMaster extends Component {
       fileDetailUrl: "/api/personmaster/get/filedetails/",
       'url': "http://uatadmin.fivebees.in",
       goodRecordsHeading: {
+
         firstName: "First Name",
-        middleName: "Middle Name",
+        // middleName: "Middle Name",
         lastName: "Last Name",
-        DOB: "DOB",
-        gender: "Gender",
+        companyName: "Company Name",
+
+        // DOB: "DOB",
+        // gender: "Gender",
         contactNo: "Contact No",
-        altContactNo: "Alt Contact No",
+        // altContactNo: "Alt Contact No",
         email: "Email",
         whatsappNo: "Whats App No",
-        department: "Department",
-        designation: "Designation",
-        employeeId: "Employee Id",
+        // department: "Department",
+        // designation: "Designation",
+        // employeeId: "Employee Id",
         
       },
       failedtableHeading: {
         firstName: "First Name",
-        middleName: "Middle Name",
+        // middleName: "Middle Name",
         lastName: "Last Name",
-        DOB: "DOB",
-        gender: "Gender",
+        companyName: "Company Name",
+        // DOB: "DOB",
+        // gender: "Gender",
         contactNo: "Contact No",
-        altContactNo: "Alt Contact No",
+        // altContactNo: "Alt Contact No",
         email: "Email",
         whatsappNo: "Whats App No",
-        department: "Department",
-        designation: "Designation",
-        employeeId: "Employee Id",
+        // department: "Department",
+        // designation: "Designation",
+        // employeeId: "Employee Id",
         failedRemark: "Failed Data Remark"
       },
    
@@ -1687,18 +1691,17 @@ class PersonMaster extends Component {
           });
           if (this.state.pathname === "employee") {
             var tableData = response.data.goodrecords.map((a, i) => {
+              console.log("tableData in person",response.data.goodrecords);
               return {
                 "firstName": a.firstName ? a.firstName : '-',
                 "middleName": a.middleName ? a.middleName : '-',
                 "lastName": a.lastName ? a.lastName : '-',
-                "DOB": a.DOB ? a.DOB : '-',
-                "gender": a.gender ? a.gender : '-',
+                "companyName": a.companyName ? a.companyName : '-',
+                // "gender": a.gender ? a.gender : '-',
                 "contactNo": a.contactNo ? a.contactNo : '-',
-                "altContactNo": a.altContactNo ? a.altContactNo : '-',
+                // "altContactNo": a.altContactNo ? a.altContactNo : '-',
                 "email": a.email ? a.email : '-',
                 "whatsappNo": a.whatsappNo ? a.whatsappNo : '-',
-                "department": a.block ? a.block : '-',
-                "designation": a.village ? a.village : '-',
                 "employeeId": a.employeeId ? a.employeeId : "-",
                 "bookingApprovalRequired": a.bookingApprovalRequired ? a.bookingApprovalRequired : "-",
                 "approvingAuthorityId": a.approvingAuthorityId ? a.approvingAuthorityId : "-"
@@ -1706,18 +1709,17 @@ class PersonMaster extends Component {
             })
 
             var failedRecordsTable = response.data.failedRecords.map((a, i) => {
+              console.log("response.data.failedRecords---",response.data.failedRecords);
               return {
                 "firstName": a.firstName ? a.firstName : '-',
                 "middleName": a.middleName ? a.middleName : '-',
                 "lastName": a.lastName ? a.lastName : '-',
-                "DOB": a.DOB ? a.DOB : '-',
-                "gender": a.gender ? a.gender : '-',
+                "companyName": a.companyName ? a.companyName : '-',
+                // "gender": a.gender ? a.gender : '-',
                 "contactNo": a.contactNo ? a.contactNo : '-',
-                "altContactNo": a.altContactNo ? a.altContactNo : '-',
+                // "altContactNo": a.altContactNo ? a.altContactNo : '-',
                 "email": a.email ? a.email : '-',
                 "whatsappNo": a.whatsappNo ? a.whatsappNo : '-',
-                "department": a.block ? a.block : '-',
-                "designation": a.village ? a.village : '-',
                 "employeeId": a.employeeId ? a.employeeId : "-",
                 "bookingApprovalRequired": a.bookingApprovalRequired ? a.bookingApprovalRequired : "-",
                 "approvingAuthorityId": a.approvingAuthorityId ? a.approvingAuthorityId : "-",

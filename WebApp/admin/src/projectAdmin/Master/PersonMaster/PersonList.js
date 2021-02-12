@@ -855,7 +855,7 @@ class PersonList extends Component {
 																:
 																null
 																*/}
-																{this.state.type=="driver || guest" ?
+																{this.state.type=="driver || guest || employee" ?
 																	<li>{data.type.replace(/^./, data.type[0].toUpperCase())}</li>
 																:
 																	null
