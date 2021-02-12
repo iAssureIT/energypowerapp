@@ -130,31 +130,31 @@ exports.list_Tickets = (req,res,next)=>{
                             }
                         }    
                     }
-                    console.log("client_id",data[i]._id);;
-                    console.log("client_id",data[i].client_id);;
-                    await returnData.push({
-                        "_id"                     : data[i]._id,
-                        "ticketId"                : data[i].ticketId,
-                        "equipmentLocationName"      : data[i].equipmentLocationName,
-                        "projectLocationName"   : data[i].projectLocationName,
-                        "clientName"              : data[i].client_id.companyName,
-                        "client_id"               : data[i].client_id._id,
-                        "contactPerson"           : data[i].contactPerson,
-                        "contactPerson_id"        : data[i].contactPerson_id,
-                        "department"              : data[i].department,
-                        "project"                 : data[i].project,
-                        "companyID"               : data[i].client_id.companyID,
-                        "typeOfIssue"             : data[i].typeOfIssue,
-                        "department"              : data[i].department,
-                        "project"                 : data[i].project,
-                        "site"                    : data[i].site,
-                        "is_type"                 : data[i].is_type,
-                        "statusValue"             : data[i].statusValue,
-                        "cost"                    : data[i].cost,
-                        "serviceRequest"          : data[i].serviceRequest,
-                        "createdAt"               : data[i].createdAt,
-                        "technicianDetails"       : technicianDetails,
-                    })
+                    if(data[i].client_id){
+                        await returnData.push({
+                            "_id"                     : data[i]._id,
+                            "ticketId"                : data[i].ticketId,
+                            "equipmentLocationName"      : data[i].equipmentLocationName,
+                            "projectLocationName"   : data[i].projectLocationName,
+                            "clientName"              : data[i].client_id.companyName,
+                            "client_id"               : data[i].client_id._id,
+                            "contactPerson"           : data[i].contactPerson,
+                            "contactPerson_id"        : data[i].contactPerson_id,
+                            "department"              : data[i].department,
+                            "project"                 : data[i].project,
+                            "companyID"               : data[i].client_id.companyID,
+                            "typeOfIssue"             : data[i].typeOfIssue,
+                            "department"              : data[i].department,
+                            "project"                 : data[i].project,
+                            "site"                    : data[i].site,
+                            "is_type"                 : data[i].is_type,
+                            "statusValue"             : data[i].statusValue,
+                            "cost"                    : data[i].cost,
+                            "serviceRequest"          : data[i].serviceRequest,
+                            "createdAt"               : data[i].createdAt,
+                            "technicianDetails"       : technicianDetails,
+                        })
+                    }   
                  }   
                 if(i >= data.length){
                     res.status(200).json(returnData);
