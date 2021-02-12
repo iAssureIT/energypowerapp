@@ -70,7 +70,7 @@ class OneFieldForm extends React.Component {
             rules: {
                 fieldName: {
                     required: true,
-                    regxonefield: /^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/,
+                    // regxonefield: /^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/,
                 },
             },
            
