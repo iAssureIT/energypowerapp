@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const processSchema = mongoose.Schema({
     _id                       : mongoose.Schema.Types.ObjectId,
-    process               : Number,
+    process                   : String,
     createdBy                 : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     createdAt                 : Date,
     updateLog                 : [
