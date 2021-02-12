@@ -12,7 +12,7 @@ const projectlocSchema = mongoose.Schema({
             locationName          : String,
             division              : String,
             industry              : String,
-            process               : Number,
+            process               : String,
             images                : Array,
             address                   : [{
                                                 addressLine1    : String,
