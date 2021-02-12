@@ -56,9 +56,9 @@ exports.countprocess = (req, res, next)=>{
 };
 exports.fetchprocess = (req, res, next)=>{
     ProcessMaster.find({})
-        /*.sort({createdAt : -1})
+        .sort({createdAt : -1})
         .skip(req.body.startRange)
-        .limit(req.body.limitRange)*/
+        .limit(req.body.limitRange)
         .exec()
         .then(data=>{
             res.status(200).json(data);
