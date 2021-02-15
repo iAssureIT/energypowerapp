@@ -504,9 +504,20 @@ export default class TicketingManagement extends Component {
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 marginTop8">
                                             {item.images && item.images.length > 0 ?
                                               item.images.map((image,index)=>{
-                                                return(
-                                                  <a href={image} target="_blank"  className="imageOuterContainerDM" title="Click to View">  <embed src={image} style={{'height':'100px',width:'100px',marginRight:'15px','border': '1px solid #d4d4d4'}} /></a>
-                                                )
+                                                var ext = image.slice((image.lastIndexOf(".") - 1 >>> 0) + 2);
+                                                if(ext === "pdf"){
+                                                  return(
+                                                    <a href={image} target="_blank"  className="imageOuterContainerDM" title="Click to View">  <img src={'/images/pdf.png'} style={{'height':'100px',width:'100px',marginRight:'15px','border': '1px solid #d4d4d4'}} /></a>
+                                                  )
+                                                  }else if(ext === "xls"){
+                                                    return(
+                                                      <a href={image} target="_blank"  className="imageOuterContainerDM" title="Click to View">  <img src={'/images/xls.png'} style={{'height':'100px',width:'100px',marginRight:'15px','border': '1px solid #d4d4d4'}} /></a>
+                                                  )
+                                                }else{
+                                                  return(
+                                                    <a href={image} target="_blank"  className="imageOuterContainerDM" title="Click to View">  <img src={image} style={{'height':'100px',width:'100px',marginRight:'15px','border': '1px solid #d4d4d4'}} /></a>
+                                                  )
+                                                }
                                               })
                                               :
                                               null

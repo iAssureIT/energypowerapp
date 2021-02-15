@@ -76,7 +76,7 @@ export const HeaderBar = (props) => {
         }
         centerComponent={
           /*<TouchableOpacity onPress={()=>props.navigation.navigate('Dashboard')}>*/
-            <Text style={{fontSize:20,color:"#fff",fontFamily: 'Montserrat-Bold'}}>{props.title ? props.title : "iSecure"}</Text>
+            <Text style={{fontSize:20,color:"#fff",fontFamily: 'Montserrat-Bold'}}>{props.title ? props.title : "Energy Power"}</Text>
           /*</TouchableOpacity>*/
         }
         rightComponent={

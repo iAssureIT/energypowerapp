@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, ImageBackground,Image,Dimensions,Text,StyleSheet,TouchableOpacity,ScrollView}   from 'react-native';
+import {View, ImageBackground,Image,Dimensions,Text,StyleSheet,TouchableOpacity,ScrollView,Linking}   from 'react-native';
 import {Button, Icon, AirbnbRating,Rating}   from 'react-native-elements';
 import { colors, sizes }        from '../../config/styles.js';
 import commonStyle              from '../../config/commonStyle.js';
@@ -28,6 +28,7 @@ const StatusTracking = (props) => {
     const {collapse,setCollapse} = useState(false);
     const [image, setImage]         = useState([]);
     const [imageVisible, setImageVisible]   = useState(false);
+    const navigation                  = useNavigation();
     console.log("imageVisible",imageVisible);
     return (
       <React.Fragment>
@@ -178,28 +179,55 @@ const StatusTracking = (props) => {
                           <ScrollView contentContainerStyle={{flexDirection:"row"}} horizontal={true}>
                           {item.images && item.images.length  > 0?
                             item.images.map((item,index)=>{
-                              return(
-                                <TouchableOpacity key={index} style={commonStyle.image} 
-                                onPress={() => {
-                                  setImage([
-                                    {
-                                      source: {
-                                        uri: item,
+                              var ext = item.slice((item.lastIndexOf(".") - 1 >>> 0) + 2);
+                              if(ext === "pdf"){
+                                return(
+                                  <TouchableOpacity key={index} style={commonStyle.image} 
+                                  onPress={() => {navigation.navigate('PDFViewer',{"path":item})}}>
+                                    <ImageBackground
+                                      style={{height: 60, width: 60}}
+                                      source={require('../../images/pdf.png')}
+                                      resizeMode={'contain'}
+                                    >
+                                    </ImageBackground>
+                                  </TouchableOpacity>
+                                );
+                              }else if(ext === "xls"){
+                                return(
+                                  <TouchableOpacity key={index} style={commonStyle.image} 
+                                  onPress={() => {Linking.openURL(item)}}>
+                                    <ImageBackground
+                                      style={{height: 60, width: 60}}
+                                      source={require('../../images/xls.png')}
+                                      resizeMode={'contain'}
+                                    >
+                                    </ImageBackground>
+                                  </TouchableOpacity>
+                                );
+                              }else{
+                                return(
+                                  <TouchableOpacity key={index} style={commonStyle.image} 
+                                  onPress={() => {
+                                    setImage([
+                                      {
+                                        source: {
+                                          uri: item,
+                                        },
+                                        title: 'Photos',
+                                        // width: window.width,
+                                        // height: window.height,
                                       },
-                                      title: 'Photos',
-                                      // width: window.width,
-                                      // height: window.height,
-                                    },
-                                  ]),
-                                  setImageVisible(true);
-                                }}>
-                                  <Image
-                                    style={{height: 60, width: 60}}
-                                    source={{uri:item}}
-                                    resizeMode={'contain'}
-                                  />
-                                </TouchableOpacity>
-                              );
+                                    ]),
+                                    setImageVisible(true);
+                                  }}>
+                                    <Image
+                                      style={{height: 60, width: 60}}
+                                      source={{uri:item}}
+                                      resizeMode={'contain'}
+                                    />
+                                  </TouchableOpacity>
+                                );
+                              }
                               })
                               :
                           []

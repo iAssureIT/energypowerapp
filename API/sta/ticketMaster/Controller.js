@@ -731,6 +731,7 @@ exports.reopenTicket = (req,res,next)=>{
                 statusBy : status.statusBy,
                 remark   : status.remark,
                 statusAt : status.statusAt,
+                images   : status.images,
                 allocatedTo : uniqueAccepted[i].allocatedTo
              });
         }
