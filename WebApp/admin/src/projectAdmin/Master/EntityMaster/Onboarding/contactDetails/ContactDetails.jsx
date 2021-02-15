@@ -1194,6 +1194,7 @@ class ContactDetails extends Component {
 																		
 																		<select id="branchCode" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 errorinputText" value={this.state.branchCode} ref="branchCode" name="branchCode" onChange={this.handleChange.bind(this)} required>
 																			<option value="" disabled={true}>--Select Company Branch--</option>
+																			{console.log("this.state.branchCodeArry>>>>",this.state.branchCodeArry)}
 																			{
 																				this.state.branchCodeArry && this.state.branchCodeArry.length > 0 ?
 																					this.state.branchCodeArry.map((data, index) => {
@@ -1404,7 +1405,7 @@ class ContactDetails extends Component {
 																			<li>Branch Code: {data.branchCode  + ( data.locationType ? " ("+ data.locationType+ ")":"")}</li>
 																			{/*<li>Branch Code: {data.branchCode +" ("+data.branchName+")"}</li>*/}
 																			<li>Company Branch: {data.branchName?data.branchName :" -NA- "}</li>
-																			<li>Department &  Designation : {data.departmentName && data.designationName ? data.departmentName+" , "+data.designationName : " -NA- "}</li>
+																			<li>Department &  Designation : {data.departmentName && data.designationName ? data.departmentName+" , "+data.designationName : "-"}</li>
 																			{/*<li>Designation: {data.designationName ? data.designationName : " -NA- "}</li>*/}
 
 																			{data.approvingAuthorityId1 ?

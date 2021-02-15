@@ -215,7 +215,7 @@ exports.singleEntity = (req,res,next)=>{
 };
 
 function getManagerDetails(ID,companyID){
-    console.log('----------------------------ID,companyID-----------',ID,companyID)
+    // console.log('----------------------------ID,companyID-----------',ID,companyID)
    return new Promise(function(resolve,reject){
         PersonMaster.findOne({"employeeId" : ID,"companyID":companyID},{"firstName":1,middleName:1,lastName:1,contactNo:1,designation:1,department:1,employeeId:1})
              .populate('designationId')
@@ -286,7 +286,7 @@ exports.fetchContactEntities = (req, res, next)=>{
 };
 
 exports.getWorkLocation = (req, res, next)=>{
-    console.log("body=>",req.body)
+    // console.log("body=>",req.body)
     var selector = {};
     if(req.body.company_id){
         selector = {'_id':ObjectID(req.body.company_id)}
@@ -558,7 +558,7 @@ exports.singleLocation = (req,res,next)=>{
     });
 };
 exports.updateSingleLocation = (req,res,next)=>{
-    console.log("req.body",req.body);
+    // console.log("req.body",req.body);
     var locationdetails = req.body.locationDetails;
     insertLocationdetails();
     async function insertLocationdetails() {
@@ -1332,9 +1332,9 @@ var fetchAllPersons = async (email) => {
 
 
 exports.bulkUploadEntity = (req, res, next) => {
-     var entity = req.body.data;
+    var entity = req.body.data;
      // console.log("entity new",entity);
-      var validData = [];
+    var validData = [];
     var validObjects = [];
     var invalidData = [];
     var invalidObjects = [];
@@ -1344,8 +1344,8 @@ exports.bulkUploadEntity = (req, res, next) => {
     var DuplicateCount = 0;
     processData();
     async function processData() {
-        var departments = await fetchDepartments();
-        var designations = await fetchDesignations();
+        var departments  = await fetchDepartments();
+        var designations = await fetchDesignations(entity[k].designation);
 
          for (var k = 0; k < entity.length; k++) {
              if (entity[k].entityType == '-') {
@@ -1391,11 +1391,9 @@ exports.bulkUploadEntity = (req, res, next) => {
         var departments = await fetchDepartments();
         console.log("departments",departments);
         var designations = await fetchDesignations();
-         console.log("designations",designations);
-        
-        // console.log("entity",entity);
 
-    for (var k = 0; k < entity.length; k++) {
+      for (var k = 0; k < entity.length; k++) {
+
         if (entity[k].entityType == '-') {
             remark += "entityType not found, ";
         }
@@ -1413,6 +1411,9 @@ exports.bulkUploadEntity = (req, res, next) => {
         }
         if (entity[k].projectName == '-') {
             remark += "projectName not found, ";
+        }
+        if (entity[k].countryCode == '-') {
+            remark += "CountryCode not found, ";
         }
 
          EntityMaster.findOne({  
@@ -1437,11 +1438,9 @@ exports.bulkUploadEntity = (req, res, next) => {
     if (remark == '') {
         var departmentId,designationId;
          var departmentExists = departments.filter((data) => {
-             // console.log("data.department====",data.department);
             if (data.department == entity[k].department) {
                 return data;
             }
-            // console.log("departmentExists",departmentExists);
            
         })
         if (departmentExists.length > 0) {
@@ -1450,16 +1449,10 @@ exports.bulkUploadEntity = (req, res, next) => {
         } else {
             if(entity[k].department != '-'){
             departmentId = await insertDepartment(entity[k].department,req.body.reqdata.createdBy);
-            // console.log("departmentId--",departmentId);
            }
           }
         
-
-       
-
-        // check if designation exists
         var designationExists = designations.filter((data) => {
-            // console.log("data.designation",data.designation);
             if (data.designation == entity[k].designation) {
                 return data;
             }
@@ -1471,7 +1464,6 @@ exports.bulkUploadEntity = (req, res, next) => {
         } else {
             if(entity[k].designation != '-'){
             designationId = await insertDesignation(entity[k].designation,req.body.reqdata.createdBy);
-             // console.log("designationId--",designationId);
            }
           }
         
@@ -1499,287 +1491,306 @@ exports.bulkUploadEntity = (req, res, next) => {
                 return data;
             }
         })
-    validObjects.fileName       = req.body.fileName;
-    // console.log("employeeExists--",employeeExists);
-    if (employeeExists.length == 0) {   
-     
-         var latlong = await getLatLong(entity[k].address1Line1); 
-         var lat=latlong[0].latitude;
-         var lng=latlong[0].longitude;
+        validObjects.fileName       = req.body.fileName;
+        if (employeeExists.length == 0) {   
+         
+             var latlong = await getLatLong(entity[k].address1Line1); 
+             var lat=latlong[0].latitude;
+             var lng=latlong[0].longitude;
 
 
-         var latlong1 = await getLatLong(entity[k].address2Line1); 
-         var lat1=latlong1[0].latitude;
-         var lng1=latlong1[0].longitude;
+             var latlong1 = await getLatLong(entity[k].address2Line1); 
+             var lat1=latlong1[0].latitude;
+             var lng1=latlong1[0].longitude;
 
-         var latlong2 = await getLatLong(entity[k].address3Line1); 
-         var lat2=latlong2[0].latitude;
-         var lng2=latlong2[0].longitude;
+             var latlong2 = await getLatLong(entity[k].address3Line1); 
+             var lat2=latlong2[0].latitude;
+             var lng2=latlong2[0].longitude;
 
 
 
-         var dept_project=entity[k].departmentName+" - "+entity[k].projectName;
-                 // console.log("dept_project",dept_project);
+             var dept_project=entity[k].departmentName+" - "+entity[k].projectName; 
+                         
+             var entityDept=
+                        [
+                             {
+                               departmentName:entity[k].departmentName,
+                               projectName:entity[k].projectName,
+                                
+                             }
+                        ]
+
+             var  locations =[
+
+                       {
+                            locationType        : entity[k].Location1Type,
+                            addressLine1        : entity[k].address1Line1,
+                            addressLine2        : entity[k].address1Line2 + "," + entity[k].district1 + "," + entity[k].state1 + "," + entity[k].country1 ,
+                            department          : dept_project,
+                            countryCode         : entity[k].countryCode,
+                            country             : entity[k].country1,
+                            // stateCode           : entity[k].countryCod,
+                            state               : entity[k].state1,
+                            district            : entity[k].district1,
+                            city                : entity[k].city1,
+                            area                : entity[k].area1,
+                            pincode             : entity[k].pincode1,
+                            latitude            : lat,
+                            longitude           : lng,
+                            
+                         },
+
+                        {
+                                locationType        : entity[k].Location2Type != '-'  ?  entity[k].Location2Type : 'null',
+                                addressLine1        : entity[k].address2Line1 != '-'  ?  entity[k].address2Line1 : 'null',
+                                addressLine2        : entity[k].address2Line2 != '-'  ?  entity[k].address2Line2 : 'null',
+                                department          : dept_project,
+                                state               : entity[k].state1,
+                                district            : entity[k].district2,
+                                city                : entity[k].city2,
+                                area                : entity[k].area2,
+                                pincode             : entity[k].pincode2,
+                                latitude            : lat1,
+                                longitude           : lng1,
+                                
+                        },
+                        {
+                                locationType        : entity[k].Location3Type != '-'  ? entity[k].Location3Type : 'null',
+                                addressLine1        : entity[k].address3Line1 != '-'  ? entity[k].address3Line1 : 'null',
+                                addressLine2        : entity[k].address3Line2 != '-'  ? entity[k].address3Line2 : 'null',
+                                department          : dept_project,
+                                state               : entity[k].state2,
+                                district            : entity[k].district2,
+                                city                : entity[k].city2,
+                                area                : entity[k].area2,
+                                pincode             : entity[k].pincode2,
+                                latitude            : lat2,
+                                longitude           : lng2,
+                                
+                       }
+                     ]
+                 let locationdetails = [];
+                    for( var a=0; a<locations.length; a++){
+                        if((locations[a].locationType != 'null' || locations[a].addressLine1 != 'null' || locations[a].addressLine2 != 'null' ))
+                          {
+                           
+                            locationdetails.push(locations[a]);
+                                
+                            }
+                        }  
                      
-     var entityDept=[
-                         {
-                           departmentName:entity[k].departmentName,
-                           projectName:entity[k].projectName,
-                            
-                         }
-                    ]
-
-     var  locations =[
-
-                   {
-                        locationType        : entity[k].Location1Type,
-                        addressLine1        : entity[k].address1Line1,
-                        addressLine2        : entity[k].address1Line2,
-                        department          : dept_project,
-                        latitude            : lat,
-                        longitude           : lng,
-                        
-                     },
-
-                    {
-                            locationType        : entity[k].Location2Type != '-'  ?  entity[k].Location2Type : 'null',
-                            addressLine1        : entity[k].address2Line1 != '-'  ?  entity[k].address2Line1 : 'null',
-                            addressLine2        : entity[k].address2Line2 != '-'  ?  entity[k].address2Line2 : 'null',
-                            department          : dept_project,
-                            latitude            : lat1,
-                            longitude           : lng1,
-                            
-                    },
-                    {
-                            locationType        : entity[k].Location3Type != '-'  ? entity[k].Location3Type : 'null',
-                            addressLine1        : entity[k].address3Line1 != '-'  ? entity[k].address3Line1 : 'null',
-                            addressLine2        : entity[k].address3Line2 != '-'  ? entity[k].address3Line2 : 'null',
-                            department          : dept_project,
-                            latitude            : lat2,
-                            longitude           : lng2,
-                            
-                   }
-                 ]
-             let locationdetails = [];
-                for( var a=0; a<locations.length; a++){
-                    if((locations[a].locationType != 'null' || locations[a].addressLine1 != 'null' || locations[a].addressLine2 != 'null' ))
-                      {
                        
-                        locationdetails.push(locations[a]);
+                        var getnext = await getNextSequence(entity[k].entityType,entity[k].companyName);
+                        if(entity[k].entityType == 'client')
+                            {
+                                var str = getnext;
+                            }else
+                            {
+                                var str = 1
+                            }
+
+                       var validDcompanyNo  = getnext ? getnext : 1;
+                       var validDcompanyID  = str ? str : 1;
+               
+                var createLogin1 = entity[k].loginCredential;
+                 console.log("createLogin1>>>>>>>>>",createLogin1);
+                 if(createLogin1 == 'No'){
+                    createLogin1=false;
+                 }else{
+                     createLogin1=true;
+                 }  
+                          
+                     
+               var contactPersons      =[
+
+                                            {                                         
+
+                                                branchName                : entity[k].address1Line1,
+                                                firstName                 : entity[k].firstName,
+                                                lastName                  : entity[k].lastName,
+                                                phone                     : entity[k].countryCode + "" + entity[k].phone,
+                                                altPhone                  : entity[k].countryCode + "" + entity[k].altPhone,
+                                                email                     : entity[k].email,
+                                                departmentName            : entity[k].department,
+                                                designationName           : entity[k].designation,
+                                                employeeID                : entity[k].employeeID,
+                                                role                      : entity[k].role,
+                                                branchCode                : validDcompanyID,
+                                                createUser                : createLogin1,
+               
+                                            }
+                                          
+                                       ]
+                                                     
+            let contactdetails = [];
+                for( var a=0; a<contactPersons.length; a++){
+                    if((contactPersons[a].branchName != null || contactPersons[a].firstName != null || 
+                       contactPersons[a].phone != null || contactPersons[a].altPhone != null || contactPersons[a].email != null ||
+                         contactPersons[a].department != null || contactPersons[a].designation != null || contactPersons[a].employeeID != null ))
+                        
+                        {
+
+                     
+
+                        contactdetails.push(contactPersons[a]);
+                     
+                         // console.log("contactdetails----s",contactdetails);
                             
                         }
-                        console.log("locationdetail----",locationdetails);
-                    }  
-                 
-                   
-                    var getnext = await getNextSequence(entity[k].entityType,entity[k].companyName);
-                    console.log("getnext in bulk",getnext)
-                    if(entity[k].entityType == 'client')
-                        {
-                            var str = getnext;
-                        }else
-                        {
-                            var str = 1
-                        }
-
-                   var validDcompanyNo  = getnext ? getnext : 1;
-                   var validDcompanyID  = str ? str : 1;
-                
-                 
-           var contactPersons      =[
-
-                                        {                                         
-
-                                            branchName                : entity[k].address1Line1,
-                                            firstName                 : entity[k].firstName,
-                                            lastName                  : entity[k].lastName,
-                                            phone                     : entity[k].phone,
-                                            altPhone                  : entity[k].altPhone,
-                                            email                     : entity[k].email,
-                                            departmentName            : entity[k].department,
-                                            designationName           : entity[k].designation,
-                                            employeeID                : entity[k].employeeID,
-                                            role                      : entity[k].role,
-                                            branchCode                : validDcompanyID,
-                                            createUser                : createLogin1,
-           
-                                        }
-                                      
-                                   ]
-                                                 
-        let contactdetails = [];
-            for( var a=0; a<contactPersons.length; a++){
-                if((contactPersons[a].branchName != null || contactPersons[a].firstName != null || 
-                   contactPersons[a].phone != null || contactPersons[a].altPhone != null || contactPersons[a].email != null ||
-                     contactPersons[a].department != null || contactPersons[a].designation != null || contactPersons[a].employeeID != null ))
-                    
-                    {
-
-                 
-
-                    contactdetails.push(contactPersons[a]);
-                 
-                     console.log("contactdetails----s",contactdetails);
-                        
-                    }
-                } 
-
-
-             var createLogin1 = entity[k].loginCredential1;
-             if(createLogin1 == 'No'){
-                createLogin1=false;
-             }else{
-                 createLogin1=true;
-             }  
-                  
-     var users1 = await fetchAllUsers(entity[k].email);
-     console.log("users1----",users1);
-     
-      if(!users1 )
-      {
-         var userDetails = {
-
-            firstname               : entity[k].firstName != '-'  ? entity[k].firstName : null,
-            lastname                : entity[k].lastName != '-'  ? entity[k].lastName : null,
-            mobNumber               : entity[k].phone != '-'  ? entity[k].phone : null,
-            email                   : entity[k].email != '-'  ? entity[k].email : null,
-            companyID               : validData.companyID,
-            companyName             : entity[k].companyName != '-'  ? entity[k].companyName : null,
-            designation             : entity[k].designation != '-'  ? entity[k].designation : null,
-            department              : entity[k].department != '-'  ? entity[k].department1 : null,
-            pwd                     : "welcome123",
-            role                    : [  entity[k].role != '-'  ? entity[k].role : null],
-            status                    : 'blocked',
-           
-            "emailSubject"  : "Email Verification",
-            "emailContent"  : "As part of our registration process, we screen every new profile to ensure its credibility by validating email provided by user. While screening the profile, we verify that details put in by user are correct and genuine.",
-        }
-         if( (userDetails.firstName!== null) &&(createLogin1 != false))
-             {
-              var insertUser1=await createUser(userDetails);
-             }
-              var userID1=await createUser(userDetails);;
-               let Personcontactdetails = [];
-                var person1 = await fetchAllPersons(entity[k].email);
-               if (!person1){
-               var personDetails= {
-
-                        branchName                : entity[k].address1Line1,
-                        firstName                 : entity[k].firstName,
-                        lastName                  : entity[k].lastName,
-                        phone                     : entity[k].phone,
-                        altPhone                  : entity[k].altPhone,
-                        email                     : entity[k].email,
-                        department                : entity[k].department,
-                        designation               : entity[k].designation,
-                        employeeID                : entity[k].employeeID,
-                        role                      : entity[k].role,
-                        createUser                : createLogin1,
-
-                      }
-                    // console.log("personDetails---",personDetails);
                     } 
 
-                      var worklocation=entity[k].address1Line1;
-                      var entityTypeP=entity[k].entityType;
-                      var personData=await savePerson(userID1,userDetails,personDetails,entityTypeP,);
-      
-           
-                    }
+
                   
-                    validObjects = {
+         var users1 = await fetchAllUsers(entity[k].email);
+         // console.log("users1----",users1);
+         
+          if(!users1 )
+          {
+             var userDetails = {
 
-                        fileName                  : req.body.fileName,   
-                        entityType                : entity[k].entityType,
-                        companyName               : entity[k].companyName,
-                        groupName                 : entity[k].groupName,
-                        CIN                       : entity[k].CIN,   
-                        COI                       : entity[k].COI,
-                        TAN                       : entity[k].TAN,
-                        website                   : entity[k].website,
-                        companyPhone              : entity[k].companyPhone,
-                        companyEmail              : entity[k].companyEmail,
-                        country                   : entity[k].country,
-                        locations                 : locationdetails,
-                        contactPersons            : contactdetails,
-                        departments               : entityDept,
-                        companyNo                 : getnext ? getnext : 1,
-                        companyID                 : str ? str : 1,   
-                       
-                   }
+                firstname               : entity[k].firstName != '-'  ? entity[k].firstName : null,
+                lastname                : entity[k].lastName != '-'   ? entity[k].lastName : null,
+                mobNumber               : entity[k].phone != '-'      ? entity[k].phone : null,
+                email                   : entity[k].email != '-'      ? entity[k].email : null,
+                companyID               : validData.companyID,
+                companyName             : entity[k].companyName != '-' ? entity[k].companyName : null,
+                designation             : entity[k].designation != '-' ? entity[k].designation : null,
+                department              : entity[k].department != '-'  ? entity[k].department1 : null,
+                pwd                     : "welcome123",
+                role                    : [  entity[k].role != '-'  ? entity[k].role : null],
+                status                  : 'blocked',
+                "emailSubject"          : "Email Verification",
+                "emailContent"          : "As part of our registration process, we screen every new profile to ensure its credibility by validating email provided by user. While screening the profile, we verify that details put in by user are correct and genuine.",
+            }
+             if( (userDetails.firstName!== null))
+                 {
+                  var insertUser1=await createUser(userDetails);
+                 }
+                  var userID1=await createUser(userDetails);;
+                  let Personcontactdetails = [];
+                  var person1 = await fetchAllPersons(entity[k].email);
+                   if (!person1){
+                   var personDetails= {
 
-                  validData.push(validObjects);
-                   const entity1 = new EntityMaster({
-                                      _id                     : new mongoose.Types.ObjectId(),
-                                    fileName                  : req.body.fileName,   
-                                    entityType                : entity[k].entityType,
-                                    companyName               : entity[k].companyName,
-                                    groupName                 : entity[k].groupName,
-                                    CIN                       : entity[k].CIN,   
-                                    COI                       : entity[k].COI,
-                                    TAN                       : entity[k].TAN,
-                                    website                   : entity[k].website,
-                                    companyPhone              : entity[k].companyPhone,
-                                    companyEmail              : entity[k].companyEmail,
-                                    country                   : entity[k].country,
-                                    locations                 : locationdetails,
-                                    contactPersons            : contactdetails,
-                                    departments               : entityDept,
-                                    companyNo                 : getnext ? getnext : 1,
-                                    companyID                 : str ? str : 1,   
+                            branchName                : entity[k].address1Line1,
+                            firstName                 : entity[k].firstName,
+                            lastName                  : entity[k].lastName,
+                            phone                     : entity[k].phone,
+                            altPhone                  : entity[k].altPhone,
+                            email                     : entity[k].email,
+                            department                : entity[k].department,
+                            designation               : entity[k].designation,
+                            employeeID                : entity[k].employeeID,
+                            role                      : entity[k].role,
+                            createUser                : createLogin1,
+
+                          }
+                        } 
+
+                        console.log("personDetails>>>>",personDetails);
+
+                          var worklocation=entity[k].address1Line1;
+                          var entityTypeP=entity[k].entityType;
+                          var personData=await savePerson(userID1,userDetails,personDetails,entityTypeP,);
+          
+               
+                        }
+                      
+                        validObjects = {
+
+                            fileName                  : req.body.fileName,   
+                            entityType                : entity[k].entityType,
+                            companyName               : entity[k].companyName,
+                            groupName                 : entity[k].groupName,
+                            CIN                       : entity[k].CIN,   
+                            COI                       : entity[k].COI,
+                            TAN                       : entity[k].TAN,
+                            website                   : entity[k].website,
+                            companyPhone              : entity[k].companyPhone,
+                            companyEmail              : entity[k].companyEmail,
+                            country                   : entity[k].country,
+                            locations                 : locationdetails,
+                            contactPersons            : contactdetails,
+                            departments               : entityDept,
+                            companyNo                 : getnext ? getnext : 1,
+                            companyID                 : str ? str : 1,   
+                           
+                       }
+
+                      validData.push(validObjects);
+                       const entity1 = new EntityMaster({
+                                          _id                     : new mongoose.Types.ObjectId(),
+                                        fileName                  : req.body.fileName,   
+                                        entityType                : entity[k].entityType,
+                                        companyName               : entity[k].companyName,
+                                        groupName                 : entity[k].groupName,
+                                        CIN                       : entity[k].CIN,   
+                                        COI                       : entity[k].COI,
+                                        companyPhone              : entity[k].countryCode + "" + entity[k].companyPhone,
+                                        TAN                       : entity[k].TAN,
+                                        website                   : entity[k].website,
+                                        // companyPhone              : entity[k].companyPhone,
+                                        companyEmail              : entity[k].companyEmail,
+                                        country                   : entity[k].country,
+                                        locations                 : locationdetails,
+                                        contactPersons            : contactdetails,
+                                        departments               : entityDept,
+                                        companyNo                 : getnext ? getnext : 1,
+                                        companyID                 : str ? str : 1,   
 
 
-                                 })
-                                  entity1.save()
-                                    .then(data=>{
-                                        console.log("data to save",data)
-                                            // res.status(200).json({ created : true, entityID : data._id ,companyID : data.companyID});
-                                        })
-                                    .catch(err => {
-                                        console.log(err);
-                                    });
-                 
+                                     })
+                       console.log("entity1entity1",entity1.companyPhone);
+                                      entity1.save()
+                                        .then(data=>{
+                                            console.log("data to save",data)
+                                                // res.status(200).json({ created : true, entityID : data._id ,companyID : data.companyID});
+                                            })
+                                        .catch(err => {
+                                            console.log(err);
+                                        });
+                     
 
 
-                        } else {
+                            } else {
 
-                                remark += "data already exists.";
+                                    remark += "data already exists.";
 
+                                    invalidObjects = entity[k];
+                                    invalidObjects.failedRemark = remark;
+                                    invalidData.push(invalidObjects);
+                                }
+
+                            } else {
+
+                              
                                 invalidObjects = entity[k];
                                 invalidObjects.failedRemark = remark;
                                 invalidData.push(invalidObjects);
                             }
-
-                        } else {
-
-                          
-                            invalidObjects = entity[k];
-                            invalidObjects.failedRemark = remark;
-                            invalidData.push(invalidObjects);
+                            remark = '';
                         }
-                        remark = '';
-                    }
 
 
-        /* EntityMaster.insertMany(validData)
-            .then(data => {
+            /* EntityMaster.insertMany(validData)
+                .then(data => {
 
-            })
-            .catch(err => {
-                console.log(err);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            */
+            failedRecords.FailedRecords = invalidData;
+            failedRecords.fileName = req.body.fileName;
+            failedRecords.totalRecords = req.body.totalRecords;
+
+            await insertFailedRecords(failedRecords, req.body.updateBadData);
+
+            res.status(200).json({
+                "message": "Bulk upload process is completed successfully!",
+                "completed": true
             });
-        */
-        failedRecords.FailedRecords = invalidData;
-        failedRecords.fileName = req.body.fileName;
-        failedRecords.totalRecords = req.body.totalRecords;
-
-        await insertFailedRecords(failedRecords, req.body.updateBadData);
-
-        res.status(200).json({
-            "message": "Bulk upload process is completed successfully!",
-            "completed": true
-        });
-     }
+         }
 };
 
 var insertFailedRecords = async (invalidData, updateBadData) => {

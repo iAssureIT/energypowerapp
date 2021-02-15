@@ -638,20 +638,21 @@ componentWillUnmount() {
     if (entityID  && entityID !== '') {
       axios.get('/api/entitymaster/get/one/' + entityID)
         .then((response) => {
+          console.log("response.data[0].companyPhone=======",response.data[0].companyPhone);
           this.setState({
-            "entityID": this.props.match.params.entityID,
-            "entityType": response.data[0].entityType,
-            "companyName": response.data[0].companyName,
-            "groupName": response.data[0].groupName,
-            "website": response.data[0].website,
-            "companyPhone": response.data[0].companyPhone,
-            "companyEmail": response.data[0].companyEmail,
-            "CIN": response.data[0].CIN,
-            "COI": response.data[0].COI,
-            "TAN": response.data[0].TAN,
-            "companyLogo": response.data[0].companyLogo,
-            "userID": response.data[0].ID,
-            "createdBy": localStorage.getItem("user_ID")
+            "entityID"      : this.props.match.params.entityID,
+            "entityType"    : response.data[0].entityType,
+            "companyName"   : response.data[0].companyName,
+            "groupName"     : response.data[0].groupName,
+            "website"       : response.data[0].website,
+            "companyPhone"  : response.data[0].companyPhone,
+            "companyEmail"  : response.data[0].companyEmail,
+            "CIN"           : response.data[0].CIN,
+            "COI"           : response.data[0].COI,
+            "TAN"           : response.data[0].TAN,
+            "companyLogo"   : response.data[0].companyLogo,
+            "userID"        : response.data[0].ID,
+            "createdBy"     : localStorage.getItem("user_ID")
           })
         })
         .catch((error) => {
@@ -866,6 +867,7 @@ componentWillUnmount() {
 
                              <div className=" col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <label className="labelform  NOpadding-left">Company Number<i className="astrick">*</i></label>
+                                {console.log("this.state.companyPhone",this.state.companyPhone)}
                                 <PhoneInput
                                   country={'in'}
                                   value={this.state.companyPhone}

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const PersonMaster = require('./ModelPersonMaster');
 const VehicleDriverMapping = require('../../coreAdmin/vehicleDriverMapping/ModelVehicleDriverMapping.js');
 var request = require('request-promise');
-//const gloabalVariable = require('./../../../nodemon');
+const NodeGeocoder = require('node-geocoder');//const gloabalVariable = require('./../../../nodemon');
 var ObjectID = require('mongodb').ObjectID;
 const FailedRecords = require('../../coreAdmin/failedRecords/ModelFailedRecords');
 const DesignationMaster = require('../../coreAdmin/designationMaster/ModelDesignationMaster.js');
@@ -11,6 +11,7 @@ const DepartmentMaster = require('../../coreAdmin/departmentMaster/ModelDepartme
 const moment = require('moment');
 const BookingMaster = require('../../coreAdmin/bookingMaster/ModelBookingMaster.js');
 const EntityMaster = require('../entityMaster/ModelEntityMaster.js');
+const SocialMediaMaster    = require('../socialMediaMaster/Model.js');
 const Users = require('../../coreAdmin/userManagement/ModelUsers.js');
 const ProjectSetting    = require('../../coreAdmin/projectSettings/ModelProjectSettings.js');
 const axios = require('axios');
@@ -809,6 +810,8 @@ exports.bulkUploadEmployee = (req, res, next) => {
 
         var departments = await fetchDepartments();
         var designations = await fetchDesignations();
+       
+        console.log("SocialMediaData----",SocialMediaData);
 
         for (var k = 0; k < employees.length; k++) {
             if (employees[k].firstName == '-') {
@@ -928,7 +931,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                     UMuserID = await createLoginUser(userDetails);
                     if(UMuserID === "duplicate")
                     {
-                        remark += "Record already exists in User Management.";
+                        remark += "Employee already exists in User Management.";
                         invalidObjects = employees[k];
                         invalidObjects.failedRemark = remark;
                         invalidData.push(invalidObjects);
@@ -939,7 +942,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
 
                 if (remark == '') {
                    /* if(req.body.reqdata.entityType ==="employee"){*/
-                       var departmentId,designationId;
+                       var departmentId,designationId,socialMediId;
                          var departmentExists = departments.filter((data) => {
                              // console.log("data.department====",data.department);
                             if (data.department == employees[k].department) {
@@ -969,6 +972,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             }
                            
                         })
+
                         if (designationExists.length > 0) {
                             designationId = designationExists[0]._id;
                             
@@ -978,6 +982,32 @@ exports.bulkUploadEmployee = (req, res, next) => {
                              // console.log("designationId--",designationId);
                            }
                           }
+                         var SocialMediaData = await fetchSocialMediaData(employees[k].socialMediaName);
+                         var socialMeadiaExists = SocialMediaData.filter((data) => {
+                            // console.log("data.socialMedia",data.socialMedia);
+                            // console.log(" employees[k].socialMediaName",employees[k].socialMediaName);
+                            if (data.socialMedia == employees[k].socialMediaName) {
+                                return data;
+                            }
+                           
+                        })
+                        console.log("socialMeadiaExists.length",socialMeadiaExists.length);
+                        console.log("socialMeadiaExists",socialMeadiaExists);
+                        if (socialMeadiaExists.length > 0) {
+                            socialMediId = socialMeadiaExists[0]._id;
+                            socialMediaName = socialMeadiaExists[0].socialMedia;
+                            socialMediaicon = socialMeadiaExists[0].iconUrl;
+                            socialMediaurl = socialMeadiaExists[0].iconUrl;
+                            console.log("socialMediId====",socialMediId);
+                            
+                        var socialMediaArray={
+                            social_id:socialMediId,
+                            name:socialMediaName,
+                            url :employees[k].SocialMediaURL,
+                            icon :socialMediaurl,
+                        }
+
+                           
                        
                         
                     // }
@@ -986,13 +1016,13 @@ exports.bulkUploadEmployee = (req, res, next) => {
                     var allEmployees = await fetchAllEmployees(req.body.reqdata.type,req.body.reqdata.entityType);
                     var employeeExists = allEmployees.filter((data) => {
                         if (data.firstName == employees[k].firstName
-                            && data.middleName == employees[k].middleName
+                            && data.companyName == employees[k].companyName
                             && data.lastName == employees[k].lastName
-                            && data.email == employees[k].email && data.companyID == employees[k].companyID) {
+                            && data.email == employees[k].email) {
                             return data;
                         }
                     })
-                      
+                    console.log("employeeExist================s",employeeExists)  
                     if (employeeExists.length == 0) {
                         var DOB;
                         if (typeof employees[k].DOB == 'number') {
@@ -1002,13 +1032,13 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         }
                        /* if(req.body.reqdata.type === "driver")
                         {*/
-                            // var latlong = await getLatLong(employees[k].addressLine1); 
-                            var lat="";
-                            var lng="";
+                            var latlong = await getLatLong(employees[k].addressLine1); 
+                            var lat=latlong[0].latitude;
+                            var lng=latlong[0].longitude;
                             var address = [
 
                                {
-                                     addressLine1 : '',
+                                     addressLine1 : employees[k].addressLine1,
                                      addressLine2 : "",
                                      landmark     : "",
                                      pincode      : employees[k].pincode,
@@ -1021,11 +1051,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             ]
                      /*   }*/
 
-                        var socialMediaArray={
-                            name:employees[k].socialMediaName,
-                            url :employees[k].SocialMediaURL,
-                        }
-
+                       
 
                       
 
@@ -1101,6 +1127,15 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         console.log("line 1070>>>>>>>>>>>>>>>>>",invalidObjects)
                         invalidData.push(invalidObjects);
                     }
+                    } else {
+                           
+                        remark += "Social Media Does NOt exists.";
+                       // console.log("remark-->",remark);
+                        invalidObjects = employees[k];
+                        invalidObjects.failedRemark = remark;
+                        // console.log("line 1070>>>>>>>>>>>>>>>>>",invalidObjects)
+                        invalidData.push(invalidObjects);
+                           }
 
                 } else {
 
@@ -1186,6 +1221,20 @@ var fetchAllEmployees = async (type) => {
             });
     });
 };
+var fetchSocialMediaData = async (socialMedia) => {
+    return new Promise(function (resolve, reject) {
+        SocialMediaMaster.find({ socialMedia: socialMedia })
+            .sort({ createdAt: -1 })
+            // .skip(req.body.startRange)
+            // .limit(req.body.limitRange)
+            .then(data => {
+                resolve(data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+};
 function insertDepartment(department, createdBy) {
     return new Promise(function (resolve, reject) {
         const departmentMaster = new DepartmentMaster({
@@ -1208,6 +1257,24 @@ function insertDesignation(designation, createdBy) {
         const designationMaster = new DesignationMaster({
             _id: new mongoose.Types.ObjectId(),
             designation: designation,
+            createdBy: createdBy,
+            createdAt: new Date()
+        })
+        designationMaster.save()
+            .then(data => {
+                resolve(data._id);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+
+function insertSocialMedia(socialMedia, createdBy) {
+    return new Promise(function (resolve, reject) {
+        const socialMediaMaster = new SocialMediaMaster({
+            _id: new mongoose.Types.ObjectId(),
+            socialMedia: socialMedia,
             createdBy: createdBy,
             createdAt: new Date()
         })

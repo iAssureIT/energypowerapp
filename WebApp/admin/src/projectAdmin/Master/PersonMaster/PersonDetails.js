@@ -392,6 +392,7 @@ class PersonDetails extends Component {
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadding seperaterBorder">
 						</div>
 						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+						{console.log("state.personInfo.socialMediaArray>----", this.state.personInfo.socialMediaArray)}
 						{this.state.personInfo.socialMediaArray && this.state.personInfo.socialMediaArray.length > 0 &&<label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">Social Media</label>}						
 							{
 							this.state.personInfo.socialMediaArray && this.state.personInfo.socialMediaArray.length > 0 ?

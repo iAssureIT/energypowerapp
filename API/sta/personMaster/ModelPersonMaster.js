@@ -28,7 +28,7 @@ const personMasterSchema = mongoose.Schema({
     loginCredential             : String,
     vehicle                     : String,
     workImages                  : Array,
-    socialMediaArray            : [{
+    socialMediaArray            :  [{
                                         social_id : { type: mongoose.Schema.Types.ObjectId, ref: 'socialMediamasters' },
                                         name : String,
                                         icon : String,
