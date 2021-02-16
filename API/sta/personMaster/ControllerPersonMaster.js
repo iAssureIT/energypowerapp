@@ -991,7 +991,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             }
                            
                         })
-                        console.log("socialMeadiaExists.length",socialMeadiaExists.length);
+                        // console.log("socialMeadiaExists.length",socialMeadiaExists.length);
                         console.log("socialMeadiaExists",socialMeadiaExists);
                         if (socialMeadiaExists.length > 0) {
                             socialMediId = socialMeadiaExists[0]._id;
@@ -1007,18 +1007,17 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             icon :socialMediaurl,
                         }
 
+                    
+
                            
                        
                         
                     // }
                     // check if employee exists
                    
-                    var allEmployees = await fetchAllEmployees(req.body.reqdata.type,req.body.reqdata.entityType);
+                    var allEmployees = await fetchAllEmployees(employees[k].email);
                     var employeeExists = allEmployees.filter((data) => {
-                        if (data.firstName == employees[k].firstName
-                            && data.companyName == employees[k].companyName
-                            && data.lastName == employees[k].lastName
-                            && data.email == employees[k].email) {
+                        if ( data.email == employees[k].email) {
                             return data;
                         }
                     })
@@ -1093,13 +1092,13 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             loginCredential: createLogin,
                             companyID      : companyData[0].companyID,
                             address        : address,
-                            contactNo      : employees[k].contactNo,
+                            contactNo      : 91  + "" + employees[k].contactNo,
                             email          : employees[k].email,
                             firstName      : employees[k].firstName,
                             lastName       : employees[k].lastName,
                             socialMediaArray:socialMediaArray,
                             fileName        :req.body.fileName,
-                            whatsappNo      :employees[k].whatsappNo,
+                            whatsappNo      : 91  + "" + employees[k].whatsappNo,
                             // employeeId      :employees[k].employeeId,
                             createdBy       :req.body.reqdata.createdBy,
                             createdAt       :new Date(),
@@ -1135,7 +1134,8 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         invalidObjects.failedRemark = remark;
                         // console.log("line 1070>>>>>>>>>>>>>>>>>",invalidObjects)
                         invalidData.push(invalidObjects);
-                           }
+
+                    }
 
                 } else {
 
@@ -1207,9 +1207,9 @@ var fetchDepartments = async () => {
             });
     });
 };
-var fetchAllEmployees = async (type) => {
+var fetchAllEmployees = async (email) => {
     return new Promise(function (resolve, reject) {
-        PersonMaster.find({ type: type })
+        PersonMaster.find({email:email })
             .sort({ createdAt: -1 })
             // .skip(req.body.startRange)
             // .limit(req.body.limitRange)
