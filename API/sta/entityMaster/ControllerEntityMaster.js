@@ -724,22 +724,22 @@ exports.updateSingleContact = (req,res,next)=>{
             EntityMaster.updateOne(
             { "_id":req.body.entityID, "contactPersons._id": req.body.contactID},  
             {
-                $set:   { 'contactPersons.$.branchCode' : contactdetails.branchCode,
-                          'contactPersons.$.branchName' : contactdetails.branchName,
-                          'contactPersons.$.profilePhoto': contactdetails.profilePhoto,
-                          'contactPersons.$.firstName'  : contactdetails.firstName,
-                          'contactPersons.$.middleName' : contactdetails.middleName,
-                          'contactPersons.$.lastName'   : contactdetails.lastName,
-                          'contactPersons.$.DOB'        : contactdetails.DOB,
-                          'contactPersons.$.employeeID' : contactdetails.employeeID,
-                          'contactPersons.$.phone'      : contactdetails.phone,
-                          'contactPersons.$.altPhone'   : contactdetails.altPhone,
-                          'contactPersons.$.whatsappNo' : contactdetails.whatsappNo,
-                          'contactPersons.$.email'      : contactdetails.email,
-                          'contactPersons.$.gender'     : contactdetails.gender,
-                          'contactPersons.$.department' : contactdetails.department,
-                          'contactPersons.$.empCategory' : contactdetails.empCategory,
-                          'contactPersons.$.empPriority' : contactdetails.empPriority,
+                $set:   { 'contactPersons.$.branchCode'         : contactdetails.branchCode,
+                          'contactPersons.$.branchName'         : contactdetails.branchName,
+                          'contactPersons.$.profilePhoto'       : contactdetails.profilePhoto,
+                          'contactPersons.$.firstName'          : contactdetails.firstName,
+                          'contactPersons.$.middleName'         : contactdetails.middleName,
+                          'contactPersons.$.lastName'           : contactdetails.lastName,
+                          'contactPersons.$.DOB'                : contactdetails.DOB,
+                          'contactPersons.$.employeeID'         : contactdetails.employeeID,
+                          'contactPersons.$.phone'              : contactdetails.phone,
+                          'contactPersons.$.altPhone'           : contactdetails.altPhone,
+                          'contactPersons.$.whatsappNo'         : contactdetails.whatsappNo,
+                          'contactPersons.$.email'              : contactdetails.email,
+                          'contactPersons.$.gender'             : contactdetails.gender,
+                          'contactPersons.$.department'         : contactdetails.department,
+                          'contactPersons.$.empCategory'        : contactdetails.empCategory,
+                          'contactPersons.$.empPriority'        : contactdetails.empPriority,
                           'contactPersons.$.designationName'    : contactdetails.designationName,
                           'contactPersons.$.designation'        : contactdetails.designation,
                           'contactPersons.$.departmentName'     : contactdetails.departmentName,
@@ -1118,6 +1118,7 @@ function insertDepartment(department, createdBy) {
         const departmentMaster = new DepartmentMaster({
             _id: new mongoose.Types.ObjectId(),
             department: department,
+             companyID: 1,
             createdBy: createdBy,
             createdAt: new Date()
         })
@@ -1125,7 +1126,7 @@ function insertDepartment(department, createdBy) {
         departmentMaster.save()
             .then(data => {
                 console.log("data to save",data);
-                resolve(data._id);
+                resolve(data.department);
             })
 
             .catch(err => {
@@ -1136,16 +1137,19 @@ function insertDepartment(department, createdBy) {
 
 }
 function insertDesignation(designation, createdBy) {
+     console.log("designation in insert",designation);
     return new Promise(function (resolve, reject) {
         const designationMaster = new DesignationMaster({
             _id: new mongoose.Types.ObjectId(),
             designation: designation,
+            companyID : 1,
             createdBy: createdBy,
             createdAt: new Date()
         })
         designationMaster.save()
             .then(data => {
-                resolve(data._id);
+                 console.log("data to save",data);
+                resolve(data.designation);
             })
             .catch(err => {
                 reject(err);
@@ -1389,7 +1393,7 @@ exports.bulkUploadEntity = (req, res, next) => {
     async function processData() {
 
         var departments = await fetchDepartments();
-        console.log("departments",departments);
+        // console.log("departments",departments);
         var designations = await fetchDesignations();
 
       for (var k = 0; k < entity.length; k++) {
@@ -1444,13 +1448,15 @@ exports.bulkUploadEntity = (req, res, next) => {
            
         })
         if (departmentExists.length > 0) {
-            departmentId = departmentExists[0]._id;
+            departmentId = departmentExists[0].department;
             
         } else {
             if(entity[k].department != '-'){
-            departmentId = await insertDepartment(entity[k].department,req.body.reqdata.createdBy);
+            departmentId = await insertDepartment(entity[k].department);
            }
           }
+
+         // console.log("departmentId------>>>",departmentId); 
         
         var designationExists = designations.filter((data) => {
             if (data.designation == entity[k].designation) {
@@ -1459,16 +1465,14 @@ exports.bulkUploadEntity = (req, res, next) => {
            
         })
         if (designationExists.length > 0) {
-            designationId = designationExists[0]._id;
+            designationId = designationExists[0].designation;
             
         } else {
             if(entity[k].designation != '-'){
-            designationId = await insertDesignation(entity[k].designation,req.body.reqdata.createdBy);
+            designationId = await insertDesignation(entity[k].designation);
            }
           }
         
-       
-        /*s*/
          var alldeptProjects = await fetchAllEntities1(entity[k].departmentName,entity[k].projectName);
            if(!alldeptProjects){
             var DeptAndProject={
@@ -1592,8 +1596,8 @@ exports.bulkUploadEntity = (req, res, next) => {
                        var validDcompanyNo  = getnext ? getnext : 1;
                        var validDcompanyID  = str ? str : 1;
                
-                var createLogin1 = entity[k].loginCredential;
-                 console.log("createLogin1>>>>>>>>>",createLogin1);
+                 var createLogin1 = entity[k].loginCredential;
+                 // console.log("createLogin1>>>>>>>>>",createLogin1);
                  if(createLogin1 == 'No'){
                     createLogin1=false;
                  }else{
@@ -1611,8 +1615,8 @@ exports.bulkUploadEntity = (req, res, next) => {
                                                 phone                     : entity[k].countryCode + "" + entity[k].phone,
                                                 altPhone                  : entity[k].countryCode + "" + entity[k].altPhone,
                                                 email                     : entity[k].email,
-                                                departmentName            : entity[k].department,
-                                                designationName           : entity[k].designation,
+                                                departmentName            : departmentId,
+                                                designationName           : designationId,
                                                 employeeID                : entity[k].employeeID,
                                                 role                      : entity[k].role,
                                                 branchCode                : validDcompanyID,
@@ -1740,7 +1744,7 @@ exports.bulkUploadEntity = (req, res, next) => {
 
 
                                      })
-                       console.log("entity1entity1",entity1.companyPhone);
+                       // console.log("entity1entity1",entity1.companyPhone);
                                       entity1.save()
                                         .then(data=>{
                                             console.log("data to save",data)

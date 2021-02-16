@@ -2861,7 +2861,7 @@ class PersonMaster extends Component {
                             <BulkUpload url="/api/personMaster/bulkUploadEmployee"
                                 data={{ "type": "employee", "createdBy": localStorage.getItem("user_ID"), "corporateId": localStorage.getItem("corporate_ID") }}
                                 uploadedData={this.uploadedData}
-                                fileurl="https://prodsta.s3.ap-south-1.amazonaws.com/Employee.xlsx"
+                                fileurl="https://energypoweruat.s3.ap-south-1.amazonaws.com/EmployeeBulkUploadEnergyPower.xlsx"
                                 getFileDetails={this.getFileDetails.bind(this)}
                                 fileDetails={this.state.fileDetails}
                                 goodRecordsHeading={this.state.goodRecordsHeading}

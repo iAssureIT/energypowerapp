@@ -1391,6 +1391,7 @@ class ContactDetails extends Component {
 										 	{this.state.contactarray && this.state.contactarray.length > 0 ?
 												<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOPadding">
 													<h4 className=" col-lg-12 col-md-12 col-sm-12 col-sm-12 ">List of Contacts</h4>
+													{console.log("this.state.contactarray  for entity",this.state.contactarray )}
 													{this.state.contactarray && this.state.contactarray.length > 0 ?
 														this.state.contactarray.map((data, index) => {
 															return (
