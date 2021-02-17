@@ -961,11 +961,6 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             // console.log("departmentId--",departmentId);
                            }
                           }
-                        
-
-                       
-
-                        // check if designation exists
                         var designationExists = designations.filter((data) => {
                             // console.log("data.designation",data.designation);
                             if (data.designation == employees[k].designation) {
@@ -1008,14 +1003,6 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             icon :socialMediaurl,
                         }
 
-                    
-
-                           
-                       
-                        
-                    // }
-                    // check if employee exists
-                   
                     var allEmployees = await fetchAllEmployees(employees[k].email);
                     var employeeExists = allEmployees.filter((data) => {
                         if ( data.email == employees[k].email) {
