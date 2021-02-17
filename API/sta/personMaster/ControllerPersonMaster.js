@@ -927,8 +927,9 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         }
 
                     }
-                    console.log("UMuserID",UMuserID);
                     UMuserID = await createLoginUser(userDetails);
+                    console.log("UMuserID>>>>>",UMuserID);
+
                     if(UMuserID === "duplicate")
                     {
                         remark += "Employee already exists in User Management.";
@@ -1074,7 +1075,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         validObjects.createdAt = new Date();
 
                         validData.push(validObjects);
-                        
+                        console.log("UMuserID line")
                         const person = new PersonMaster({
 
                             _id            :  new mongoose.Types.ObjectId(),
@@ -1105,6 +1106,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             
                                     
                             })
+                         console.log("person data>>>>>>>>>>>",person);
 
                          person.save()
                             .then(data => {

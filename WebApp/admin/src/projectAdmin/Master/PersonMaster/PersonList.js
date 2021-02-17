@@ -179,9 +179,10 @@ class PersonList extends Component {
 			type : this.state.type,
 			company_Id : localStorage.getItem("company_Id")
 		}
+		console.log("formValues>>>>>>>>>>>",formvalues);
 		axios.post("/api/personmaster/get/list",formvalues)
 		.then((response) => {
-			console.log("response",response);
+			// console.log("response persons-------------",response);
 	        var tableData=response.data.filter((data,i)=>{
                 return data.status!=='deleted-Active' && data.status!=='deleted-Inactive'
 			});

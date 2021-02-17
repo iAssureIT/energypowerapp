@@ -378,10 +378,10 @@ class PersonDetails extends Component {
 								<li><i className="fa fa-envelope changeColor " aria-hidden="true"></i>&nbsp;&nbsp;{this.state.personInfo.email}</li>
 								<i className="fa fa-map-marker textAlignLeft noPadding changeColor col-lg-1 width18px" aria-hidden="true"></i><li className="col-lg-10 noPadding">
 										{this.state.personInfo.address && this.state.personInfo.address.length > 0 ? 
-											this.state.personInfo.address[0].addressLine2!==undefined ? 
-												this.state.personInfo.address[0].addressLine2 +" , " 
+											this.state.personInfo.address[0].addressLine1!==undefined ? 
+												this.state.personInfo.address[0].addressLine1 +" , " 
 											 : 
-											 ""+ this.state.personInfo.address[0].addressLine1 +" , "+ this.state.personInfo.address[0].pincode
+											 ""+ this.state.personInfo.address[0].addressLine2 +" , "+ this.state.personInfo.address[0].pincode
 										: " - Address not entered -" }</li>
 							</ul>
 							<ul className="col-lg-4 col-md-4 col-sm-4 col-xs-12 listLI">
