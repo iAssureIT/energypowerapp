@@ -231,7 +231,7 @@ class ListOfEntities extends Component {
 			if (this.state.roles.indexOf("admin") === -1)
 				{
 					this.setState({
-						entityList   : response.data.filter(entity=>entity.supplierOf === this.state.getcompanyID),
+						entityList   : response.data,
 						entityCount  : response.data.filter(entity=>entity.supplierOf === this.state.getcompanyID).length,
 						showDetails  : true,
 						initial : 'All'

@@ -150,7 +150,7 @@ class ContactDetails extends Component {
 		axios.get("/api/designationmaster/get/list")
 		  .then((response) => {
 			this.setState({
-			  designationArray: response.data.filter(dept => dept.companyID == getcompanyID)
+			  designationArray: response.data
 			})
 		  })
 		  .catch((error) => {
@@ -172,8 +172,7 @@ class ContactDetails extends Component {
 	axios.get("/api/departmentmaster/get/list")
 		.then((response) => {
 		this.setState({
-			departmentArray: response.data.filter(dept => dept.companyID == getcompanyID)
-		})
+			departmentArray: response.data		})
 		})
 		.catch((error) => {
 		})
@@ -682,8 +681,8 @@ class ContactDetails extends Component {
 					'email'             		: this.state.email,
 					'DOB'             			: this.state.DOB,
 					'gender'             		: this.state.gender,
-					'department'        		: this.state.departmentVal,
-					'designation'       		: this.state.designationVal,
+					// 'department'        		: this.state.departmentVal,
+					// 'designation'       		: this.state.designationVal,
 					'departmentName'        	: this.state.departmentName,
 					'designationName'       	: this.state.designationName,
 					'empCategory'               : this.state.empCategory ? this.state.empCategory :"",
@@ -877,8 +876,10 @@ class ContactDetails extends Component {
 			
 			axios.post('/api/entitymaster/post/singleContact', formValues)
 				.then((response) => {
-					console.log("response",response);
+					console.log("response for contactttttt",response);
+					
 					var contactDetails = response.data.contactPersons;
+					console.log("response for contactDetails[0].departmentName",contactDetails[0].departmentName);
 					this.setState({
 						'openForm'					: true,
 						'branchCode'        		: contactDetails[0].branchCode,
@@ -1215,13 +1216,13 @@ class ContactDetails extends Component {
 																			<label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">Department </label>
 																			<div className={!this.props.modal&& "input-group"} id="selectField" > 
 																				<select className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12"
-																					ref="departmentVal" value={this.state.departmentVal} name="departmentVal" onChange={this.handleChange.bind(this)} id="deptName">
+																					ref="departmentVal" value={this.state.departmentName} name="departmentVal" onChange={this.handleChange.bind(this)} id="deptName">
 																					<option value="" disabled={true}>--Select Department--</option>
 																					{
 																					this.state.departmentArray && this.state.departmentArray.length > 0 ?
 																						this.state.departmentArray.map((deptData, index) => {
 																						return (
-																							<option key={index} value={deptData._id} deptname={deptData.department}>{(deptData.department)}</option>
+																							<option key={index} value={deptData.departmentName} deptname={deptData.department}>{(deptData.department)}</option>
 																						);
 																						}
 																						) : ''
@@ -1236,13 +1237,13 @@ class ContactDetails extends Component {
 																		<div id="designationVal">
 																			<label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">Designation</label>
 																			<div className={!this.props.modal&& "input-group"} i id="selectField" > 		
-																					<select  className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="designationVal" value={this.state.designationVal} name="designationVal" onChange={this.handleChange.bind(this)} id="desgName">
+																					<select  className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="designationVal" value={this.state.designationName} name="designationVal" onChange={this.handleChange.bind(this)} id="desgName">
 																						<option value="" disabled={true}>--Select Designation--</option>
 																						{
 																						this.state.designationArray && this.state.designationArray.length > 0 ?
 																							this.state.designationArray.map((desData, index) => {
 																							return (
-																								<option key={index} value={desData._id} desgname={desData.designation}>{(desData.designation)}</option>
+																								<option key={index} value={desData.designationName} desgname={desData.designation}>{(desData.designation)}</option>
 																							);
 																							}) : ''
 																						}

@@ -1118,7 +1118,7 @@ function insertDepartment(department, createdBy) {
         const departmentMaster = new DepartmentMaster({
             _id: new mongoose.Types.ObjectId(),
             department: department,
-             companyID: 1,
+            companyID: 1,
             createdBy: createdBy,
             createdAt: new Date()
         })
@@ -1452,7 +1452,7 @@ exports.bulkUploadEntity = (req, res, next) => {
             
         } else {
             if(entity[k].department != '-'){
-            departmentId = await insertDepartment(entity[k].department);
+            departmentId = await insertDepartment(entity[k].department,req.body.reqdata.createdBy);
            }
           }
 
@@ -1469,7 +1469,7 @@ exports.bulkUploadEntity = (req, res, next) => {
             
         } else {
             if(entity[k].designation != '-'){
-            designationId = await insertDesignation(entity[k].designation);
+            designationId = await insertDesignation(entity[k].designation,req.body.reqdata.createdBy);
            }
           }
         
