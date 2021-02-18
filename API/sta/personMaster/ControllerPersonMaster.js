@@ -937,16 +937,19 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         invalidObjects.failedRemark = remark;
                         invalidData.push(invalidObjects);
                     }
+                    else{
+                        const userID =UMuserID;
+                    }
+
+                }
+
 
                 if (remark == '') {
-                   /* if(req.body.reqdata.entityType ==="employee"){*/
                        var departmentId,designationId,socialMediId;
                          var departmentExists = departments.filter((data) => {
-                             // console.log("data.department====",data.department);
                             if (data.department == employees[k].department) {
                                 return data;
                             }
-                            // console.log("departmentExists",departmentExists);
                            
                         })
                         if (departmentExists.length > 0) {
@@ -955,11 +958,9 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         } else {
                             if(employees[k].department != '-'){
                             departmentId = await insertDepartment(employees[k].department,req.body.reqdata.createdBy);
-                            // console.log("departmentId--",departmentId);
                            }
                           }
                         var designationExists = designations.filter((data) => {
-                            // console.log("data.designation",data.designation);
                             if (data.designation == employees[k].designation) {
                                 return data;
                             }
@@ -972,20 +973,15 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         } else {
                             if(employees[k].designation != '-'){
                             designationId = await insertDesignation(employees[k].designation,req.body.reqdata.createdBy);
-                             // console.log("designationId--",designationId);
                            }
                           }
                          var SocialMediaData = await fetchSocialMediaData(employees[k].socialMediaName);
                          var socialMeadiaExists = SocialMediaData.filter((data) => {
-                            // console.log("data.socialMedia",data.socialMedia);
-                            // console.log(" employees[k].socialMediaName",employees[k].socialMediaName);
                             if (data.socialMedia == employees[k].socialMediaName) {
                                 return data;
                             }
                            
                         })
-                        // console.log("socialMeadiaExists.length",socialMeadiaExists.length);
-                        console.log("socialMeadiaExists",socialMeadiaExists);
                         if (socialMeadiaExists.length > 0) {
                             socialMediId = socialMeadiaExists[0]._id;
                             socialMediaName = socialMeadiaExists[0].socialMedia;
@@ -1006,7 +1002,6 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             return data;
                         }
                     })
-                    console.log("employeeExist================s",employeeExists)  
                     if (employeeExists.length == 0) {
                         var DOB;
                         if (typeof employees[k].DOB == 'number') {
@@ -1014,8 +1009,6 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         } else {
                             DOB = moment(new Date(employees[k].DOB)).format("YYYY-MM-DD")
                         }
-                       /* if(req.body.reqdata.type === "driver")
-                        {*/
                             var latlong = await getLatLong(employees[k].addressLine1); 
                             var lat=latlong[0].latitude;
                             var lng=latlong[0].longitude;
@@ -1033,39 +1026,8 @@ exports.bulkUploadEmployee = (req, res, next) => {
                                      longitude    : lng
                                 }
                             ]
-                     /*   }*/
 
-                       
-
-                      
-
-                        validObjects = employees[k];
-                        validObjects.type = req.body.reqdata.type;
-                        validObjects.entityType = req.body.reqdata.entityType;
-                        validObjects.DOB = DOB;
-                        validObjects.departmentId = departmentId;
-                        validObjects.designationId = designationId;
-                        validObjects.company_Id = companyData[0]._id;
-                        validObjects.companyName = companyData[0].companyName;
-                        validObjects.workLocationId = workLocationIdFile;
-                        validObjects.profileStatus = "New";
-                        validObjects.status = "Active";
-                        if(UMuserID){validObjects.userId = UMuserID};
-                        validObjects.loginCredential = createLogin;
-                        validObjects.address = address;
-                        validObjects.socialMediaArray = socialMediaArray;
-                        validObjects.fileName = req.body.fileName;
-                        validObjects.createdBy = req.body.reqdata.createdBy;
-                        validObjects.createdAt = new Date();
-
-                        validData.push(validObjects);
-                        // console.log("UMuserID line",UMuserID)
-                        
-                        if(UMuserID){
-                           var  userID = UMuserID;
-
-                        } 
-
+                        console.log("UMuserID before person---",UMuserID); 
                         const person = new PersonMaster({
 
                             _id            :  new mongoose.Types.ObjectId(),
@@ -1096,8 +1058,6 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             
                                     
                             })
-
-
                          console.log("person data>>>>>>>>>>>",person);
 
                          person.save()
@@ -1110,8 +1070,6 @@ exports.bulkUploadEmployee = (req, res, next) => {
                                 console.log(err)
                                 res.status(500).json({ error: err });
                             });
-
-                         }   
 
                     } else {
 
