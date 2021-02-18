@@ -938,9 +938,6 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         invalidData.push(invalidObjects);
                     }
 
-                }
-
-
                 if (remark == '') {
                    /* if(req.body.reqdata.entityType ==="employee"){*/
                        var departmentId,designationId,socialMediId;
@@ -1099,6 +1096,8 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             
                                     
                             })
+
+
                          console.log("person data>>>>>>>>>>>",person);
 
                          person.save()
@@ -1111,6 +1110,8 @@ exports.bulkUploadEmployee = (req, res, next) => {
                                 console.log(err)
                                 res.status(500).json({ error: err });
                             });
+
+                         }   
 
                     } else {
 
