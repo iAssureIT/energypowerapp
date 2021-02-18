@@ -1041,7 +1041,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             workLocationId : workLocationIdFile,
                             profileStatus  : "New",
                             status         : "Active",
-                            userId         : userID,
+                            userId         : UMuserID,
                             loginCredential: createLogin,
                             companyID      : companyData[0].companyID,
                             address        : address,
