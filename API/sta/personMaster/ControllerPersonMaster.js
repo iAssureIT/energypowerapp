@@ -1062,7 +1062,13 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         validObjects.createdAt = new Date();
 
                         validData.push(validObjects);
-                        console.log("UMuserID line")
+                        // console.log("UMuserID line",UMuserID)
+                        
+                        if(UMuserID){
+                           var  userID = UMuserID;
+
+                        } 
+
                         const person = new PersonMaster({
 
                             _id            :  new mongoose.Types.ObjectId(),
@@ -1076,7 +1082,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             workLocationId : workLocationIdFile,
                             profileStatus  : "New",
                             status         : "Active",
-                            userId         : UMuserID,
+                            userId         : userID,
                             loginCredential: createLogin,
                             companyID      : companyData[0].companyID,
                             address        : address,
