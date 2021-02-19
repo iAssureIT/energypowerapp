@@ -1335,7 +1335,7 @@ var fetchAllPersons = async (email) => {
 
 
 
-exports.bulkUploadEntity = (req, res, next) => {
+/*exports.bulkUploadEntity = (req, res, next) => {
     var entity = req.body.data;
      // console.log("entity new",entity);
     var validData = [];
@@ -1375,7 +1375,7 @@ exports.bulkUploadEntity = (req, res, next) => {
 
     }
 
-}
+}*/
 
 
 exports.bulkUploadEntity = (req, res, next) => {

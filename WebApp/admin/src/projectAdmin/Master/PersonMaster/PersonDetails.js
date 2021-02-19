@@ -36,6 +36,7 @@ class PersonDetails extends Component {
 	getData(id) {
 		axios.get("/api/personmaster/get/one/" + id)
 		.then((response) => {
+			console.log("response for person details----",response.data);
 			this.getRoles(response.data.userId)
 			this.getManagerData(response.data.approvingAuthorityId1,response.data.approvingAuthorityId2,response.data.approvingAuthorityId3);
 			this.tracking(response.data.userId);

@@ -12,6 +12,9 @@ const moment = require('moment');
 const BookingMaster = require('../../coreAdmin/bookingMaster/ModelBookingMaster.js');
 const EntityMaster = require('../entityMaster/ModelEntityMaster.js');
 const SocialMediaMaster    = require('../socialMediaMaster/Model.js');
+const FuelReibursement    = require('../fuelReimbursement/Model.js');
+const VehicleMaster    = require('../vehicleMaster/Model.js');
+// const VehicleMaster    = require('./Model.js');
 const Users = require('../../coreAdmin/userManagement/ModelUsers.js');
 const ProjectSetting    = require('../../coreAdmin/projectSettings/ModelProjectSettings.js');
 const axios = require('axios');
@@ -808,8 +811,9 @@ exports.bulkUploadEmployee = (req, res, next) => {
     processData();
     async function processData() {
 
-        var departments = await fetchDepartments();
-        var designations = await fetchDesignations();
+        var departments   = await fetchDepartments();
+        var designations  = await fetchDesignations();
+        var vehicles      = await fetchVehicles();
        
         console.log("SocialMediaData----",SocialMediaData);
 
@@ -855,6 +859,9 @@ exports.bulkUploadEmployee = (req, res, next) => {
             if (employees[k].loginCredential == '-') {
                 remark += "LoginCredential not found, ";
             }
+            if (employees[k].vehicle == '-') {
+                remark += "Vehicle not found, ";
+            }
              console.log("employees[k].companyID",employees[k].companyID);
              if(employees[k].companyID){
                 getcompanyID = employees[k].companyID;
@@ -872,6 +879,9 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         {
                             workLocationValue = employees[k].workLocation; 
                             workLocationIdFile = companyData[0].locations[j]._id;
+                            workLocation =companyData[0].locations[j].locationType + "-" + companyData[0].locations[j].city + "-" + companyData[0].locations[j].stateCode + "-" + companyData[0].locations[j].countryCode;
+
+                            console.log("workLocation>>>>>>>>>>>>>>>",workLocation);
                             break;
                         }else{
                             workLocationValue = "NOT_FOUND";
@@ -938,14 +948,14 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         invalidData.push(invalidObjects);
                     }
                     else{
-                        const userID =UMuserID;
+                        var userID =UMuserID;
                     }
 
                 }
 
 
                 if (remark == '') {
-                       var departmentId,designationId,socialMediId;
+                       var departmentId,designationId,socialMediId,vehicleId,vehicleType;
                          var departmentExists = departments.filter((data) => {
                             if (data.department == employees[k].department) {
                                 return data;
@@ -960,6 +970,27 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             departmentId = await insertDepartment(employees[k].department,req.body.reqdata.createdBy);
                            }
                           }
+
+                      var vehicleExists = vehicles.filter((data) => {
+                            if (data.vehicle == employees[k].vehicle) {
+                                return data;
+                            }
+                           
+                        })
+                      console.log("vehicleExists------",vehicleExists);
+                        if (vehicleExists.length > 0) {
+                            vehicleId = vehicleExists[0]._id;
+                            vehicleType = vehicleExists[0].vehicleType;
+                            
+                        } else {
+                            if(employees[k].vehicle != '-'){
+                            vehicleType = await insertVehicle(employees[k].vehicle,req.body.reqdata.createdBy);
+                           }
+                          }
+
+                          console.log("vehicleId---------",vehicleId);
+
+
                         var designationExists = designations.filter((data) => {
                             if (data.designation == employees[k].designation) {
                                 return data;
@@ -1038,7 +1069,9 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             companyName    : companyData[0].companyName,
                             departmentId   : departmentId,
                             designationId  : designationId,
+                            vehicle        : vehicleType,
                             workLocationId : workLocationIdFile,
+                            workLocation   : workLocation,
                             profileStatus  : "New",
                             status         : "Active",
                             userId         : UMuserID,
@@ -1049,16 +1082,17 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             email          : employees[k].email,
                             firstName      : employees[k].firstName,
                             lastName       : employees[k].lastName,
-                            socialMediaArray:socialMediaArray,
-                            fileName        :req.body.fileName,
-                            whatsappNo      : 91  + "" + employees[k].whatsappNo,
-                            // employeeId      :employees[k].employeeId,
-                            createdBy       :req.body.reqdata.createdBy,
-                            createdAt       :new Date(),
+                            middleName       : employees[k].middleName,
+                            socialMediaArray :socialMediaArray,
+                            fileName         :req.body.fileName,
+                            whatsappNo       : 91  + "" + employees[k].whatsappNo,
+                            employeeId       :employees[k].employeeId,
+                            createdBy        :req.body.reqdata.createdBy,
+                            createdAt        :new Date(),
                             
                                     
                             })
-                         console.log("person data>>>>>>>>>>>",person);
+                         console.log("person data>>>>>>>>>>>",person.vehicle);
 
                          person.save()
                             .then(data => {
@@ -1161,6 +1195,18 @@ var fetchDepartments = async () => {
             });
     });
 };
+var fetchVehicles = async () => {
+    return new Promise(function (resolve, reject) {
+        FuelReibursement.find({})
+            .exec()
+            .then(data => {
+                resolve(data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+};
 var fetchAllEmployees = async (email) => {
     return new Promise(function (resolve, reject) {
         PersonMaster.find({email:email })
@@ -1194,12 +1240,30 @@ function insertDepartment(department, createdBy) {
         const departmentMaster = new DepartmentMaster({
             _id: new mongoose.Types.ObjectId(),
             department: department,
+            companyID: 1,
             createdBy: createdBy,
             createdAt: new Date()
         })
         departmentMaster.save()
             .then(data => {
-                resolve(data._id);
+                resolve(data.department);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+function insertVehicle(vehicle, createdBy) {
+    return new Promise(function (resolve, reject) {
+        const vehicleMaster = new VehicleMaster({
+            _id: new mongoose.Types.ObjectId(),
+            vehicleType: vehicle,
+            createdBy: createdBy,
+            createdAt: new Date()
+        })
+        vehicleMaster.save()
+            .then(data => {
+                resolve(data.vehicleType);
             })
             .catch(err => {
                 reject(err);
@@ -1211,12 +1275,13 @@ function insertDesignation(designation, createdBy) {
         const designationMaster = new DesignationMaster({
             _id: new mongoose.Types.ObjectId(),
             designation: designation,
+             companyID: 1,
             createdBy: createdBy,
             createdAt: new Date()
         })
         designationMaster.save()
             .then(data => {
-                resolve(data._id);
+                resolve(data.designation);
             })
             .catch(err => {
                 reject(err);

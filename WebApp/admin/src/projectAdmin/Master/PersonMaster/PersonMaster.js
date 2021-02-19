@@ -245,7 +245,7 @@ class PersonMaster extends Component {
     if (personID) {
         axios.get('/api/personmaster/get/one/' + personID)
         .then((response) => {
-            console.log("response",response);
+            console.log("response for vehicle",response);
           if(this.state.pathname === 'employee') {
             var docarray = response.data.Documentarray;
                 var index = docarray;
@@ -2490,6 +2490,7 @@ class PersonMaster extends Component {
                                             <select className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12"
                                               id="dept" ref="departmentVal" value={this.state.departmentVal} name="departmentVal" onChange={this.handleChangeDepartment} required>
                                               <option selected={true} disabled={true} >-- Select --</option>
+                                              {console.log("this.state.departmentArray",this.state.departmentArray)}
                                               {
                                                 this.state.departmentArray && this.state.departmentArray.length > 0 ?
                                                   this.state.departmentArray.map((deptData, index) => {
@@ -2576,6 +2577,7 @@ class PersonMaster extends Component {
                                           <select className="errorinputText form-control col-lg-12 col-md-12 col-sm-12 col-xs-12"
                                             ref="vehicle" name="vehicle" id="vehicle" value={this.state.vehicle} onChange={this.handleChange}>
                                              <option value="" disabled={true}>-- Select Vehicle --</option>
+                                             {console.log("this.state.vehicleArray><>>>>>>>>>>>>>",this.state.vehicleArray)}
                                               {this.state.vehicleArray && this.state.vehicleArray.length > 0 ?
                                                 this.state.vehicleArray.map((item, index) => {
                                                 return (
