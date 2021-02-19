@@ -1070,6 +1070,7 @@ exports.bulkUploadEmployee = (req, res, next) => {
                             departmentId   : departmentId,
                             designationId  : designationId,
                             vehicle        : vehicleType,
+                            gender         :employees[k].gender,
                             workLocationId : workLocationIdFile,
                             workLocation   : workLocation,
                             profileStatus  : "New",
