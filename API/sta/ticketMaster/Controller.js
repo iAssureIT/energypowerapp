@@ -198,6 +198,7 @@ exports.client_tickets_list = (req,res,next)=>{
         .populate('equipmentLocation_id')
         .populate('contactPerson_id')
         .populate({ path: 'status.statusBy', model: 'users', select: {'profile.fullName':1,'profile.mobile':1} })
+        .populate({ path: 'commentArray.commentBy', model: 'users', select: {'profile.fullName':1,'profile.mobile':1} })
         .sort({createdAt: -1})
         .exec()
         .then(tickets=>{

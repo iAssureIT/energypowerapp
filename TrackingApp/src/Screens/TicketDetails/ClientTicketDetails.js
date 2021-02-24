@@ -52,10 +52,12 @@ const ClientTicketDetails = withCustomerToaster((props) => {
     return (
       <React.Fragment>
         <Formik
-            onSubmit={data => {
+            onSubmit={(values,fun) => {
+              console.log("values",values);
+               fun.resetForm(values);
               setLoading(true);
-              let {review, reason, status, rating,images,comment} = data;
-              console.log("data",data);
+              let {review, reason, status, rating,images,comment} = values;
+              console.log("data",values);
               if(status === "Reopen"){
                   if(reason === undefined || reason ==="" ){
                       return false;
@@ -172,9 +174,23 @@ const ClientTicketDetails = withCustomerToaster((props) => {
                 console.log("payload",payload);
                   axios.patch('/api/tickets/patch/comment', payload)
                   .then((response)=>{
-                      ticketDetails.comment.push(payload.comment);
+                    if(ticketDetails.commentArray){
+                      ticketDetails.commentArray.push({
+                        comment : payload.comment,
+                        commentAt : new Date(),
+                        commentBy : props.userDetails.user_id
+                    });
+                    }else{
+                      Object.assign(ticketDetails, 
+                        {commentArray: [{
+                          comment : payload.comment,
+                          commentAt : new Date(),
+                          commentBy : props.userDetails.user_id
+                      }]});
+                    }
                   })
                   .catch((error)=>{
+                    console.log("error",error);
                       setToast({text: 'Something went wrong.', color: 'red'});
                   });  
               }
@@ -189,6 +205,7 @@ const ClientTicketDetails = withCustomerToaster((props) => {
               <FormBody 
                 btnLoading={btnLoading}  
                 ticketDetails={ticketDetails} 
+                userDetails={props.userDetails} 
                 navigation={navigation} 
                 s3Details={props.s3Details}
                 AllStatus={AllStatus}
@@ -214,9 +231,10 @@ const FormBody = props => {
     ticketDetails,
     AllStatus,
     s3Details,
+    values,
+    userDetails,
     setToast
   } = props;
-  console.log("ticketDetails",ticketDetails);
   const [ClosedBtn, ClosedSelected]   = useState(false);
   const [reopenBtn, reopenSelected] = useState(false);
   const [imageVisible, setImageVisible]   = useState(false);
@@ -432,6 +450,21 @@ const FormBody = props => {
             :
             null
           } 
+           {ticketDetails.commentArray && ticketDetails.commentArray.length > 0 ?<View style={{paddingVertical:15}}>
+              <Text style={[commonStyle.label,{flex:0.95}]} >Comments</Text>
+          </View>:null}
+          {ticketDetails.commentArray && ticketDetails.commentArray.length > 0 ?
+            ticketDetails.commentArray.map((item,index)=>{
+              return(
+                <View style={{flex:1,padding:15,backgroundColor:"#eee",marginVertical:5}} key={index}>
+                  <Text>{item.comment}</Text>
+                  <Text style={[commonStyle.normalText]}>By {item.commentBy && item.commentBy.profile ? item.commentBy.profile.fullName : userDetails.firstName + " " +userDetails.lastName }</Text>
+                </View> 
+              )
+            })
+            :[]
+          }
+         
           {ticketDetails.statusValue === "Work Started" || ticketDetails.statusValue === "Work In Progress" &&
           <View>
             <View style={{paddingVertical:15}}>
@@ -445,6 +478,7 @@ const FormBody = props => {
                 touched       = {touched}
                 multiline     = {true}
                 numberOfLines = {4}
+                value={values.comment}
               />
             
             </View>
@@ -456,6 +490,7 @@ const FormBody = props => {
               />
             </View> 
           </View>}
+          
           {ticketDetails.statusValue === "Resolved" || ticketDetails.statusValue === "Reopen" ?  
             <View style={{flexDirection:"row",flex:1,justifyContent:'space-between',borderTopWidth:1,borderColor:"#ccc",paddingVertical:15}}>
               <FormButton
