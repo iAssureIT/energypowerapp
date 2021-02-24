@@ -17,6 +17,7 @@ export const getDropDownList = (client_id) => {
 
     Axios.get('/api/projectlocation/get/list/client/'+client_id) 
     .then(res => {
+      console.log("res===>",res);
       dispatch({
         type: SET_PROJECT_LOCATIONS,
         payload: res.data,

@@ -19,18 +19,20 @@ import Dialog                   from 'react-native-dialog';
 import ImagePicker              from 'react-native-image-crop-picker';
 import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import { RNS3 }                 from 'react-native-aws3';
-import {TicketDetails}          from './TicketDetails.js'
+import TicketDetails          from './TicketDetails.js'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import StatusTracking           from './StatusTracking.js'
 import {withCustomerToaster}    from '../../redux/AppState.js';
 import {getClientDasboardCount} from '../../redux/clientDashboardCount/actions';
 import DocumentPicker from 'react-native-document-picker';
+import {DownloadModal}              from '../../components/DonloadModal/DownloadModal.js';
 
 import moment from 'moment';
 
 const window = Dimensions.get('window');
 
 const TicketDetailsSchema = Yup.object().shape({
+  comment: Yup.string().required(),
   status: Yup.string().notRequired(),
   reason: Yup.string().notRequired()
   .when('status', {
@@ -52,7 +54,8 @@ const ClientTicketDetails = withCustomerToaster((props) => {
         <Formik
             onSubmit={data => {
               setLoading(true);
-              let {review, reason, status, rating,images} = data;
+              let {review, reason, status, rating,images,comment} = data;
+              console.log("data",data);
               if(status === "Reopen"){
                   if(reason === undefined || reason ==="" ){
                       return false;
@@ -160,12 +163,30 @@ const ClientTicketDetails = withCustomerToaster((props) => {
                   .catch((error)=>{
                       setToast({text: 'Something went wrong.', color: 'red'});
                   });  
+              }else if(status === "Add_Comment"){
+                payload = {
+                  ticket_id :ticketDetails._id,
+                  comment   :  comment,
+                  updatedBy : props.userDetails.user_id
+                };
+                console.log("payload",payload);
+                  // axios.patch('/api/tickets/patch/comment', payload)
+                  // .then((response)=>{
+                  //     dispatch(getClientTicketsList(props.userDetails.company_id,"Pending"))
+                  //     navigation.navigate('ListOfClientTickets',"Pending");
+                  //     dispatch(getClientDasboardCount(props.userDetails.company_id));
+                  // })
+                  // .catch((error)=>{
+                  //     setToast({text: 'Something went wrong.', color: 'red'});
+                  // });  
+              
               }
             }}
             validationSchema={TicketDetailsSchema}
             initialValues={{
               review       : '',
-              reason       : ''
+              reason       : '',
+              comment      : ''
             }}>
             {formProps => 
               <FormBody 
@@ -174,6 +195,7 @@ const ClientTicketDetails = withCustomerToaster((props) => {
                 navigation={navigation} 
                 s3Details={props.s3Details}
                 AllStatus={AllStatus}
+                setToast={setToast}
                 {...formProps}
               />
             }
@@ -194,7 +216,8 @@ const FormBody = props => {
     navigation,
     ticketDetails,
     AllStatus,
-    s3Details
+    s3Details,
+    setToast
   } = props;
 
   const [ClosedBtn, ClosedSelected]   = useState(false);
@@ -207,6 +230,7 @@ const FormBody = props => {
   const [deleteDialogImg,setDeleteDialogImg]  = useState(false);
   const [deleteIndex,setDeleteIndex]          = useState(false);
   const [collapse,setCollapse]                = useState(true);
+  const [imageUrl, setImageUrl]   = useState('');
 
   const selectValue = props =>{
       if(props==="Closed"){
@@ -220,7 +244,11 @@ const FormBody = props => {
     }else if(props==="Paid Service Approved" || props==="Paid Service Rejected"){
       setFieldValue('status',props)
       handleSubmit();
+    }else if(props==="Add_Comment"){
+      setFieldValue('status',props)
+      handleSubmit();
     } 
+    
   }
 
    const chooseFromLibrary = (props) => {
@@ -407,6 +435,30 @@ const FormBody = props => {
             :
             null
           } 
+          {ticketDetails.statusValue === "Work Started" || ticketDetails.statusValue === "Work In Progress" &&
+          <View>
+            <View style={{paddingVertical:15}}>
+              <FormInput
+                labelName     = "Comment"
+                placeholder   = "Write a comment here..."
+                onChangeText  = {handleChange('comment')}
+                errors        = {errors}
+                name          = "comment"
+                required      = {true}
+                touched       = {touched}
+                multiline     = {true}
+                numberOfLines = {4}
+              />
+            
+            </View>
+            <View style={{paddingVertical:15}}>
+            <FormButton
+                title       = {"Submit"}
+                background  = {ClosedBtn}
+                onPress     = {() =>selectValue('Add_Comment')}
+              />
+            </View> 
+          </View>}
           {ticketDetails.statusValue === "Resolved" || ticketDetails.statusValue === "Reopen" ?  
             <View style={{flexDirection:"row",flex:1,justifyContent:'space-between',borderTopWidth:1,borderColor:"#ccc",paddingVertical:15}}>
               <FormButton
@@ -468,10 +520,10 @@ const FormBody = props => {
                   gallery.map((item,index)=>{
                     var ext = item.slice((item.lastIndexOf(".") - 1 >>> 0) + 2);
                     console.log("ext",ext);
-                    if(ext === "pdf"){
+                    if(ext === "pdf" || ext === "PDF"){
                       return(
                         <TouchableOpacity key={index} style={commonStyle.image} 
-                        onPress={() => {navigation.navigate('PDFViewer',{"path":item})}}>
+                        onPress={() => { setImageUrl(item),setImageVisible(true)}}>
                           <ImageBackground
                             style={{height: 60, width: 60}}
                             source={require('../../images/pdf.png')}
@@ -483,10 +535,10 @@ const FormBody = props => {
                           </ImageBackground>
                         </TouchableOpacity>
                       );
-                    }else if(ext === "xls"){
+                    }else if(ext === "xls" || ext === "XLS"){
                       return(
                         <TouchableOpacity key={index} style={commonStyle.image} 
-                        onPress={() => {Linking.openURL(item)}}>
+                        onPress={() => { setImageUrl(item);setImageVisible(true)}}>
                           <ImageBackground
                             style={{height: 60, width: 60}}
                             source={require('../../images/xls.png')}
@@ -502,16 +554,7 @@ const FormBody = props => {
                       return(
                         <TouchableOpacity key={index} style={commonStyle.image} 
                         onPress={() => {
-                            setImage([
-                              {
-                                source: {
-                                  uri: item,
-                                },
-                                title: 'Photos',
-                                // width: window.width,
-                                // height: window.height,
-                              },
-                            ]),
+                            setImageUrl(item);
                             setImageVisible(true);
                           }}>
                           <ImageBackground
@@ -602,11 +645,11 @@ const FormBody = props => {
             <Dialog.Button label="Cancel" onPress={()=>setDeleteDialogImg(false)} />
             <Dialog.Button label="Delete" onPress={()=>{setDeleteDialogImg(false),gallery.splice(deleteIndex, 1)}}/>
           </Dialog.Container>
-          <ImageView
-            images={image}
-            imageIndex={0}
-            isVisible={imageVisible}
-            onClosed={() => setImageVisible(false)}
+          <DownloadModal
+            setToast={setToast }
+            url={ imageUrl }
+            visible={ imageVisible }
+            close={ () => setImageVisible(false) }
           />
       </KeyboardAwareScrollView>  
     </React.Fragment>

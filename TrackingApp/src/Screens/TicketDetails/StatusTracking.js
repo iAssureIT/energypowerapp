@@ -3,33 +3,26 @@ import {View, ImageBackground,Image,Dimensions,Text,StyleSheet,TouchableOpacity,
 import {Button, Icon, AirbnbRating,Rating}   from 'react-native-elements';
 import { colors, sizes }        from '../../config/styles.js';
 import commonStyle              from '../../config/commonStyle.js';
-import {HeaderBar}              from '../../layouts/Header/Header.js';
 import {useNavigation}          from '../../config/useNavigation.js';
-import * as Yup                 from 'yup';
-import {connect, useDispatch}   from 'react-redux';
-import { Menu, MenuOptions,
-         MenuOption, MenuTrigger }from 'react-native-popup-menu';
-import {FormButton}             from '../../components/FormButton/FormButton.js';
-import {FormInput}              from '../../components/FormInput/FormInput.js';
-import {Formik, ErrorMessage}   from 'formik';
-import StepIndicator            from 'react-native-step-indicator';
-import ImagePicker              from 'react-native-image-crop-picker';
+import {setToast, withCustomerToaster}                from '../../redux/AppState.js';
+import {connect}   from 'react-redux';
+import {DownloadModal}              from '../../components/DonloadModal/DownloadModal.js';
 import Video              from 'react-native-video';
 import { robotoWeights } from 'react-native-typography';
 import ImageView                from 'react-native-image-view';
-import axios                  from 'axios';
 import moment from 'moment';
 
 const window = Dimensions.get('window');
 
 
-const StatusTracking = (props) => {
+const StatusTracking = withCustomerToaster((props) => {
     const AllStatus = props.AllStatus;
     const {collapse,setCollapse} = useState(false);
     const [image, setImage]         = useState([]);
     const [imageVisible, setImageVisible]   = useState(false);
+    const [imageUrl, setImageUrl]   = useState('');
     const navigation                  = useNavigation();
-    console.log("imageVisible",imageVisible);
+    console.log("AllStatus",AllStatus);
     return (
       <React.Fragment>
         {AllStatus && AllStatus.length > 0 &&
@@ -157,7 +150,7 @@ const StatusTracking = (props) => {
                       }
                       </View>
                       <View style={{flex:.5,justifyContent:'center'}}>
-                         <Text style={[commonStyle.normalText,{paddingHorizontal:10}]}>By {item.statusBy.profile ? item.statusBy.profile.fullName : props.userDetails.firstName + " " +props.userDetails.lastName }</Text>
+                         <Text style={[commonStyle.normalText,{paddingHorizontal:10}]}>By {item.statusBy && item.statusBy.profile ? item.statusBy.profile.fullName : props.userDetails.firstName + " " +props.userDetails.lastName }</Text>
                       </View>
                     </View>
                     {item.remark ?
@@ -183,7 +176,7 @@ const StatusTracking = (props) => {
                               if(ext === "pdf"){
                                 return(
                                   <TouchableOpacity key={index} style={commonStyle.image} 
-                                  onPress={() => {navigation.navigate('PDFViewer',{"path":item})}}>
+                                  onPress={() => { setImageUrl(item),setImageVisible(true);}}>
                                     <ImageBackground
                                       style={{height: 60, width: 60}}
                                       source={require('../../images/pdf.png')}
@@ -195,7 +188,7 @@ const StatusTracking = (props) => {
                               }else if(ext === "xls"){
                                 return(
                                   <TouchableOpacity key={index} style={commonStyle.image} 
-                                  onPress={() => {Linking.openURL(item)}}>
+                                  onPress={() => { setImageUrl(item);setImageVisible(true)}}>
                                     <ImageBackground
                                       style={{height: 60, width: 60}}
                                       source={require('../../images/xls.png')}
@@ -208,16 +201,17 @@ const StatusTracking = (props) => {
                                 return(
                                   <TouchableOpacity key={index} style={commonStyle.image} 
                                   onPress={() => {
-                                    setImage([
-                                      {
-                                        source: {
-                                          uri: item,
-                                        },
-                                        title: 'Photos',
-                                        // width: window.width,
-                                        // height: window.height,
-                                      },
-                                    ]),
+                                    setImageUrl(item);
+                                    // setImage([
+                                    //   {
+                                    //     source: {
+                                    //       uri: item,
+                                    //     },
+                                    //     title: 'Photos',
+                                    //     // width: window.width,
+                                    //     // height: window.height,
+                                    //   },
+                                    // ]),
                                     setImageVisible(true);
                                   }}>
                                     <Image
@@ -285,15 +279,21 @@ const StatusTracking = (props) => {
               );
           })
         }
-       <ImageView
+    {/*    <ImageView
             images={image}
             imageIndex={0}
             isVisible={imageVisible}
             onClose={() => setImageVisible(false)}
+          /> */}
+          <DownloadModal
+            setToast={ props.setToast }
+            url={ imageUrl }
+            visible={ imageVisible }
+            close={ () => setImageVisible(false) }
           />
       </React.Fragment>
     );
-};
+});
 
 const styles = StyleSheet.create({  
   createdBtn: {

@@ -275,6 +275,7 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (store)=>{
+    console.log("store",store);
 	return {
 		ticketList		 : store.ticketList.list,
 		loading          : store.ticketList.loading,

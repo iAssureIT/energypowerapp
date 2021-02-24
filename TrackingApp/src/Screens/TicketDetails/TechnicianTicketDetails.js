@@ -1,37 +1,31 @@
 import React, {useState, useEffect} from 'react';
 import {View, ImageBackground,Image,Dimensions,Text,StyleSheet,TouchableOpacity,ScrollView,Linking}   from 'react-native';
-import {Button, Icon, AirbnbRating}         from 'react-native-elements';
-import { colors, sizes }                    from '../../config/styles.js';
+import {Icon}         from 'react-native-elements';
 import commonStyle                          from '../../config/commonStyle.js';
 import {HeaderBar}                          from '../../layouts/Header/Header.js';
 import {useNavigation}                      from '../../config/useNavigation.js';
 import * as Yup                             from 'yup';
-import {connect, useDispatch,useSelector}   from 'react-redux';
-import { Menu, MenuOptions,
-         MenuOption, MenuTrigger }          from 'react-native-popup-menu';
+import {useDispatch,useSelector}   from 'react-redux';
 import {FormButton}                         from '../../components/FormButton/FormButton.js';
 import {FormInput}                          from '../../components/FormInput/FormInput.js';
-import {Formik, ErrorMessage}               from 'formik';
-import StepIndicator                        from 'react-native-step-indicator';
+import {Formik}               from 'formik';
 import ImagePicker                          from 'react-native-image-crop-picker';
-import { robotoWeights }                    from 'react-native-typography';
 import StatusTracking                       from './StatusTracking.js'
-import {TicketDetails}                      from './TicketDetails.js'
+import TicketDetails                       from './TicketDetails.js'
 import moment                               from 'moment';
 import axios                                from 'axios';
 import { getTechnicianTicketsList }         from '../../redux/ticketList/actions';
 import {getDasboardCount}                   from '../../redux/technicianDashboardCount/actions';
 import { KeyboardAwareScrollView }          from 'react-native-keyboard-aware-scroll-view';
-import {setToast, withCustomerToaster}                from '../../redux/AppState.js';
+import {withCustomerToaster}                from '../../redux/AppState.js';
 import Geolocation                          from 'react-native-geolocation-service';
 import Dialog                               from 'react-native-dialog';
 import {PERMISSIONS, request, RESULTS}      from 'react-native-permissions';
 import { RNS3 }                             from 'react-native-aws3';
 import Loading                              from '../../layouts/Loading/Loading.js';
 import Video                                from 'react-native-video';
-import ImageView        from 'react-native-image-view';
 import DocumentPicker from 'react-native-document-picker';
-import Pdf from 'react-native-pdf';
+import {DownloadModal}              from '../../components/DonloadModal/DownloadModal.js';
 const window = Dimensions.get('window');
 
 
@@ -273,6 +267,7 @@ const FormBody = props => {
   const [deleteDialogVideo,setDeleteDialogVideo]  = useState(false);
   const [deleteIndex,setDeleteIndex]          = useState(false);
   const [collapse,setCollapse]                = useState(true);
+  const [imageUrl, setImageUrl]   = useState('');
   const selectValue = props =>{
     if(props === "Accept"){
         handleSubmit();
@@ -599,7 +594,7 @@ const FormBody = props => {
                       if(ext === "pdf"){
                         return(
                           <TouchableOpacity key={index} style={commonStyle.image} 
-                          onPress={() => {navigation.navigate('PDFViewer',{"path":item})}}>
+                          onPress={() => { setImageUrl(item);setImageVisible(true)}}>
                             <ImageBackground
                               style={{height: 60, width: 60}}
                               source={require('../../images/pdf.png')}
@@ -614,7 +609,7 @@ const FormBody = props => {
                       }else if(ext === "xls"){
                         return(
                           <TouchableOpacity key={index} style={commonStyle.image} 
-                          onPress={() => {Linking.openURL(item)}}>
+                          onPress={() => { setImageUrl(item);setImageVisible(true)}}>
                             <ImageBackground
                               style={{height: 60, width: 60}}
                               source={require('../../images/xls.png')}
@@ -630,16 +625,7 @@ const FormBody = props => {
                       return(
                         <TouchableOpacity key={index} style={commonStyle.image} 
                         onPress={() => {
-                            setImage([
-                              {
-                                source: {
-                                  uri: item,
-                                },
-                                title: 'Photos',
-                                // width: window.width,
-                                // height: window.height,
-                              },
-                            ]),
+                            setImageUrl(item);
                             setImageVisible(true);
                           }}>
                           <ImageBackground
@@ -832,12 +818,11 @@ const FormBody = props => {
             <Dialog.Button label="Cancel" onPress={()=>setDeleteDialogVideo(false)} />
             <Dialog.Button label="Delete" onPress={()=>{setDeleteDialogVideo(false),videoLib.splice(deleteIndex, 1)}}/>
           </Dialog.Container>
-
-          <ImageView
-            images={image}
-            imageIndex={0}
-            isVisible={imageVisible}
-            onClose={() => setImageVisible(false)}
+           <DownloadModal
+            setToast={setToast }
+            url={ imageUrl }
+            visible={ imageVisible }
+            close={ () => setImageVisible(false) }
           />
     </React.Fragment>
   );

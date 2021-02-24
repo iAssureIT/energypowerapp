@@ -27,6 +27,8 @@ import axios              				from 'axios';
 import { getClientTicketsList } 		from '../../redux/ticketList/actions';
 import { RNS3 }                 		from 'react-native-aws3';
 import { KeyboardAwareScrollView }      from 'react-native-keyboard-aware-scroll-view';
+import DocumentPicker from 'react-native-document-picker';
+import {DownloadModal}              from '../../components/DonloadModal/DownloadModal.js';
 import HTML 							from 'react-native-render-html';
 // import CKEditor from 'react-native-ckeditor';
 import { WebView } from 'react-native-webview';
@@ -204,7 +206,8 @@ const FormBody = props => {
   	const [deleteDialogImg,setDeleteDialogImg]    	= useState(false);
   	const [deleteDialogVideo,setDeleteDialogVideo]  = useState(false);
   	const [deleteIndex,setDeleteIndex]      		= useState(false);
-  	const [sites,setSites]      		            = useState([]);
+	  const [sites,setSites]      		            = useState([]);
+	  const [imageUrl, setImageUrl]   = useState('');
 
   	const getEquipmentLoc=(project_id)=>{
   		
@@ -239,7 +242,7 @@ const FormBody = props => {
   	};
 
 	const chooseFromLibrary = (props) => {
-	    var openType = props === 'openEquipment' ? ImagePicker.openEquipment : ImagePicker.openPicker;
+	    var openType = props === 'openCamera' ? ImagePicker.openCamera : ImagePicker.openPicker;
 	    request(
 	      Platform.OS === 'ios'
 	        ? PERMISSIONS.IOS.PHOTO_LIBRARY
@@ -256,7 +259,7 @@ const FormBody = props => {
 	              forceJpg: true,
 	            }).then(response => {
 					setImageLoading(true);
-		            response =  props === 'openEquipment' ? [response] : response;
+		            response =  props === 'openCamera' ? [response] : response;
 		            for (var i = 0; i<response.length; i++) {
 		                if(response[i].path){
 							const file = {
@@ -316,11 +319,72 @@ const FormBody = props => {
 	      	console.log("err",error)
 	      	setImageLoading(false);
 		    setToast({text: 'Something went wrong.', color: 'red'});
-	      });
+		  });
+		  
+		  
 	  };
 
+	  const chooseFromDocument = async(props) => {
+		setImageLoading(true);
+		
+			try {
+			  const response = await DocumentPicker.pickMultiple({
+				type: [DocumentPicker.types.pdf,DocumentPicker.types.xls],
+			  });
+			  setModal(false);
+			 for (var i = 0; i<response.length; i++) {
+			   if(response[i].uri){
+				const file = {
+				  uri  : response[i].uri,
+				  name : response[i].name,
+				  type : response[i].type,
+				}
+				console.log("file",file);
+				if(file) {
+					  var fileName = file.name; 
+					  var ext = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2); 
+					  if(ext=="pdf" || ext=="xls" || ext=="PDF" || ext=="XLS"){  
+						if(file){
+							RNS3
+							.put(file,s3Details)
+							.then((Data)=>{
+							  console.log("Data",Data);
+					  //          setGallery([
+						  //   ...gallery,
+						  //   Data.body.postResponse.location,
+						  // ]);
+						  gallery.push(Data.body.postResponse.location) ; 
+						  setFieldValue('images', gallery);
+						  setImageLoading(false);
+							})
+							.catch((error)=>{
+							  console.log("error",error)
+							  setToast({text: 'Something went wrong.', color: 'red'});
+							  setImageLoading(false);
+							});
+						}else{       
+							setToast({text: 'File not uploaded.', color: 'red'});
+							setImageLoading(false);
+						}
+					  }else{
+						  setToast({text: 'Only Upload  images format (jpg,png,jpeg).', color: 'red'});
+						  setImageLoading(false);
+					  }
+					}
+				 }    
+			   }   
+			} catch (err) {
+			  if (DocumentPicker.isCancel(err)) {
+				// User cancelled the picker, exit any dialogs or menus and move on
+			  } else {
+				throw err;
+			  }
+			}
+	  };
+  
+
 	  const chooseFromLibraryVideo = (openType) => {
-	    var openType = openType === 'openEquipment' ? ImagePicker.openEquipment : ImagePicker.openPicker;
+	    var openType = openType === 'openCamera' ? ImagePicker.openCamera : ImagePicker.openPicker;
 	    request(
 	      Platform.OS === 'ios'
 	        ? PERMISSIONS.IOS.PHOTO_LIBRARY
@@ -486,51 +550,75 @@ const FormBody = props => {
 				        numberOfLines 	= {4}
 				    />
 				    <View style={{flexDirection:"row",marginTop:25}}>
-				    	{imageLoading ?
-				    		<TouchableOpacity style={{height:60,width:80,backgroundColor:"#999",justifyContent:"center",borderRadius:10,margin:15}}>
-					    		<Loading />
-					    	</TouchableOpacity>
-					    	:
-					    	<TouchableOpacity style={{height:60,width:80,backgroundColor:"#999",justifyContent:"center",borderRadius:10,margin:15}} onPress={() => setModal(true)}>
-					    		<Icon type="font-awesome" size={30} color="white" type="font-awesome"/>
-					    	</TouchableOpacity>
-					    }
-					    <ScrollView  horizontal={true}>
-					    		
-					    	{gallery && gallery.length > 0 ?
-					    		gallery.map((item,index)=>{
-					    			return(
-					    				<TouchableOpacity key={index} style={commonStyle.image} 
-					    				onPress={() => {
-						                    setImage([
-						                      {
-						                        source: {
-						                          uri: item,
-						                        },
-						                        title: 'Photos',
-						                        width: window.width,
-						                        height: window.height,
-						                      },
-						                    ]);
-						                    setImageVisible(true);
-						                  }}>
-						    				<ImageBackground
-						    					style={{height: 60, width: 60}}
-								   				source={{uri:item}}
-								   				resizeMode={'cover'}>
-								   				<View style={{alignItems:'flex-end'}}>
-					                            	<Icon size={20} name='close' type='font-awesome' color='#f00'  onPress = {()=>{setDeleteDialogImg(true),setDeleteIndex(index)}} />
-					                          </View>
-								    		</ImageBackground>
-								    		
-					    				</TouchableOpacity>
-					    			);
-					    		})
-					    		:
-					    		[]
-					    	}
-					    	
-					    </ScrollView>
+				    	
+				<ScrollView contentContainerStyle={{flexDirection:"row",paddingVertical:25}} horizontal={true}>
+					{imageLoading ?
+						<TouchableOpacity style={{height:60,width:80,backgroundColor:"#999",justifyContent:"center",borderRadius:10,margin:15}}>
+							<Loading />
+						</TouchableOpacity>
+						:
+						<TouchableOpacity style={{height:60,width:80,backgroundColor:"#999",justifyContent:"center",borderRadius:10,margin:15}} onPress={() => setModal(true)}>
+							<Icon name="upload" size={30} color="white" type="entypo"/>
+						</TouchableOpacity>
+					}
+                  {gallery && gallery.length > 0 ?
+                    gallery.map((item,index)=>{
+                      var ext = item.slice((item.lastIndexOf(".") - 1 >>> 0) + 2);
+                      console.log("ext",ext);
+                      if(ext === "pdf"){
+                        return(
+                          <TouchableOpacity key={index} style={commonStyle.image} 
+                          onPress={() => { setImageUrl(item);setImageVisible(true)}}>
+                            <ImageBackground
+                              style={{height: 60, width: 60}}
+                              source={require('../../images/pdf.png')}
+                              resizeMode={'contain'}
+                            >
+                            <View style={{alignItems:'flex-end'}}>
+                                <Icon size={15} name='close' type='font-awesome' color='#f00'  onPress = {()=>{setDeleteDialogImg(true),setDeleteIndex(index)}} />
+                            </View>
+                            </ImageBackground>
+                          </TouchableOpacity>
+                        );
+                      }else if(ext === "xls"){
+                        return(
+                          <TouchableOpacity key={index} style={commonStyle.image} 
+                          onPress={() => { setImageUrl(item);setImageVisible(true)}}>
+                            <ImageBackground
+                              style={{height: 60, width: 60}}
+                              source={require('../../images/xls.png')}
+                              resizeMode={'contain'}
+                            >
+                            <View style={{alignItems:'flex-end'}}>
+                                <Icon size={15} name='close' type='font-awesome' color='#f00'  onPress = {()=>{setDeleteDialogImg(true),setDeleteIndex(index)}} />
+                            </View>
+                            </ImageBackground>
+                          </TouchableOpacity>
+                        );
+                      }else{
+                      return(
+                        <TouchableOpacity key={index} style={commonStyle.image} 
+                        onPress={() => {
+                            setImageUrl(item);
+                            setImageVisible(true);
+                          }}>
+                          <ImageBackground
+                            style={{height: 60, width: 60}}
+                            source={{uri:item}}
+                            resizeMode={'contain'}
+                          >
+                          <View style={{alignItems:'flex-end'}}>
+                              <Icon size={15} name='close' type='font-awesome' color='#f00'  onPress = {()=>{setDeleteDialogImg(true),setDeleteIndex(index)}} />
+                          </View>
+                          </ImageBackground>
+                        </TouchableOpacity>
+                      );
+                       }
+                    })
+                  :
+                  []
+                }
+              </ScrollView> 
 					</View>    
 				    <ScrollView contentContainerStyle={{minHeight:100}} >
 					    {videoLib.length === 1 ?
@@ -583,41 +671,52 @@ const FormBody = props => {
 				</View>    
 	    	</ScrollView>
 	    	<Dialog.Container
-		        visible={openModal}
-		        container={{borderRadius: 30}}
-		        onDismiss={() => setModal(!openModal)}>
-		        <Dialog.Title style={{alignSelf: 'center'}}>
-		          Select an image
-		        </Dialog.Title>
-		        <View style={{flexDirection: 'row'}}>
-		          <TouchableOpacity
-		            style={commonStyle.block1}
-		            onPress={() => chooseFromLibrary('openEquipment')}>
-		            <Icon
-		              name="equipment"
-		              type="material-community"
-		              size={50}
-		              color={'#aaa'}
-		              style={{}}
-		            />
-		            <Text>Equipment</Text>
-		          </TouchableOpacity>
-		          <TouchableOpacity
-		            style={commonStyle.block1}
-		            onPress={() => chooseFromLibrary('openPicker',)}>
-		            <Icon
-		              name="upload"
-		              type="font-awesome"
-		              size={50}
-		              color="#aaa"
-		              style={{}}
-		            />
-		            <Text>Gallery</Text>
-		          </TouchableOpacity>
-		        </View>
-		 
-		        <Dialog.Button label="Cancel" onPress={() => setModal(false)} />
-		      </Dialog.Container>
+            visible={openModal}
+            container={{borderRadius: 30}}
+            onDismiss={() => setModal(!openModal)}>
+            <Dialog.Title style={{alignSelf: 'center'}}>
+              Select an option
+            </Dialog.Title>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                style={commonStyle.block1}
+                onPress={() => chooseFromLibrary('openCamera')}>
+                <Icon
+                  name="camera"
+                  type="material-community"
+                  size={50}
+                  color={'#aaa'}
+                  style={{}}
+                />
+                <Text>Camera</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={commonStyle.block1}
+                onPress={() => chooseFromLibrary('openPicker')}>
+                <Icon
+                  name="image"
+                  type="font-awesome"
+                  size={50}
+                  color="#aaa"
+                  style={{}}
+                />
+                <Text>Gallery</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={commonStyle.block1}
+                onPress={() => chooseFromDocument('openPicker')}>
+                <Icon
+                  name="file"
+                  type="font-awesome"
+                  size={50}
+                  color="#aaa"
+                  style={{}}
+                />
+                <Text>Document</Text>
+              </TouchableOpacity>
+            </View>
+            <Dialog.Button label="Cancel" onPress={() => setModal(false)} />
+          </Dialog.Container>
 		      <Dialog.Container
 		        visible={openModalVideo}
 		        container={{borderRadius: 30}}
@@ -628,7 +727,7 @@ const FormBody = props => {
 		           <View style={{flexDirection: 'row'}}>
 		          <TouchableOpacity
 		            style={commonStyle.block1}
-		            onPress={() => chooseFromLibraryVideo('openEquipment')}>
+		            onPress={() => chooseFromLibraryVideo('openCamera')}>
 		            <Icon
 		              name="video"
 		              type="material-community"
@@ -671,14 +770,12 @@ const FormBody = props => {
 	              <Dialog.Button label="Cancel" onPress={()=>setDeleteDialogVideo(false)} />
 	              <Dialog.Button label="Delete" onPress={()=>{setDeleteDialogVideo(false),videoLib.splice(deleteIndex, 1)}}/>
 	            </Dialog.Container>
-		     {imageVisible ? (
-	        <ImageView
-	          images={image}
-	          imageIndex={0}
-	          isVisible={imageVisible}
-	          onClose={() => setImageVisible(false)}
-	        />
-	      ) : null} 
+		  <DownloadModal
+            setToast={setToast }
+            url={ imageUrl }
+            visible={ imageVisible }
+            close={ () => setImageVisible(false) }
+          />
 		</KeyboardAwareScrollView>
 	</React.Fragment>		
   );

@@ -6,30 +6,18 @@ import commonStyle              from '../../config/commonStyle.js';
 import {HeaderBar}              from '../../layouts/Header/Header.js';
 import {useNavigation}         	from '../../config/useNavigation.js';
 import {connect, useDispatch,useSelector}   from 'react-redux';
-import { Menu, MenuOptions,
-         MenuOption, MenuTrigger }          from 'react-native-popup-menu';
-import axios                  from 'axios';
-import ImageView        from 'react-native-image-view';
-import Dialog           from 'react-native-dialog';
-import ImagePicker              from 'react-native-image-crop-picker';
-import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
-import { RNS3 }                 from 'react-native-aws3';
 import Video              from 'react-native-video';
-import VideoPlayer             from '../../components/VideoPlayer/VideoPlayer.js';
 import HTML from 'react-native-render-html';
-import { WebView } from 'react-native-webview';
-import AsyncStorage from '@react-native-community/async-storage';
-
+import {DownloadModal}              from '../../components/DonloadModal/DownloadModal.js';
+import {withCustomerToaster}    from '../../redux/AppState.js';
 const window = Dimensions.get('window');
 
-export const TicketDetails = (props) => {
-  const [btnLoading, setLoading]  = useState(false);
-    const dispatch          = useDispatch();
+const TicketDetails = withCustomerToaster((props) => {
+  const {setToast} = props;
     const navigation        = useNavigation();
     const ticketDetails     = navigation.getParam('ticketDetails');
-    console.log('ticketDetails',ticketDetails);
     const [imageVisible, setImageVisible]   = useState(false);
-    const [image, setImage]         = useState();
+    const [imageUrl, setImageUrl]   = useState('');
 
   const store = useSelector(store => ({
     userDetails     : store.userDetails,
@@ -51,41 +39,6 @@ export const TicketDetails = (props) => {
   var unique_technician_details = [ ...new Map(technician_details.map(item => [String(item.allocatedTo), item])).values()];
   return (
     <React.Fragment>
-      {/* <View style={{flexDirection:"row",borderColor:"#ccc",justifyContent:"flex-end"}}>
-          {
-                ticketDetails.statusValue=== "New" || ticketDetails.statusValue === "Reopen" ?   
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.primary}]}>{ticketDetails.statusValue }</Text>
-                :
-                ticketDetails.statusValue === "Acknowledged" ?    
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.info}]}>{ticketDetails.is_type === "Reopen" ? ticketDetails.is_type+"-"+ticketDetails.statusValue:ticketDetails.statusValue}</Text>
-                :
-                ticketDetails.statusValue === "Paid Service Request"?
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.orange}]}>{ticketDetails.is_type === "Reopen" ? ticketDetails.is_type+"-"+ticketDetails.statusValue:ticketDetails.statusValue}</Text>
-                :
-                ticketDetails.statusValue === "Allocated" ?
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.lightGreen}]}>{ticketDetails.is_type === "Reopen" ? ticketDetails.is_type+"-"+ticketDetails.statusValue:ticketDetails.statusValue}</Text>
-                :
-                ticketDetails.statusValue === "Work Started" || ticketDetails.statusValue=== "Work In Progress"?  
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.warning}]}>{ticketDetails.is_type === "Reopen" ? ticketDetails.is_type+"-"+ticketDetails.statusValue:ticketDetails.statusValue}</Text>
-                :
-                ticketDetails.statusValue === "Paid Service Approved"?    
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.purple}]}>{ticketDetails.is_type === "Reopen" ? ticketDetails.is_type+"-"+ticketDetails.statusValue:ticketDetails.statusValue}</Text>
-                :
-                ticketDetails.statusValue=== "Assignee Accepted"?    
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.fuchsia}]}>{ticketDetails.is_type === "Reopen" ? ticketDetails.is_type+"-"+ticketDetails.statusValue:ticketDetails.statusValue}</Text>
-                :
-                ticketDetails.statusValue === "Resolved" ?   
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.success}]}>{ticketDetails.is_type === "Reopen" ? ticketDetails.is_type+"-"+ticketDetails.statusValue:ticketDetails.statusValue}</Text>
-                :
-                ticketDetails.statusValue === "Assignee Rejected" || ticketDetails.statusValue === "Paid Service Rejected" ?  
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.danger}]}>{ticketDetails.is_type === "Reopen" ? ticketDetails.is_type+"-"+ticketDetails.statusValue:ticketDetails.statusValue}</Text>
-                  :
-                  ticketDetails.statusValue === "Closed" ? 
-                    <Text style={[commonStyle.normalText,commonStyle.textLabel,{backgroundColor:colors.teal}]}>{ticketDetails.is_type === "Reopen" ? ticketDetails.is_type+"-"+ticketDetails.statusValue:ticketDetails.statusValue}</Text>
-                  :
-                    <Text style={[commonStyle.normalText,{backgroundColor:colors.grey}]}>{item.statusValue}</Text>
-            }        		
-      </View>   */}
       <View style={{flexDirection:"row",borderColor:"#ccc",paddingVertical:10}}>
           <Icon name='ticket' type='material-community' size={20} iconStyle={{paddingHorizontal:5,flex:0.1}}/>
           <View style={{flex:0.9}}>
@@ -180,28 +133,56 @@ export const TicketDetails = (props) => {
           <ScrollView contentContainerStyle={{flexDirection:"row"}} horizontal={true}>  
             {ticketDetails.images && ticketDetails.images.length > 0 ?
               ticketDetails.images.map((item,index)=>{
-                return(
-                  <TouchableOpacity key={index} style={commonStyle.image} 
+                var ext = item.slice((item.lastIndexOf(".") - 1 >>> 0) + 2);
+                if(ext === "pdf"){
+                  return(
+                    <TouchableOpacity key={index} style={commonStyle.image} 
+                    onPress={() => { setImageUrl(item),setImageVisible(true);}}>
+                      <ImageBackground
+                        style={{height: 60, width: 60}}
+                        source={require('../../images/pdf.png')}
+                        resizeMode={'contain'}
+                      >
+                      </ImageBackground>
+                    </TouchableOpacity>
+                  );
+                }else if(ext === "xls"){
+                  return(
+                    <TouchableOpacity key={index} style={commonStyle.image} 
+                    onPress={() => { setImageUrl(item);setImageVisible(true)}}>
+                      <ImageBackground
+                        style={{height: 60, width: 60}}
+                        source={require('../../images/xls.png')}
+                        resizeMode={'contain'}
+                      >
+                      </ImageBackground>
+                    </TouchableOpacity>
+                  );
+                }else{
+                  return(
+                    <TouchableOpacity key={index} style={commonStyle.image} 
                     onPress={() => {
-                            setImage([
-                              {
-                                source: {
-                                  uri: item,
-                                },
-                                title: 'Photos',
-                                width: window.width-20,
-                                height: window.height-20,
-                              },
-                            ]);
-                            setImageVisible(true);
-                          }}>
-                    <Image
-                      style={{height: 60, width: 60}}
-                      source={{uri:item}}
-                      resizeMode={'contain'}
-                    />
-                  </TouchableOpacity>
-                );
+                      setImageUrl(item);
+                      // setImage([
+                      //   {
+                      //     source: {
+                      //       uri: item,
+                      //     },
+                      //     title: 'Photos',
+                      //     // width: window.width,
+                      //     // height: window.height,
+                      //   },
+                      // ]),
+                      setImageVisible(true);
+                    }}>
+                      <Image
+                        style={{height: 60, width: 60}}
+                        source={{uri:item}}
+                        resizeMode={'contain'}
+                      />
+                    </TouchableOpacity>
+                  );
+                }
               })
               :
               null
@@ -233,17 +214,14 @@ export const TicketDetails = (props) => {
           />
        }
       </View>
-      
-      {imageVisible ? (
-        <ImageView
-          images={image}
-          imageIndex={0}
-          isVisible={imageVisible}
-          onClose={() => setImageVisible(false)}
-          isPinchZoomEnabled={true}
-        />
-      ) : null} 
+      <DownloadModal
+            setToast={setToast }
+            url={ imageUrl }
+            visible={ imageVisible }
+            close={ () => setImageVisible(false) }
+          />
     </React.Fragment>
    );   
-};
+});
 
+export default TicketDetails;

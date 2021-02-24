@@ -38,6 +38,11 @@ const ticketsSchema = mongoose.Schema({
      createdBy                : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
      createdAt                : Date,
      createdAtStr             : String,
+     commentArray             : [{
+                                   comment             : String,
+                                   commentAt           : Date,
+                                   commentBy           : { type: mongoose.Schema.Types.ObjectId, ref: 'users' } 
+                              }],
      updateLog                : [{
                                     updatedAt           : Date,
                                     updatedBy           : { type: mongoose.Schema.Types.ObjectId, ref: 'users' } 

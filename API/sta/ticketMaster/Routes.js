@@ -28,6 +28,8 @@ router.delete('/permanent/delete/:ticket_id', ticketsMaster.permanent_delete_Tic
 
 router.patch('/patch/status', ticketsMaster.updateStatus);
 
+router.patch('/patch/comment', ticketsMaster.updateComment);
+
 router.patch('/patch/reopen_ticket', ticketsMaster.reopenTicket);
 
 router.patch('/patch/ticket_allocation', ticketsMaster.ticket_allocation);

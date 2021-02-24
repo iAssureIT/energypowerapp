@@ -780,6 +780,42 @@ exports.reopenTicket = (req,res,next)=>{
     })
 }
 
+
+exports.updateComment = (req,res,next)=>{
+        Tickets.updateOne(
+            { _id:ticket_id },  
+            {
+                $push:  {  
+                            "commentArray"   : comment,
+                        }
+            }
+        )
+        .exec()
+        .then(data=>{
+            console.log("data",data);
+            if(data.nModified == 1){
+                Tickets.updateOne(
+                { _id:req.body.ticket_id},
+                {
+                    $push:  { 'updateLog' : [{  updatedAt      : new Date(),
+                                                updatedBy      : req.body.updatedBy
+                                            }]
+                            }
+                } )
+                .exec()
+                .then(data=>{
+                    res.status(200).json({ updated : true });
+                })
+            }else{
+                res.status(200).json({ updated : false });
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({ error: err });
+        });
+}
+
 // exports.updateStatus = (req,res,next)=>{
 //     console.log("req.body",req.body)
 //     Tickets.updateOne(
