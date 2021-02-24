@@ -783,10 +783,14 @@ exports.reopenTicket = (req,res,next)=>{
 
 exports.updateComment = (req,res,next)=>{
         Tickets.updateOne(
-            { _id:ticket_id },  
+            { _id:req.body.ticket_id },  
             {
                 $push:  {  
-                            "commentArray"   : comment,
+                            "commentArray"   :  [{  
+                                                    comment       : req.body.comment,
+                                                    commentAt      : new Date(),
+                                                    commentBy      : req.body.updatedBy
+                                                 }],
                         }
             }
         )

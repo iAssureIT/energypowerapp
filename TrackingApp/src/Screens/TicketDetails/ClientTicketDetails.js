@@ -166,20 +166,17 @@ const ClientTicketDetails = withCustomerToaster((props) => {
               }else if(status === "Add_Comment"){
                 payload = {
                   ticket_id :ticketDetails._id,
-                  comment   :  comment,
+                  comment   : comment,
                   updatedBy : props.userDetails.user_id
                 };
                 console.log("payload",payload);
-                  // axios.patch('/api/tickets/patch/comment', payload)
-                  // .then((response)=>{
-                  //     dispatch(getClientTicketsList(props.userDetails.company_id,"Pending"))
-                  //     navigation.navigate('ListOfClientTickets',"Pending");
-                  //     dispatch(getClientDasboardCount(props.userDetails.company_id));
-                  // })
-                  // .catch((error)=>{
-                  //     setToast({text: 'Something went wrong.', color: 'red'});
-                  // });  
-              
+                  axios.patch('/api/tickets/patch/comment', payload)
+                  .then((response)=>{
+                      ticketDetails.comment.push(payload.comment);
+                  })
+                  .catch((error)=>{
+                      setToast({text: 'Something went wrong.', color: 'red'});
+                  });  
               }
             }}
             validationSchema={TicketDetailsSchema}
@@ -219,7 +216,7 @@ const FormBody = props => {
     s3Details,
     setToast
   } = props;
-
+  console.log("ticketDetails",ticketDetails);
   const [ClosedBtn, ClosedSelected]   = useState(false);
   const [reopenBtn, reopenSelected] = useState(false);
   const [imageVisible, setImageVisible]   = useState(false);
