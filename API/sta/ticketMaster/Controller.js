@@ -469,6 +469,7 @@ exports.fetch_one = (req,res,next)=>{
         .populate('projectLocation_id')
         .populate('equipmentLocation_id')
         .populate({ path: 'status.statusBy', model: 'users', select: {'profile.fullName':1} })
+        .populate({ path: 'commentArray.commentBy', model: 'users', select: {'profile.fullName':1} })
         .populate({ path: 'status.allocatedTo', model: 'personmasters', select: {'firstName':1,lastName:1,type:1,contactNo:1}})
         .exec()
         .then(tickets=>{

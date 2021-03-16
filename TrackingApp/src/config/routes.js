@@ -20,7 +20,7 @@ import {TechnicianDashboard}        from '../Screens/Dashboard/TechnicianDashboa
 import ListOfClientTickets        from '../Screens/ListOfTickets/ListOfClientTickets.js';
 import ListOfTechnicianTickets    from '../Screens/ListOfTickets/ListOfTechnicianTickets.js';
 import  ClientTicketDetails       from '../Screens/TicketDetails/ClientTicketDetails.js';
-import {TechnicianTicketDetails}    from '../Screens/TicketDetails/TechnicianTicketDetails.js';
+import TechnicianTicketDetails    from '../Screens/TicketDetails/TechnicianTicketDetails.js';
 import {ServiceRequest}           from '../Screens/ServiceRequest/ServiceRequest.js';
 import Profile                    from '../Screens/Profile/Profile.js';
 import {EmployeeProfile}            from '../Screens/Profile/EmployeeProfile.js';

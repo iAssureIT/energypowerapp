@@ -48,6 +48,7 @@ const ClientTicketDetails = withCustomerToaster((props) => {
     const dispatch          = useDispatch();
     const navigation        = useNavigation();
     const ticketDetails     = navigation.getParam('ticketDetails');
+    console.log("ticketDetails",ticketDetails);
     const AllStatus         = ticketDetails.status;
     return (
       <React.Fragment>
@@ -188,6 +189,8 @@ const ClientTicketDetails = withCustomerToaster((props) => {
                           commentBy : props.userDetails.user_id
                       }]});
                     }
+                    dispatch(getClientTicketsList(props.userDetails.company_id,"Pending"))
+                    dispatch(getClientDasboardCount(props.userDetails.company_id));
                   })
                   .catch((error)=>{
                     console.log("error",error);
@@ -245,6 +248,7 @@ const FormBody = props => {
   const [deleteDialogImg,setDeleteDialogImg]  = useState(false);
   const [deleteIndex,setDeleteIndex]          = useState(false);
   const [collapse,setCollapse]                = useState(true);
+  const [collapse1,setCollapse1]                = useState(true);
   const [imageUrl, setImageUrl]   = useState('');
 
   const selectValue = props =>{
@@ -450,22 +454,29 @@ const FormBody = props => {
             :
             null
           } 
-           {ticketDetails.commentArray && ticketDetails.commentArray.length > 0 ?<View style={{paddingVertical:15}}>
+           {ticketDetails.commentArray && ticketDetails.commentArray.length > 0 ?
+           <TouchableOpacity style={{flexDirection:'row',borderTopWidth:1,borderColor:"#ccc",paddingVertical:15}} onPress={()=>{setCollapse1(!collapse1)}}>
               <Text style={[commonStyle.label,{flex:0.95}]} >Comments</Text>
-          </View>:null}
-          {ticketDetails.commentArray && ticketDetails.commentArray.length > 0 ?
+              <Icon size={22}  name={collapse1?'chevron-up':'chevron-down'} type='material-community' color='#333' />
+          </TouchableOpacity>:null}
+          {!collapse1?ticketDetails.commentArray && ticketDetails.commentArray.length > 0 ?
             ticketDetails.commentArray.map((item,index)=>{
               return(
                 <View style={{flex:1,padding:15,backgroundColor:"#eee",marginVertical:5}} key={index}>
-                  <Text>{item.comment}</Text>
-                  <Text style={[commonStyle.normalText]}>By {item.commentBy && item.commentBy.profile ? item.commentBy.profile.fullName : userDetails.firstName + " " +userDetails.lastName }</Text>
+                  <Text style={commonStyle.normalText}>{item.comment}</Text>
+              <Text style={commonStyle.normalText}>- By {item.commentBy && item.commentBy.profile ? item.commentBy.profile.fullName : userDetails.firstName + " " +userDetails.lastName } ( {moment(item.commonAt).format('DD-MM-YYYY LT')} ) </Text>
                 </View> 
               )
             })
             :[]
+            :null
           }
          
-          {ticketDetails.statusValue === "Work Started" || ticketDetails.statusValue === "Work In Progress" &&
+          {ticketDetails.statusValue === "New" || 
+          ticketDetails.statusValue === "Allocated" || 
+          ticketDetails.statusValue === "Acknowledged" || 
+          ticketDetails.statusValue === "Work Started" || 
+          ticketDetails.statusValue === "Work In Progress" ?
           <View>
             <View style={{paddingVertical:15}}>
               <FormInput
@@ -489,7 +500,7 @@ const FormBody = props => {
                 onPress     = {() =>selectValue('Add_Comment')}
               />
             </View> 
-          </View>}
+          </View> : null}
           
           {ticketDetails.statusValue === "Resolved" || ticketDetails.statusValue === "Reopen" ?  
             <View style={{flexDirection:"row",flex:1,justifyContent:'space-between',borderTopWidth:1,borderColor:"#ccc",paddingVertical:15}}>

@@ -26,6 +26,7 @@ import Loading                              from '../../layouts/Loading/Loading.
 import Video                                from 'react-native-video';
 import DocumentPicker from 'react-native-document-picker';
 import {DownloadModal}              from '../../components/DonloadModal/DownloadModal.js';
+import {connect}   from 'react-redux';
 const window = Dimensions.get('window');
 
 
@@ -43,7 +44,7 @@ const TicketDetailsSchema = Yup.object().shape({
 	
 
 
-export const TechnicianTicketDetails = withCustomerToaster((props) => {
+ const TechnicianTicketDetails = withCustomerToaster((props) => {
   const {setToast} = props;
   const store = useSelector(store => ({
     userDetails     : store.userDetails,
@@ -217,6 +218,7 @@ export const TechnicianTicketDetails = withCustomerToaster((props) => {
                 setVideoLib     = {setVideoLib}
                 navigation      = {navigation} 
                 attendance      = {attendance}
+                userDetails={props.userDetails}
                 {...formProps} 
               />
             }
@@ -247,6 +249,7 @@ const FormBody = props => {
     setVideoLib,
     attendance,
     loading,
+    userDetails
   } = props;
 
   const {setToast}=values;
@@ -267,6 +270,7 @@ const FormBody = props => {
   const [deleteDialogVideo,setDeleteDialogVideo]  = useState(false);
   const [deleteIndex,setDeleteIndex]          = useState(false);
   const [collapse,setCollapse]                = useState(true);
+  const [collapse1,setCollapse1]                = useState(true);
   const [imageUrl, setImageUrl]   = useState('');
   const selectValue = props =>{
     if(props === "Accept"){
@@ -512,6 +516,23 @@ const FormBody = props => {
               <Icon size={22}  name={collapse?'chevron-up':'chevron-down'} type='material-community' color='#333' />
           </TouchableOpacity>
           {!collapse?<StatusTracking AllStatus={AllStatus}/>:null}
+          {ticketDetails.commentArray && ticketDetails.commentArray.length > 0 ?
+           <TouchableOpacity style={{flexDirection:'row',borderTopWidth:1,borderColor:"#ccc",paddingVertical:15}} onPress={()=>{setCollapse1(!collapse1)}}>
+              <Text style={[commonStyle.label,{flex:0.95}]} >Comments</Text>
+              <Icon size={22}  name={collapse1?'chevron-up':'chevron-down'} type='material-community' color='#333' />
+          </TouchableOpacity>:null}
+          {!collapse1?ticketDetails.commentArray && ticketDetails.commentArray.length > 0 ?
+            ticketDetails.commentArray.map((item,index)=>{
+              return(
+                <View style={{flex:1,padding:15,backgroundColor:"#eee",marginVertical:5}} key={index}>
+                  <Text style={commonStyle.normalText}>{item.comment}</Text>
+              <Text style={commonStyle.normalText}>- By {item.commentBy && item.commentBy.profile ? item.commentBy.profile.fullName : userDetails.firstName + " " +userDetails.lastName } ( {moment(item.commonAt).format('DD-MM-YYYY LT')} ) </Text>
+                </View> 
+              )
+            })
+            :[]
+            :null
+          }
           {attendance ?
             <React.Fragment>
             {myStatus === "Allocated" ||myStatus === "Reopen"  ?
@@ -827,3 +848,10 @@ const FormBody = props => {
     </React.Fragment>
   );
 };
+const mapStateToProps = (store)=>{
+  return {
+    userDetails       : store.userDetails,
+    s3Details         : store.s3Details.data,
+  }
+};
+export default connect(mapStateToProps,{})(TechnicianTicketDetails);

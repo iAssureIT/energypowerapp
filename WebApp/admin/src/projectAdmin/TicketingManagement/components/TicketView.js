@@ -19,7 +19,9 @@ export default class TicketingManagement extends Component {
         technicianList: [],
         allocatedTo:[],
         status:[],
+        commentArray : [],
         showlength:3,
+        showlength1:3,
         isLoading:true,
         remark:"",
         review:""
@@ -97,6 +99,7 @@ export default class TicketingManagement extends Component {
             equipmentLoc     : response.data.equipmentLocation_id,
             createdAt     : response.data.createdAt,
             is_type       : response.data.is_type,
+            commentArray  : response.data.commentArray ? response.data.commentArray : [],
             isLoading     : false
           },()=>{
             var currentStatus = [];
@@ -481,6 +484,7 @@ export default class TicketingManagement extends Component {
                                 }
                               </div>
                              </div> 
+                             
                              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding marginTop17">
                               <h4><b>Activity</b></h4>
                               {this.state.status && this.state.status.length > 0 ?
@@ -714,6 +718,39 @@ export default class TicketingManagement extends Component {
                               :
                               null
                             }
+                            <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding marginTop17">
+                              <h4><b>Comments</b></h4>
+                              {this.state.commentArray && this.state.commentArray.length > 0 ?
+                                this.state.commentArray.slice(0, this.state.showlength1).reverse().map((item,index)=>{
+                                  return(
+                                    <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 marginTop8" style={{background:"#eee",padding:'10px'}}>
+                                          <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
+                                            {
+                                              item.comment ?
+                                              <span>#{item.comment}</span>  
+                                              :
+                                              null 
+                                            }
+                                          </div>
+                                          <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                                            {<span  style={{'text-transform':'capitalize'}}> - By {item.commentBy && item.commentBy.profile ? item.commentBy.profile.fullName : null}</span>}
+                                            {" At "+ moment(item.commentAt).format('DD-MM-YYYY LT')}
+                                          </div>  
+                                     </div>
+                                  );
+                                })
+                                :
+                                null
+                              }
+                             {this.state.commentArray.length > 3 ?
+                                this.state.showlength1 === this.state.commentArray.length ?
+                                <a onClick={()=>this.setState({showlength1:3})}> <span className="pull-right cursor mt20">{"<< View less"}</span></a>
+                                :
+                               <a onClick={()=>this.setState({showlength1:this.state.commentArray.length})}> <span className="pull-right cursor mt20">{"View More >>"}</span></a>
+                                :
+                                null
+                              }
+                             </div>
                             {rating ?
                               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 noPadding marginTop17" style={{'border-bottom': '1px solid #d4d4d4'}}>
                                 <h4><b>Client Rating</b></h4>
