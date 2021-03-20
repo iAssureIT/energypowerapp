@@ -1335,7 +1335,7 @@ var fetchAllPersons = async (email) => {
 
 
 
-/*exports.bulkUploadEntity = (req, res, next) => {
+exports.bulkUploadEntity = (req, res, next) => {
     var entity = req.body.data;
      // console.log("entity new",entity);
     var validData = [];
@@ -1375,7 +1375,7 @@ var fetchAllPersons = async (email) => {
 
     }
 
-}*/
+}
 
 
 exports.bulkUploadEntity = (req, res, next) => {
@@ -1778,7 +1778,6 @@ exports.bulkUploadEntity = (req, res, next) => {
 
             /* EntityMaster.insertMany(validData)
                 .then(data => {
-
                 })
                 .catch(err => {
                     console.log(err);
@@ -1883,4 +1882,3 @@ var insertFailedRecords = async (invalidData, updateBadData) => {
 
     })
 }
-

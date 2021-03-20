@@ -1137,7 +1137,6 @@ exports.bulkUploadEmployee = (req, res, next) => {
                         } else {
                             DOB = moment(new Date(employees[k].DOB)).format("YYYY-MM-DD")
                         }
-
                         employees[k].DOB = DOB;
                     }
                     invalidObjects = employees[k];

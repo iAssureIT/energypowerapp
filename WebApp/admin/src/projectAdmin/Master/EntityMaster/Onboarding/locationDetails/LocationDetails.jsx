@@ -955,7 +955,7 @@ class LocationDetails extends Component {
 																	  </div>
 																	<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12  " >
 																		<label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12">Flat No/Block No</label>
-																		<input id="Line2" type="text" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" value={this.state.addressLine1} ref="addressLine2" name="addressLine2" onChange={this.handleChange} />
+																		<input id="Line2" type="text" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" value={this.state.addressLine2} ref="addressLine2" name="addressLine2" onChange={this.handleChange} />
 																	</div>
 																</div>
 																<div className="form-margin col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
@@ -964,7 +964,7 @@ class LocationDetails extends Component {
 																			<label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12">Address Line 2 <sup className="astrick">*</sup></label>
 																			{/*<input id="addressLine1" type="text" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" value={this.state.addressLine1} ref="addressLine1" name="addressLine1" onChange={this.handleChange} />*/}
 																			 <PlacesAutocomplete
-									                                        value={this.state.addressLine2}
+									                                        value={this.state.addressLine1}
 									                                        onChange={this.handleChangePlaces}
 									                                        onSelect={this.handleSelect}
 									                                        // searchOptions={searchOptions}
