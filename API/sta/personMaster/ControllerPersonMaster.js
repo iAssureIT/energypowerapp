@@ -63,7 +63,7 @@ exports.insertPerson = (req, res, next) => {
             workImages:req.body.workImages,
             socialMediaArray:req.body.socialMediaArray,
             fuelreimbursement_id:req.body.fuelreimbursement_id,
-            home_office_distance: await getDistance(req.body.address,req.body.workLocationLatLng),
+            home_office_distance: req.body.workLocationLatLng ? await getDistance(req.body.address,req.body.workLocationLatLng) : 0,
             // drivingLicense              : req.body.drivingLicense,
             // aadhar                      : req.body.aadhar,
             // identityProof               : req.body.identityProof,
