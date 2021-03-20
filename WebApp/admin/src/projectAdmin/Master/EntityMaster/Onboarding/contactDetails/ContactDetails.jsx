@@ -328,8 +328,8 @@ class ContactDetails extends Component {
 		 var vendorLocation = document.getElementById("branchCode");
 		 var department = document.getElementById("deptName");
 		 var designation = document.getElementById("desgName");
-   		 var departmentName = department.options[department.selectedIndex].getAttribute("deptname");
-   		 var designationName = designation.options[designation.selectedIndex].getAttribute("desgname");
+		 var departmentName = department.options[department.selectedIndex].getAttribute("value");
+   		 var designationName = designation.options[designation.selectedIndex].getAttribute("value");
    		 var locationname = vendorLocation.options[vendorLocation.selectedIndex].getAttribute("branch_location");
    		 var locationId = vendorLocation.options[vendorLocation.selectedIndex].getAttribute("branch_location_id");
    
@@ -495,38 +495,38 @@ class ContactDetails extends Component {
 						formValues.contactDetails.userID = await this.createUser();
 						formValues.contactDetails.personID = await this.savePerson(formValues.contactDetails.userID);
 						console.log("formValues",formValues);
-						// var formValues1 = {
-						// 	userID: formValues.contactDetails.userID,
-						// 	role: "employee",
-						// }
-						// if(this.state.pathname === "corporate" && (this.state.role === "manager" || this.state.role === "corporateadmin" ))
-						// {
-						// 	axios
-						// 	.patch('/api/users/patch/role/assign/' + formValues1.userID, formValues1)
-						// 	.then(
-						// 	(res) => {})
-						// 	.catch((error) => {});
-						// }
-						// var sendData = {
-						// 	"event": "Event3", //Event Name
-						// 	"toUser_id": formValues.contactDetails.userID, //To user_id(ref:users)
-						// 	"toUserRole":this.state.role,
-						// 	"company_id": this.state.entityID, //company_id(ref:entitymaster)
-						// 	"otherAdminRole":'client',
-						// 	"variables": {
-						// 	  'EmployeeName': this.state.firstName + ' ' + this.state.lastName,
-						// 	  'CompanyName': this.state.companyName,
-						// 	  'Password': "welcome123",
-						// 	  'mobileNo': this.state.phone,
-						// 	  'email': this.state.email,
-						// 	  'sendUrl': this.state.url+"/login",
-						// 	}
-						//   }
-						// axios.post('/api/masternotifications/post/sendNotification', sendData)
-						// .then((res) => {
-						// //console.log('sendDataToUser in result==>>>', res.data)
-						// })
-						// .catch((error) => { console.log('notification error: ',error)})
+						var formValues1 = {
+							userID: formValues.contactDetails.userID,
+							role: "employee",
+						}
+						if(this.state.pathname === "corporate" && (this.state.role === "manager" || this.state.role === "corporateadmin" ))
+						{
+							axios
+							.patch('/api/users/patch/role/assign/' + formValues1.userID, formValues1)
+							.then(
+							(res) => {})
+							.catch((error) => {});
+						}
+						var sendData = {
+							"event": "Event3", //Event Name
+							"toUser_id": formValues.contactDetails.userID, //To user_id(ref:users)
+							"toUserRole":this.state.role,
+							"company_id": this.state.entityID, //company_id(ref:entitymaster)
+							"otherAdminRole":'client',
+							"variables": {
+							  'EmployeeName': this.state.firstName + ' ' + this.state.lastName,
+							  'CompanyName': this.state.companyName,
+							  'Password': "welcome123",
+							  'mobileNo': this.state.phone,
+							  'email': this.state.email,
+							  'sendUrl': this.state.url+"/login",
+							}
+						  }
+						axios.post('/api/masternotifications/post/sendNotification', sendData)
+						.then((res) => {
+						//console.log('sendDataToUser in result==>>>', res.data)
+						})
+						.catch((error) => { console.log('notification error: ',error)})
 					}
 					this.saveContact(formValues);
 				} else {
@@ -1107,6 +1107,7 @@ class ContactDetails extends Component {
 
 
 	render() {
+		console.log("departmentArray",this.state.departmentArray);
 		return (
 			<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div className="row">
@@ -1230,7 +1231,7 @@ class ContactDetails extends Component {
 																					this.state.departmentArray && this.state.departmentArray.length > 0 ?
 																						this.state.departmentArray.map((deptData, index) => {
 																						return (
-																							<option key={index} value={deptData.departmentName} deptname={deptData.department}>{(deptData.department)}</option>
+																							<option key={index} value={deptData._id} deptname={deptData.department}>{(deptData.department)}</option>
 																						);
 																						}
 																						) : ''
@@ -1251,7 +1252,7 @@ class ContactDetails extends Component {
 																						this.state.designationArray && this.state.designationArray.length > 0 ?
 																							this.state.designationArray.map((desData, index) => {
 																							return (
-																								<option key={index} value={desData.designationName} desgname={desData.designation}>{(desData.designation)}</option>
+																								<option key={index} value={desData._id} desgname={desData.designation}>{(desData.designation)}</option>
 																							);
 																							}) : ''
 																						}
