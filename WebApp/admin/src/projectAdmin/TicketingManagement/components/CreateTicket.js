@@ -239,6 +239,7 @@ export default class CreateTicket extends Component {
     }
     if(name==='contactPerson'){
       var e = document.getElementById("contactPerson");
+      console.log("e",e);
       console.log("e",e.options[e.selectedIndex].id);
       this.setState({
         contactPerson_id : e.options[e.selectedIndex].id,
@@ -345,7 +346,7 @@ export default class CreateTicket extends Component {
                                 }
 
       }
-
+      console.log("formValues",formValues);
       axios.post('/api/tickets/post', formValues)
         .then((response)=>{
           var sendData = {
@@ -854,6 +855,7 @@ export default class CreateTicket extends Component {
 
 	render() {
     const allocatedTo: object = { text: 'label', value: 'id' };
+    console.log("contactPersonArray",this.state.contactPersonArray);
     return(
       <div className="container-fluid">
           <div className="row">

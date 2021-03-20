@@ -90,7 +90,7 @@ exports.insertPerson = (req, res, next) => {
         }
         })
         .catch(err =>{
-            reject(0)
+            console.log("err",err);
         });
     
 };

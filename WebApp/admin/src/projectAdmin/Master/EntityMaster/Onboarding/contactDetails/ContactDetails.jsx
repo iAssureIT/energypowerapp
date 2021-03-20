@@ -487,41 +487,46 @@ class ContactDetails extends Component {
 			}
 			const main = async()=>{
 				if ($('#ContactDetail').valid()) {
+					console.log("this.state.createUser",this.state.createUser);
+					console.log("this.state.createUser",this.state.listOfEmpID);
+					console.log("this.state.createUser",this.state.employeeID);
+					console.log("this.state.createUser",this.state.listOfEmpID.indexOf(this.state.employeeID));
 					if(this.state.createUser === true && this.state.listOfEmpID.indexOf(this.state.employeeID) === -1){
 						formValues.contactDetails.userID = await this.createUser();
 						formValues.contactDetails.personID = await this.savePerson(formValues.contactDetails.userID);
-						var formValues1 = {
-							userID: formValues.contactDetails.userID,
-							role: "employee",
-						}
-						if(this.state.pathname === "corporate" && (this.state.role === "manager" || this.state.role === "corporateadmin" ))
-						{
-							axios
-							.patch('/api/users/patch/role/assign/' + formValues1.userID, formValues1)
-							.then(
-							(res) => {})
-							.catch((error) => {});
-						}
-						var sendData = {
-							"event": "Event3", //Event Name
-							"toUser_id": formValues.contactDetails.userID, //To user_id(ref:users)
-							"toUserRole":this.state.role,
-							"company_id": this.state.entityID, //company_id(ref:entitymaster)
-							"otherAdminRole":'client',
-							"variables": {
-							  'EmployeeName': this.state.firstName + ' ' + this.state.lastName,
-							  'CompanyName': this.state.companyName,
-							  'Password': "welcome123",
-							  'mobileNo': this.state.phone,
-							  'email': this.state.email,
-							  'sendUrl': this.state.url+"/login",
-							}
-						  }
-						axios.post('/api/masternotifications/post/sendNotification', sendData)
-						.then((res) => {
-						//console.log('sendDataToUser in result==>>>', res.data)
-						})
-						.catch((error) => { console.log('notification error: ',error)})
+						console.log("formValues",formValues);
+						// var formValues1 = {
+						// 	userID: formValues.contactDetails.userID,
+						// 	role: "employee",
+						// }
+						// if(this.state.pathname === "corporate" && (this.state.role === "manager" || this.state.role === "corporateadmin" ))
+						// {
+						// 	axios
+						// 	.patch('/api/users/patch/role/assign/' + formValues1.userID, formValues1)
+						// 	.then(
+						// 	(res) => {})
+						// 	.catch((error) => {});
+						// }
+						// var sendData = {
+						// 	"event": "Event3", //Event Name
+						// 	"toUser_id": formValues.contactDetails.userID, //To user_id(ref:users)
+						// 	"toUserRole":this.state.role,
+						// 	"company_id": this.state.entityID, //company_id(ref:entitymaster)
+						// 	"otherAdminRole":'client',
+						// 	"variables": {
+						// 	  'EmployeeName': this.state.firstName + ' ' + this.state.lastName,
+						// 	  'CompanyName': this.state.companyName,
+						// 	  'Password': "welcome123",
+						// 	  'mobileNo': this.state.phone,
+						// 	  'email': this.state.email,
+						// 	  'sendUrl': this.state.url+"/login",
+						// 	}
+						//   }
+						// axios.post('/api/masternotifications/post/sendNotification', sendData)
+						// .then((res) => {
+						// //console.log('sendDataToUser in result==>>>', res.data)
+						// })
+						// .catch((error) => { console.log('notification error: ',error)})
 					}
 					this.saveContact(formValues);
 				} else {
@@ -550,9 +555,9 @@ class ContactDetails extends Component {
 		return new Promise(function(resolve, reject){
 			axios.post('/api/auth/post/signup/user', userDetails)
 			.then((response)=>{
-				resolve(response.data.ID);
+				console.log("response",response);
 				if(response.data.message === 'USER_CREATED'){
-					
+					resolve(response.data.ID);
 				}else{
 					swal(response.data.message);
 				}
@@ -593,20 +598,23 @@ class ContactDetails extends Component {
 		  return new Promise(function(resolve, reject){
 			axios.post('/api/personmaster/post' ,userDetails)
 			.then((response) => {
+				console.log("response",response);
 				resolve(response.data.PersonId);
 			})
-			.catch((error) => {})
+			.catch((error) => {console.log("error",error)})
 		  })
 		}
 	}
 
 	saveContact = (formValues)=>{
+		console.log("formValues",formValues);
 		if(this.state.listOfEmpID.indexOf(this.state.employeeID)>-1)
 		{
 			swal("Employee ID already exists..!")
 		}else{
 		axios.patch('/api/entitymaster/patch/addContact' ,formValues)
 		.then((response) => {
+			console.log("response",response);
 				if(response.data.duplicated)
 				{
 					swal({
