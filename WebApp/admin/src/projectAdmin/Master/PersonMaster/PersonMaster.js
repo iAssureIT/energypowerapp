@@ -421,8 +421,14 @@ class PersonMaster extends Component {
                 },
                 vehicle:{
                   required:true,
+                },
+                pincode:{
+                  required:true,
+                },
+                addressLine1:{
+                  required:true,
                 }
-
+                
             },
             errorPlacement: function (error, element) {
                 if (element.attr("name") === "firstName") {
@@ -470,7 +476,13 @@ class PersonMaster extends Component {
                 if (element.attr("name") === "vehicle") {
                     error.insertAfter("#vehicleVal");
                 }
-
+                if (element.attr("name") === "pincode") {
+                  error.insertAfter("#pincode");
+                }
+                if (element.attr("name") === "addressLine1") {
+                  error.insertAfter("#addressLine1");
+                }
+                
             }
         });
     }
@@ -2598,7 +2610,7 @@ class PersonMaster extends Component {
                                     <div className="form-margin col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left NOpadding-right">
                                       <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 driver person employee">
                                         <div id="addressLine1">
-                                          <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">Address Line 1 {this.state.pathname !== "employee" ? <i className="astrick">*</i> : ""}</label>
+                                          <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">Address Line 1 <i className="astrick">*</i></label>
                                           {/*<input type="text" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" value={this.state.addressLine1} ref="addressLine1" name="addressLine1" onChange={this.handleChange} />*/}
                                           <PlacesAutocomplete
                                                 value={this.state.addressLine1}
@@ -2662,7 +2674,7 @@ class PersonMaster extends Component {
                                       </div>
                                       <div className="col-lg-4   col-md-4 col-sm-12 col-xs-12 driver employee person">
                                         <div id="pincode">
-                                          <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">Pincode {this.state.pathname !== "employee" ? <i className="astrick">*</i> : ""}</label>
+                                          <label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding-left">Pincode <i className="astrick">*</i></label>
                                           <input maxLength="6" onChange={this.handlePincode.bind(this)} type="text" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" value={this.state.pincode} ref="pincode" name="pincode" onKeyDown={this.keyPressNumber.bind(this)} required/>
                                           {this.state.pincodeExists ? null : <label style={{ color: "red", fontWeight: "100" }}>This pincode does not exists!</label>}
 

@@ -117,10 +117,10 @@ class LocationDetails extends Component {
 			'fieldID':this.props.match.params ? this.props.match.params.fieldID : '',
 		})
 
-		window.initMap = this.initMap
-	    const gmapScriptEl = document.createElement(`script`)
-	    gmapScriptEl.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCrzFPcpBm_YD5DfBl9zJ2KwOjiRpOQ1lE&libraries=places&callback=initMap`
-	    document.querySelector(`body`).insertAdjacentElement(`beforeend`, gmapScriptEl)
+		// window.initMap = this.initMap
+	    // const gmapScriptEl = document.createElement(`script`)
+	    // gmapScriptEl.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCrzFPcpBm_YD5DfBl9zJ2KwOjiRpOQ1lE&libraries=places&callback=initMap`
+	    // document.querySelector(`body`).insertAdjacentElement(`beforeend`, gmapScriptEl)
 
 	}
 	componentWillReceiveProps(nextProps) {
@@ -1392,7 +1392,6 @@ class LocationDetails extends Component {
 																	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  " >
 																		<label className="labelform col-lg-12 col-md-12 col-sm-12 col-xs-12">Address Line 2 <sup className="astrick">*</sup></label>
 																		{/*<input id="addressLine1" type="text" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" value={this.state.addressLine1} ref="addressLine1" name="addressLine1" onChange={this.handleChange} />*/}
-																		 {this.state.gmapsLoaded ?
 																			 <PlacesAutocomplete
 									                                        value={this.state.addressLine1}
 									                                        onChange={this.handleChangePlaces}
@@ -1434,9 +1433,7 @@ class LocationDetails extends Component {
 								                                          </div>
 								                                        )}
 								                                      </PlacesAutocomplete>
-								                                      :
-								                                      <input id="addressLine1" type="text" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12" value={this.state.addressLine1} placeholder="GOOGLE API NOT FOUND" ref="addressLine1" name="addressLine1" onChange={this.handleChange} />
-								                                  	  }
+								                                    
 																	</div>
 																</div>
 																<div className = "col-lg-12 marginTop17">
