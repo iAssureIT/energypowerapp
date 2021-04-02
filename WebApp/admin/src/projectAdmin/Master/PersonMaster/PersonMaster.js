@@ -134,11 +134,12 @@ class PersonMaster extends Component {
     var getcompanyID = localStorage.getItem("companyID");
     console.log("company_Id",getcompanyID);
     var companyName = localStorage.getItem("companyName");
-    role.push(localStorage.getItem("roles"));
+    // role.push(localStorage.getItem("roles"));
+    role = [...localStorage.getItem("roles").split(',')];
     this.setState({
       listOfRoles: role,
     })
-    if (role.indexOf("admin") === 0) {
+    if (role.includes("admin")) {
       this.setState({
         companyID: getcompanyID,
         corporate_Id: getCompany_Id,
@@ -158,7 +159,7 @@ class PersonMaster extends Component {
     this.getRoles();
     this.getVehicles();
     this.getSocialMedia();
-    console.log("this.props.match.params.personID===>",this.props.match.params.personID);
+    // console.log("this.props.match.params.personID===>",this.props.match.params.personID);
     console.log("this.pathname===>",this.state.pathname);
     this.setState({
       personID: this.props.match.params.personID,
@@ -170,7 +171,7 @@ class PersonMaster extends Component {
   getSocialMedia(){
     axios.post("/api/socialmediamaster/get/list")
       .then((response) => {
-        console.log("response",response);
+        // console.log("response",response);
       var socialMediaOptions = response.data;
       this.setState({
         socialMediaOptions: socialMediaOptions
@@ -245,7 +246,7 @@ class PersonMaster extends Component {
     if (personID) {
         axios.get('/api/personmaster/get/one/' + personID)
         .then((response) => {
-            console.log("response for vehicle",response);
+            // console.log("response for vehicle",response);
           if(this.state.pathname === 'employee') {
             var docarray = response.data.Documentarray;
                 var index = docarray;
@@ -491,7 +492,7 @@ class PersonMaster extends Component {
     var entityname =this.state.pathname;
     axios.get('/api/documentlistmaster/get/list/'+entityname)
         .then((response) => {
-          console.log("response=====>",response);
+          // console.log("response=====>",response);
             var DocumentsDetails = response.data
             // responseArray
             this.setState({
@@ -800,7 +801,7 @@ class PersonMaster extends Component {
       if ($('#BasicInfo').valid() && this.state.pincodeExists && this.state.contactNumberAvailable && this.state.listOfEmpEmail.indexOf(this.state.email) === -1) {
         if (userDetails.loginCredential === "Yes") {
           userDetails.userId = await this.createLogin();
-          console.log("check userDetails=>",userDetails);
+          // console.log("check userDetails=>",userDetails);
           this.setState({
             getUserId : userDetails.userId
           })
@@ -816,7 +817,7 @@ class PersonMaster extends Component {
                 'SendUrl' : 'http://qasta.iassureit.com'
               }
             }
-            console.log("sendData",sendData);
+            // console.log("sendData",sendData);
             axios.post('/api/masternotifications/post/sendNotification', sendData)
               .then((res) => {
                 console.log("res",res);
@@ -870,7 +871,7 @@ class PersonMaster extends Component {
         "emailSubject"    : "Email Verification",
         "emailContent"    : "As part of our registration process, we screen every new profile to ensure its credibility by validating email provided by user. While screening the profile, we verify that details put in by user are correct and genuine.",
     }
-    console.log("userDetails",userDetails);
+    // console.log("userDetails",userDetails);
     return new Promise(function (resolve, reject) {
       axios.post('/api/auth/post/signup/user', userDetails)
         .then((response) => {
@@ -1118,7 +1119,7 @@ class PersonMaster extends Component {
 
       if ($('#BasicInfo').valid() && this.state.pincodeExists) {
             userDetails.workLocationLatLng = this.state.workLocationLatLng;
-            console.log("userDetails=>>>>>>",userDetails)
+            // console.log("userDetails=>>>>>>",userDetails)
             this.update(userDetails);
       } else {
         $('select.error:first').focus();
@@ -1148,10 +1149,10 @@ class PersonMaster extends Component {
                 'email': this.state.email
               }
             }
-          console.log('sendDataToUser==>', sendData)
+          // console.log('sendDataToUser==>', sendData)
           axios.post('/api/masternotifications/post/sendNotification', sendData)
           .then((res) => {
-          console.log('sendDataToUser in result==>>>', res.data)
+          // console.log('sendDataToUser in result==>>>', res.data)
           })
           .catch((error) => { console.log('notification error: ',error)})
         }
@@ -1233,7 +1234,7 @@ class PersonMaster extends Component {
   }
 
   updateUserData(){
-    console.log("userDetails========+>");
+    // console.log("userDetails========+>");
       var userDetails = {
           firstname       : this.state.firstName,
           lastname        : this.state.lastName ,
@@ -2035,11 +2036,11 @@ class PersonMaster extends Component {
         Geocode.setApiKey(response.data.googleapikey);
         Geocode.fromLatLng(e.latLng.lat(), e.latLng.lng()).then(
           response => {
-            console.log("response.results",response.results);
+            // console.log("response.results",response.results);
             const address = response.results[0].address_components;
-            console.log("address",address);
+            // console.log("address",address);
               for (var i = 0; i < address.length; i++) {
-                  console.log("address[i].types[b]",address[i]);
+                  // console.log("address[i].types[b]",address[i]);
                   for (var b = 0; b < address[i].types.length; b++) {
                       switch (address[i].types[b]) {
                           case 'sublocality_level_1':
@@ -2094,7 +2095,7 @@ class PersonMaster extends Component {
   }
 
     departmentModalClickEvent(){
-      console.log("click event")
+      // console.log("click event")
       $('#departmentModalId').addClass('in');
       $('#departmentModalId').css('display','block');
       $('body').removeClass('modal-open');
@@ -2102,7 +2103,7 @@ class PersonMaster extends Component {
     }  
 
     designationModalClickEvent(){
-      console.log("click event")
+      // console.log("click event")
       $('#designationModalId').addClass('in');
       $('#designationModalId').css('display','block');
       $('body').removeClass('modal-open');
@@ -2110,7 +2111,7 @@ class PersonMaster extends Component {
     }
 
     vehcileModalClickEvent(){
-      console.log("click event")
+      // console.log("click event")
       $('#vehicleModalId').addClass('in');
       $('#vehicleModalId').css('display','block');
       $('body').removeClass('modal-open');
@@ -2255,7 +2256,10 @@ class PersonMaster extends Component {
     }
 
   render() {
-    console.log("socialMediaArray",this.state.socialMediaArray);
+   
+    console.log("******* this.state.corporateLocationArray", this.state.corporateLocationArray);
+
+    // console.log("socialMediaArray",this.state.socialMediaArray);
     var oldDate = new Date();
     oldDate.setFullYear(oldDate.getFullYear() - 18);
 
