@@ -1,16 +1,19 @@
-const mongoose  = require("mongoose");
-const DesignationMaster = require('../../coreAdmin/designationMaster/ModelDesignationMaster.js');
-const DepartmentMaster = require('../../coreAdmin/departmentMaster/ModelDepartmentMaster.js');
-const EntityMaster = require('./ModelEntityMaster');
-const PersonMaster = require('../personMaster/ModelPersonMaster.js');
-const FailedRecords     = require('../../coreAdmin/failedRecords/ModelFailedRecords');
-var   request = require('request-promise');
-const gloabalVariable = require('../../nodemon.js');
-var   ObjectID          = require('mongodb').ObjectID;
-const User = require('../../coreAdmin/userManagement/ModelUsers.js');
-const globalVariable= require("../../nodemon.js");
-const axios = require('axios');
-const NodeGeocoder = require('node-geocoder');
+const mongoose             = require("mongoose");
+const DesignationMaster    = require('../../coreAdmin/designationMaster/ModelDesignationMaster.js');
+const DepartmentMaster     = require('../../coreAdmin/departmentMaster/ModelDepartmentMaster.js');
+const EntityMaster         = require('./ModelEntityMaster');
+const PersonMaster         = require('../personMaster/ModelPersonMaster.js');
+const FailedRecords        = require('../../coreAdmin/failedRecords/ModelFailedRecords');
+const Tickets              = require('../../sta/ticketMaster/Model.js');
+const Projectlocation      = require('../../sta/projectLocation/Model.js');
+const Equipmentlocation    = require('../../sta/equipmentLocation/Model.js');
+var   request              = require('request-promise');
+const gloabalVariable      = require('../../nodemon.js');
+var   ObjectID             = require('mongodb').ObjectID;
+const User                 = require('../../coreAdmin/userManagement/ModelUsers.js');
+const globalVariable       = require("../../nodemon.js");
+const axios                = require('axios');
+const NodeGeocoder         = require('node-geocoder');
 
 
 exports.insertEntity = (req,res,next)=>{
@@ -770,16 +773,147 @@ exports.updateSingleContact = (req,res,next)=>{
     })
 };
 
+//-------------------------------------------------------------
+//             previous delete entity function
+//-------------------------------------------------------------
+//    exports.deleteEntity = (req,res,next)=>{
+//     EntityMaster.deleteOne({_id:req.params.entityID})
+//     .exec()
+//     .then(data=>{
+//         res.status(200).json({ deleted : true });
+//     })
+//     .catch(err =>{
+//         res.status(500).json({ error: err });
+//     });
+//    };
+//-------------------------------------------------------------
+//                          End 
+//-------------------------------------------------------------
+
+
+
 exports.deleteEntity = (req,res,next)=>{
     EntityMaster.deleteOne({_id:req.params.entityID})
     .exec()
     .then(data=>{
+        myfunc();
+        async function myfunc(){
+            var deltUser = await deleteUsersRelatedClient(req.params.entityID);
+            var deltPersonMstr = await deleteUsersRelatedPersonMaster(req.params.entityID);
+            var deltickets = await deleteUsersRelatedTickets(req.params.entityID);
+            var dltPlocation = await deleteProjectLocationRelatedClients(req.params.entityID);;
+        }
         res.status(200).json({ deleted : true });
     })
     .catch(err =>{
         res.status(500).json({ error: err });
     });
 };
+
+async function deleteUsersRelatedClient(company_id){
+    // console.log("inside company_id ===========>",company_id);
+    return new Promise((resolve,reject)=>{
+        User.deleteMany({"profile.company_id":company_id})
+        .exec()
+        .then(data=>{
+            // console.log("803 User Deleted ===========>",data);
+            resolve(data)
+            // res.status(200).json({ deleted : true });
+        })
+        .catch(err =>{
+            reject(0)
+            res.status(500).json({ error: err });
+        });
+    });
+}
+
+async function deleteUsersRelatedPersonMaster(company_id){
+    // console.log("inside company_id ===========>",company_id);
+    return new Promise((resolve,reject)=>{
+        PersonMaster.deleteMany({"company_Id":company_id})
+        .exec()
+        .then(data=>{
+            // console.log("820 Personmaster deleted ===========>",data);
+            resolve(data)
+            // res.status(200).json({ deleted : true });
+        })
+        .catch(err =>{
+            reject(0)
+            res.status(500).json({ error: err });
+        });
+    });
+}
+
+async function deleteUsersRelatedTickets(company_id){
+    // console.log("inside company_id ===========>",company_id);
+    return new Promise((resolve,reject)=>{
+        Tickets.deleteMany({"client_id":company_id})
+        .exec()
+        .then(data=>{
+            // console.log("837 Tickets deleted ===========>",data);
+            resolve(data)
+            // res.status(200).json({ deleted : true });
+        })
+        .catch(err =>{
+            reject(0)
+            res.status(500).json({ error: err });
+        });
+    });
+}
+
+async function deleteProjectLocationRelatedClients(company_id){
+    // console.log("inside company_id ===========>",company_id);
+    return new Promise((resolve,reject)=>{
+        Projectlocation.find({"client_id":company_id})
+        .exec()
+        .then(data=>{
+            // console.log("854 project location find ===========>",data);
+            // console.log("856 project location find ===========>",data[0]._id);
+
+            var project_id = data[0]._id;
+            myfunc();
+            async function myfunc(){
+                var deltequpmnt = await deleteEquipmentLocationRelatedClients(project_id);
+                Projectlocation.deleteMany({"client_id":company_id})
+                .exec()
+                .then(data=>{
+                    // console.log("862 project location delete ===========>",data);
+                    resolve(data)
+                    // res.status(200).json({ deleted : true });
+                })
+                .catch(err =>{
+                    reject(0)
+                    res.status(500).json({ error: err });
+                });
+
+            }
+            // console.log("inside data ===========>",data);
+            resolve(data)
+            // res.status(200).json({ deleted : true });
+        })
+        .catch(err =>{
+            reject(0)
+            res.status(500).json({ error: err });
+        });
+    });
+}
+
+async function deleteEquipmentLocationRelatedClients(project_id){
+    // console.log("884 inside company_id ===========>",project_id);
+    return new Promise((resolve,reject)=>{
+        Equipmentlocation.deleteMany({"project_id":project_id})
+        .exec()
+        .then(data=>{    
+            // console.log("889 equipment location deleted ===========>",data);
+            resolve(data)
+            // res.status(200).json({ deleted : true });
+        })
+        .catch(err =>{
+            reject(0)
+            res.status(500).json({ error: err });
+        });
+    });
+}
 
 
 exports.deleteLocation = (req,res,next)=>{   
