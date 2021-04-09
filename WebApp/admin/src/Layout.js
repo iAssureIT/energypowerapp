@@ -25,12 +25,12 @@ import DailyReport                                from './projectAdmin/Reports/D
 import EmployeeWiseTicketReport                   from './projectAdmin/Reports/EmployeeWiseTicketReport.js';
 import MonthlyReimbursementReport                 from './projectAdmin/Reports/MonthlyReimbursementReport.js';
 
-import EmployeeMaster                           from "./projectAdmin/EmployeeMaster/EmployeeMaster.js"
+import EmployeeMaster                             from "./projectAdmin/EmployeeMaster/EmployeeMaster.js"
 import PersonList                                 from "./projectAdmin/Master/PersonMaster/PersonList.js"
 
 import CreateTicket                               from './projectAdmin/TicketingManagement/components/CreateTicket.js';
 import TicketList                                 from './projectAdmin/TicketingManagement/components/TicketList.js';
-import TicketView                                from './projectAdmin/TicketingManagement/components/TicketView.js';
+import TicketView                                 from './projectAdmin/TicketingManagement/components/TicketView.js';
  
 import ClientBasicInfo                            from './projectAdmin/ClientMaster/ClientBasicInfo.js';
 import ClientDepartmentDetails                    from './projectAdmin/ClientMaster/ClientDepartmentDetails.js';

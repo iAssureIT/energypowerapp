@@ -576,9 +576,9 @@ class PersonList extends Component {
     	this.getpersons();
     }
 	render() {
-		const designationfields: object = { text: 'designation', value: 'id' };
-		const departmentfields: object = { text: 'department', value: 'id' };
-		const companyfields: object = { text: 'companyName', value: 'id' };
+		const designationfields = { text: 'designation', value: 'id' };
+		const departmentfields = { text: 'department', value: 'id' };
+		const companyfields = { text: 'companyName', value: 'id' };
 		var currentRole = localStorage.getItem("roles");
 		console.log("this.state.personList",this.state.personList);
 		return (
@@ -820,7 +820,7 @@ class PersonList extends Component {
 										<i className="fa fa-th-list fa-lg btn pull-right viewBtn btnactive" name="view" ref="view" value={this.state.view} onClick={this.showView.bind(this,'List')} onChange={this.handleChange} aria-hidden="true"></i>
 									</div>
 								</div>
-								{this.state.view === 'Grid' ?
+								{this.state.view === 'Grid' ?								
 								<div className="col-lg-12"> 
 									<IAssureTable 
 				                      tableHeading={this.state.tableHeading}
@@ -830,6 +830,7 @@ class PersonList extends Component {
 				                      getData={this.getDataTable.bind(this)}
 				                      id={"id"}
 				                      tableName={this.state.entityType}
+									  type="employee_delete"
 				                      />
 			                      </div>
 								 :

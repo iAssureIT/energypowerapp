@@ -2,6 +2,7 @@ const mongoose             = require("mongoose");
 var   ObjectId             = require('mongodb').ObjectID;
 const Projectlocation      = require('./Model.js');
 const EquipmentLocation    = require('../equipmentLocation/Model.js');
+const Equipmntloc    = require('../../sta/equipmentLocation/Model.js');
 
 
 exports.create_projectlocation = (req, res, next) => {
@@ -276,7 +277,11 @@ exports.delete_projectLoc = (req,res,next)=>{
         .then(data=>{
             console.log('data ',data);
             if(data.deletedCount === 1){
-                res.status(200).json("CAMERA_LOCATION_DELETED");
+                dltEqLocation();
+                async function dltEqLocation(){
+                    var deltUser = await delete_equipmentLocation(req.params.project_id); 
+                    res.status(200).json("CAMERA_LOCATION_DELETED");                  
+                }                
             }else{
                 res.status(200).json("CAMERA_LOCATION_NOT_DELETED");
             }
@@ -288,6 +293,21 @@ exports.delete_projectLoc = (req,res,next)=>{
             });
         });
 };
+
+async function delete_equipmentLocation(project_id){
+    return new Promise((resolve,reject)=>{
+        Equipmntloc.deleteMany({"project_id":project_id})
+        .exec()
+        .then(data=>{    
+            resolve(data)
+        })
+        .catch(err =>{
+            reject(0)
+            res.status(500).json({ error: err });
+        });
+    });
+}
+
 exports.delete_all_projectLoc = (req,res,next)=>{
     Projectlocation.deleteMany({})
         .exec()

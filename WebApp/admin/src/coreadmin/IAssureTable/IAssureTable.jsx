@@ -125,6 +125,70 @@ class IAssureTable extends Component {
 		e.preventDefault();
 		var tableObjects = this.props.tableObjects;
 		let id = (e.target.id).replace(".", "/");
+		if(this.props.type==="employee_delete"){
+				var username = "";
+				var contactarray = [];
+				axios.get("/api/personmaster/get/one/" + id)
+				.then((response) => {
+					this.setState({
+						"personID_tobedeleted": response.data.userId,
+						"username": response.data.firstName + " " + response.data.lastName,
+						"usercompany_Id" : response.data.company_Id,
+						"userpersonID" : response.data._id
+					}, () => {
+						axios.get('/api/entitymaster/get/one/' + this.state.usercompany_Id)
+				.then((response) => {
+					contactarray  =  response.data[0].contactData;
+					var contactID = contactarray.filter(contact=>contact.personID == this.state.userpersonID)
+					var formValues = {
+						entityID: this.state.usercompany_Id,
+						location_ID: contactID[0]._id
+					}
+					console.log("User Deleted formValues===>",formValues);
+					axios.delete('/api/entitymaster/deleteContact/' + formValues.entityID + "/" + formValues.location_ID, formValues)
+					.then((response)=>{
+						   if (response.data.deleted) {
+							   console.log("User Deleted")
+						}else{
+							   console.log("User Not Deleted")
+						   }
+					})
+					.catch((error)=>{
+					})
+				})
+				.catch((error) => {                
+				})
+						var formValues = {
+							personID_tobedeleted: id,
+							updatedBy: username,
+						}
+						axios.patch("/api/personmaster/patch/deletestatus", formValues)
+							.then((response) => {
+								var formValues = {
+									user_id_tobedeleted: this.state.personID_tobedeleted,
+									username: this.state.username,
+								}
+								axios
+									.patch('/api/users/patch/deletestatus/', formValues)
+									.then((response) => {
+										$('.modal-backdrop').remove();		
+										this.props.getData();
+										swal({
+											text  : "Record Deleted Successfully",
+										});
+										document.getElementById("showDeleteModal-"+id).style.display = "none";
+									})
+									.catch(function (error) {
+									})
+							})
+							.catch((error) => {
+							})
+					});
+				})
+				.catch((error) => {
+				})			
+
+		}else{
 		axios({
 			method: tableObjects.deleteMethod,
 			url: tableObjects.apiLink + '/delete/' + id
@@ -142,6 +206,7 @@ class IAssureTable extends Component {
        		
 		}).catch((error) => {
 		});
+	  }
 	}
 	sortNumber(key, tableData) {
 		var nameA = '';

@@ -175,6 +175,7 @@ class PersonDetails extends Component {
 				entityID: this.state.usercompany_Id,
 				location_ID: contactID[0]._id
 			}
+			console.log("User Deleted formValues===>",formValues);
 			axios.delete('/api/entitymaster/deleteContact/' + formValues.entityID + "/" + formValues.location_ID, formValues)
 		    .then((response)=>{
 		   		if (response.data.deleted) {

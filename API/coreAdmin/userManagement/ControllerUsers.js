@@ -5,6 +5,7 @@ var ObjectID 			= require('mongodb').ObjectID;
 var request         	= require('request-promise');
 const User 				= require('./ModelUsers.js');
 const globalVariable 	= require("../../nodemon.js");
+const EntityMaster      = require ("../../sta/entityMaster/ModelEntityMaster.js");
 
 function getRandomInt(min, max) {
 	min = Math.ceil(min);
@@ -1491,12 +1492,19 @@ exports.fetch_users_status_roles = (req,res,next)=>{
 };
 
 exports.delete_user_ID = (req,res,next)=>{
+
+	console.log("inside delete_user_ID ==>",req.params.ID);   	
 	User.deleteOne({_id:req.params.ID})
 		.exec()
 		.then(data=>{
 			
 			if(data.deletedCount === 1){
-				res.status(200).json({message:"USER_DELETED"});
+				dltContac();
+                async function dltContac(){
+                    var findEntity = await find_Client(req.params.ID); 
+                    // var deltUser = await delete_contactPerson(req.params.project_id); 
+					res.status(200).json({message:"USER_DELETED"});                  
+                }
 			}else{
 				res.status(200).json({message:"USER_NOT_DELETED"});
 			}
@@ -1507,6 +1515,52 @@ exports.delete_user_ID = (req,res,next)=>{
 			});
 		});
 };
+
+async function find_Client(userID){
+	console.log("inside client find_Client ==>",userID);   
+
+    return new Promise((resolve,reject)=>{
+        EntityMaster.find({"contactPersons.userID":userID})
+        .exec()
+        .then(data=>{ 
+			// console.log("data ID client find_Client ==>",data);
+			// console.log("ID client find_Client ==>",data[0]._id);
+			// console.log("client find_Client ==>",[...data[0].contactPersons]);
+			
+			EntityMaster.update(
+				{ '_id': data[0]._id }, 
+				{ $pull: { contactPersons: { userID: userID } } }				
+			)
+			.exec()
+			.then(data=>{
+				console.log("1544 data ====>",data);
+				resolve(data);
+			})
+			.catch(err =>{
+				reject(0)
+				// res.status(500).json({ error: err });
+			});
+        })
+        .catch(err =>{
+            reject(0)
+            // res.status(500).json({ error: err });
+        });
+    });
+}
+
+// async function delete_contactPerson(userID){
+//     return new Promise((resolve,reject)=>{
+//         Equipmntloc.deleteMany({"userID":userID})
+//         .exec()
+//         .then(data=>{    
+//             resolve(data)
+//         })
+//         .catch(err =>{
+//             reject(0)
+//             res.status(500).json({ error: err });
+//         });
+//     });
+// }
 
 exports.check_EmailOTP = (req,res,next)=>{
 	User.find({_id : req.params.ID, "profile.optEmail" : req.params.emailotp})
