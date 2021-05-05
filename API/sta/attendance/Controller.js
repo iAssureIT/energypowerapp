@@ -139,7 +139,7 @@ exports.get_location_details = (req,res,next)=>{
 
 
 exports.get_tracking_status = (req,res,next)=>{
-    Tracking.findOne({user_id:req.params.user_id,createdAtStr:moment().format('YYYY-MM-DD')})
+    Tracking.findOne({user_id:req.params.user_id,createdAtStr:moment(req.params.date).format('YYYY-MM-DD')})
         .exec()
         .then(data=>{
             res.status(200).json(data);

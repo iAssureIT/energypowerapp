@@ -32,7 +32,7 @@ import moment from 'moment';
 const window = Dimensions.get('window');
 
 const TicketDetailsSchema = Yup.object().shape({
-  comment: Yup.string().required(),
+  comment: Yup.string().notRequired(),
   status: Yup.string().notRequired(),
   reason: Yup.string().notRequired()
   .when('status', {
@@ -157,6 +157,7 @@ const ClientTicketDetails = withCustomerToaster((props) => {
                                 },
                     updatedBy : props.userDetails.user_id
                 };
+                console.log("payload",payload);
                   axios.patch('/api/tickets/patch/status', payload)
                   .then((response)=>{
                       dispatch(getClientTicketsList(props.userDetails.company_id,"Pending"))

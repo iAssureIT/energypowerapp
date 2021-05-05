@@ -239,7 +239,7 @@ export const SideMenu = (props) => {
         </TouchableOpacity>
 
         <TouchableOpacity style={{marginTop: 45, marginLeft: 25}}>
-          <Text style={commonStyle.normalText}>Version 1.0.5</Text>
+          <Text style={commonStyle.normalText}>Version 1.0.6</Text>
         </TouchableOpacity>
       </View>
     </View>

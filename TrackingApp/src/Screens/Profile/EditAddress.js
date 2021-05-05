@@ -35,7 +35,7 @@ import Geocoder from 'react-native-geocoding';
 const window = Dimensions.get('window');
 const EditAddressSchema = Yup.object().shape({
   address: Yup.string()
-    .required('This field is required')
+    .required('This field is required'),
 });
 
 export const EditAddress = withCustomerToaster((props) => {
@@ -215,7 +215,7 @@ const FormBody = (props) => {
 				<View style={commonStyle.modalView}>
           <FormInput
             onChangeText={handleChange('addressLine2')}
-            required={true}
+            required={false}
             placeholder="Flat/Block No."
             labelName="Flat/Block No."
             name="addressLine2"
@@ -227,7 +227,7 @@ const FormBody = (props) => {
           />
           <FormInput
             onChangeText={handleChange('landmark')}
-            required={true}
+            required={false}
             placeholder="landmark"
             labelName="landmark"
             name="landmark"
@@ -365,7 +365,7 @@ const FakeInput = (props) => {
           required={true}
           placeholder="Address."
           labelName="Address"
-          name="addressLine2"
+          name="address"
           errors={errors}
           touched={touched}
           value={values.address}

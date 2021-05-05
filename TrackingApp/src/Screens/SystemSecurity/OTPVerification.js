@@ -43,23 +43,28 @@ export const OTPVerification = withCustomerToaster((props) => {
             setLoading(true);
             let { otp } = data;
             console.log("otp",otp);
-            axios.get('/api/auth/get/checkemailotp/usingID/'+user_id+"/"+otp)
-            .then(response => {
-                console.log("response",response);
-                setLoading(false);
-                if (response.data.message == 'SUCCESS') {
-                   navigation.navigate('ChangePassword',{user_id:user_id});
-                }else{
-                    setToast({text: 'Please enter correct OTP.', color: colors.warning});
-                }
-            })
-            .catch(error => {
-                console.log("errr",error);
-                setToast({text: 'Something went wrong.', color: 'red'});
-                setLoading(false);
-                if (error.response.status == 401) {
-                }
-            })
+            if(otp!==""){
+              axios.get('/api/auth/get/checkemailotp/usingID/'+user_id+"/"+otp)
+              .then(response => {
+                  console.log("response",response);
+                  setLoading(false);
+                  if (response.data.message == 'SUCCESS') {
+                    navigation.navigate('ChangePassword',{user_id:user_id});
+                  }else{
+                      setToast({text: 'Please enter correct OTP.', color: colors.warning});
+                  }
+              })
+              .catch(error => {
+                  console.log("errr",error);
+                  setToast({text: 'Something went wrong.', color: 'red'});
+                  setLoading(false);
+                  if (error.response.status == 401) {
+                  }
+              })
+            }else{
+              setLoading(false);
+              setToast({text: 'Please enter OTP.', color: colors.warning});
+            }  
         }}
         validationSchema={LoginSchema}
         initialValues={{

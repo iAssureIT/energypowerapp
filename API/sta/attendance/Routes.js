@@ -17,7 +17,7 @@ router.get('/get/person_details/:tracking_id',TrackingController.getPersonDetail
 
 router.get('/get/daywiseLocationDetails/:userId',TrackingController.get_daywise_location_details);
 
-router.get('/get/get_tracking_status/:user_id',TrackingController.get_tracking_status);
+router.get('/get/get_tracking_status/:user_id/:date',TrackingController.get_tracking_status);
 
 router.get('/get/daywiseUserdetails/:monthyear/:user_id',TrackingController.get_daywise_userdetails);
 

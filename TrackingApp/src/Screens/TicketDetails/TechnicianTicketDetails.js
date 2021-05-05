@@ -67,6 +67,7 @@ const TicketDetailsSchema = Yup.object().shape({
 
     useEffect(() => {
       axios
+      // .get('/api/attendance/get/get_tracking_status/'+store.userDetails.user_id+"/"+new Date())
       .get('/api/attendance/get/get_tracking_status/'+store.userDetails.user_id)
         .then((attendance)=>{
           isLoading(false)
